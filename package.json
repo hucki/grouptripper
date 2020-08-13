@@ -1,0 +1,21 @@
+{
+  "name": "grouptripper",
+  "version": "1.0.0",
+  "description": "no content so far",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "(cd server && npm install); (cd client && npm install)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hucki/grouptripper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hucki/grouptripper/issues"
+  },
+  "homepage": "https://github.com/hucki/grouptripper#readme"
+}
