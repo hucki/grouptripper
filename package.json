@@ -4,7 +4,8 @@
   "description": "no content so far",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:client": "cd client && npm run build",
+    "test": "cd client && npm run test:coverage",
     "postinstall": "(cd server && npm install); (cd client && npm install)"
   },
   "repository": {
