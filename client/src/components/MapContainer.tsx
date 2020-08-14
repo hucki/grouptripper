@@ -1,34 +1,44 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import { Map, TileLayer, Marker } from 'react-leaflet';
-import ApiClient from '../services/ApiClient';
 
 function MapContainer() {
-  const [zoom] = useState(3);
-  const [lat, setLat] = useState<number>(51.505);
-  const [lng, setLng] = useState<number>(-0.09);
 
-  useEffect(() => {
-    getIssPosition();
-    setInterval(() =>getIssPosition(), 5000)
-  }, [])
-
-  const getIssPosition = () => {
-    ApiClient.getPosition()
-    .then(curPosition => {
-      setLat(curPosition.iss_position.latitude);
-      setLng(curPosition.iss_position.longitude);
-    })
+  // TODO: define Data structure and make it a type
+  interface IStop {
+    id: number;
+    lat: number;
+    lng: number;
+    label: string;
+    description: string;
   }
+  // TODO: define array to use IStop Interface (or then type)
+  const stops = [
+    {
+      id: 0,
+      lat: 51.505,
+      lng: -0.09,
+      label: 'Central London',
+      description: 'The place to be'
+    },
+    {
+      id: 1,
+      lat: 51.51258,
+      lng: -0.1068,
+      label: 'Not Central London',
+      description: 'The place to be'
+    },
+  ];
+  const markers = stops.map(stop => <Marker key={stop.id} position={[stop.lat,stop.lng]}></Marker>)
 
-  const position:[number,number] = [lat, lng];
+  const center:[number,number] = [stops[0].lat,stops[1].lng];
   return (
     <>
-      <Map center={position} zoom={zoom} className="container h-64 max-w-screen-lg mx-auto">
+      <Map center={center} zoom={13} className="container h-64 max-w-screen-lg mx-auto">
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position}></Marker>
+        {markers}
       </Map>
     </>
   );
