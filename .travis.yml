@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - "stable"
+script:
+  - npm run build:client
+  - npm test
+after_script: npx codecov@3
