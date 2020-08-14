@@ -1,2 +1,21 @@
-- name: Assign to One Project
-  uses: srggrs/assign-one-project-github-action@1.2.0
+name: Auto assign PR and Issues to project
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  autoproject:
+    name: Assign to One Project
+    runs-on: ubuntu-latest
+    steps:
+    - name: Assign NEW issues and NEW pull requests to Dev project
+      uses: srggrs/assign-one-project-github-action@1.2.0
+      if: github.event.action == 'opened'
+      with:
+        project: 'https://github.com/hucki/grouptripper/projects/1'
+
