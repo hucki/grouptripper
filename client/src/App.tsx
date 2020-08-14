@@ -1,12 +1,23 @@
 import React from 'react';
 import MapContainer from './components/MapContainer';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
 
-function App() {
+function App(): JSX.Element {
   return (
-    <div className="grid-cols-1">
-      <h1 className="m-8 text-xl text-red-800">Group Tripper</h1>
-      <MapContainer></MapContainer>
-    </div>
+    <Router>
+      <div className="container mx-auto">
+        <Navigation />
+        <Switch>
+          <Route path="/create-trip">
+            <div>Create a trip</div>
+          </Route>
+          <Route path="/">
+            <div>Here's a list of trips</div>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
