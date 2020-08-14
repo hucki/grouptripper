@@ -24,16 +24,15 @@
   },
   "devDependencies": {
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.11"
+    "lerna": "^3.22.1",
+    "prettier": "^2.0.5"
   },
+  "workspaces": [
+    "client"
+  ],
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
     }
-  },
-  "lint-staged": {
-    "**/*.{js,ts,tsx}": [
-      "eslint --fix"
-    ]
   }
 }
