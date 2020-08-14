@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
+import CreateTrip from './components/CreateTrip';
 
 function App(): JSX.Element {
   return (
@@ -9,7 +10,7 @@ function App(): JSX.Element {
         <Navigation />
         <Switch>
           <Route path="/create-trip">
-            <div>Create a trip</div>
+            <CreateTrip />
           </Route>
           <Route path="/">
             <div>Here's a list of trips</div>
