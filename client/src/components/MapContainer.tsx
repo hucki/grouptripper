@@ -11,6 +11,7 @@ function MapContainer() {
     label: string;
     description: string;
   }
+
   // TODO: define array to use IStop Interface (or then type)
   const stops = [
     {
@@ -28,6 +29,7 @@ function MapContainer() {
       description: 'The place to be'
     },
   ];
+
   const markers = stops.map(stop => <Marker key={stop.id} position={[stop.lat,stop.lng]}></Marker>)
 
   const center:[number,number] = [stops[0].lat,stops[1].lng];

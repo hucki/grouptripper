@@ -1,17 +1,20 @@
-const REACT_APP_ISS_URL = 'http://api.open-notify.org/iss-now.json';
+const apiUrl = process.env.REACT_APP_ROUTING_API_URL || 'https://api.openrouteservice.org/';
+// TODO: get API_KEY securly
+const apiKey = process.env.REACT_APP_ROUTING_API_KEY || ''
 
-interface IIss {
-  iss_position: {
-    latitude: number;
-    longitude: number;
-  };
-  timestamp: Date;
-  message: String;
-}
+// request POIs
+const reqBody = '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.106,51.505687]},"buffer":200}}';
+const endpoint = 'pois';
 
 const ApiClient = {
-  getPosition: (): Promise<IIss> => {
-    return fetch(REACT_APP_ISS_URL).then((res) => res.json());
+  getPois: (): Promise<any> => {
+    return fetch(`${apiUrl}${endpoint}`, {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: apiKey,
+      },
+      body: reqBody
+    }).then((res) => res.json());
   },
 };
 
