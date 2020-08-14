@@ -1,4 +1,6 @@
 # 🌍 Group Tripper
+![https://github.com/hucki/grouptripper](https://img.shields.io/travis/com/hucki/grouptripper?logo=travis&style=flat-square)
+![https://github.com/hucki/grouptripper](https://img.shields.io/codecov/c/github/hucki/grouptripper?style=flat-square&logo=codecov)
 ![https://github.com/hucki/grouptripper](https://img.shields.io/github/last-commit/hucki/grouptripper?style=flat-square)
 
 App to plan group activities (Family or friends Holiday, Club Tours, Hen/Stag Nights) & provide the finished plan to all travellers.
