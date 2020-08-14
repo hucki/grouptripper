@@ -1,10 +1,22 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
 
 function App(): JSX.Element {
   return (
-    <div>
-      <h1 className="m-8 text-xl text-red-800">Group Tripper</h1>
-    </div>
+    <Router>
+      <div className="container mx-auto">
+        <Navigation />
+        <Switch>
+          <Route path="/create-trip">
+            <div>Create a trip</div>
+          </Route>
+          <Route path="/">
+            <div>Here's a list of trips</div>
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
