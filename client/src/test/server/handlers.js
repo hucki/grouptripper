@@ -7,6 +7,6 @@ export const handlers = [
     return res(ctx.json({ message: 'hello world' }));
   }),
   rest.post(`${apiUrl}/trips`, (req, res, ctx) => {
-    return res(ctx.status(200));
+    return res(ctx.status(200), ctx.json(req.body));
   }),
 ];
