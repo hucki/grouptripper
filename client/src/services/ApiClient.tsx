@@ -9,7 +9,7 @@ const reqBody =
 const endpoint = 'pois';
 
 const ApiClient = {
-  getPois: (): Promise<any> => {
+  getPois: (): Promise<unknown> => {
     return fetch(`${routingApiUrl}${endpoint}`, {
       headers: {
         'content-type': 'application/json',
