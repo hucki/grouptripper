@@ -146,9 +146,18 @@ function MapContainer(): JSX.Element {
   if (status === 'loading') return <div>Loading ...</div>;
   if (error) return <div>error</div>;
 
-  const pois = data?.features.map((poi: GeoJSON.Feature) => (
-    <GeoJSON data={poi} color="red" />
-  ));
+  interface PoiContainer {
+    [key: number]: GeoJSON.Feature;
+  }
+
+  const poiContainer: PoiContainer = {};
+  const pois = data?.features.map((poi: GeoJSON.Feature) => {
+    if (poiContainer[poi.properties?.osm_id]) return null;
+    else {
+      poiContainer[poi.properties?.osm_id] = poi;
+      return <GeoJSON data={poi} key={poi.properties?.osm_id} />;
+    }
+  });
 
   return (
     <>

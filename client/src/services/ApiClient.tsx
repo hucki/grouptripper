@@ -5,7 +5,7 @@ const routingApiKey = process.env.REACT_APP_ROUTING_API_KEY || '';
 
 // request POIs
 const reqBodyPoi =
-  '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.106,51.505687]},"buffer":200}}';
+  '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.1068,51.504687]},"buffer":200}}';
 const endpointPoi = 'pois';
 
 const ApiClient = {
