@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
     "test": "cd client && npm run test:coverage",
     "postinstall": "(cd server && npm install); (cd client && npm install)"
   },
