@@ -11,6 +11,8 @@ function App(): JSX.Element {
         <Switch>
           <Route path="/create-trip">
             <div>Create a trip</div>
+            <div>And here is a map of your last Trip</div>
+            <MapContainer />
           </Route>
           <Route path="/">
             <div>Here's a list of trips</div>
