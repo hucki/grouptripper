@@ -6,8 +6,8 @@ import CreateTrip from '../CreateTrip';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-test('form successfully submits to api', async () => {
-  let request: MockedRequest;
+test('trip can be created', async () => {
+  let request: MockedRequest | null = null;
 
   const fakeTrip = { name: 'Test trip', country: 'UK' };
 
@@ -21,11 +21,33 @@ test('form successfully submits to api', async () => {
 
   render(<CreateTrip />);
 
+  await user.type(screen.getByLabelText(/trip name/i), fakeTrip.name);
+  await user.type(screen.getByLabelText(/country/i), fakeTrip.country);
   const submitButton = screen.getByText(/create trip/i);
-  await user.type(screen.getByLabelText(/trip name/i), 'Test trip');
-  await user.type(screen.getByLabelText(/country/i), 'UK');
   await user.click(submitButton);
+  expect(submitButton).toBeDisabled();
 
   const successMessage = await screen.findByText(/success/i);
   expect(successMessage).toBeInTheDocument();
+});
+
+test('form displays error and can be resubmitted on server error', async () => {
+  const fakeTrip = { name: 'Test trip', country: 'UK' };
+
+  server.use(
+    rest.post(`${apiUrl}/trips`, (req, res, ctx) => {
+      return res(ctx.status(500), ctx.json({ message: 'Server error' }));
+    })
+  );
+
+  render(<CreateTrip />);
+
+  await user.type(screen.getByLabelText(/trip name/i), fakeTrip.name);
+  await user.type(screen.getByLabelText(/country/i), fakeTrip.country);
+  const submitButton = screen.getByText(/create trip/i);
+  await user.click(submitButton);
+
+  const errorMessage = await screen.findByText(/server error/i);
+  expect(errorMessage).toBeInTheDocument();
+  expect(submitButton).not.toBeDisabled();
 });
