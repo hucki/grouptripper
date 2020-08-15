@@ -34,7 +34,8 @@
     "test:coverage": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --ignore-path .gitignore --quiet --fix",
-    "precommit": "lint-staged && npm-run-all -p test:coverage build"
+    "precommit": "lint-staged && npm-run-all -p test:coverage build",
+    "postcommit": "npm run build:tailwind"
   },
   "eslintConfig": {
     "extends": "react-app"
