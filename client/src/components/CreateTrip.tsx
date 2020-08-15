@@ -31,7 +31,7 @@ export default function CreateTrip(): JSX.Element {
         validationSchema={validationSchema}
         onSubmit={async (
           values: Trip,
-          { setSubmitting, setFieldError }: FormikHelpers<Trip>
+          { setSubmitting }: FormikHelpers<Trip>
         ): Promise<void> => {
           setServerError('');
           try {
@@ -65,7 +65,7 @@ export default function CreateTrip(): JSX.Element {
             </div>
             <button
               type="submit"
-              className="flex flex-row items-center justify-center p-3 bg-blue-500"
+              className={`flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400 `}
               disabled={formikProps.isSubmitting || !formikProps.isValid}
             >
               Create Trip
