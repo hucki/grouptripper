@@ -1,4 +1,4 @@
-const mongoose = require('./index.js');
+const mongoose = require('./index.ts');
 
 const Schema = mongoose.Schema;
 
@@ -8,8 +8,7 @@ const tripSchema = new mongoose.Schema({
     required: false,
   },
   label: {
-    type: Date,
-    default: Date.now(),
+    type: String,
     required: false,
   },
   description: {

@@ -15,10 +15,10 @@ exports.getAllTrips = async (req: Request, res: Response) => {
 
 exports.addTrip = async (req: Request, res: Response) => {
   try {
-    const { id, stops, label, description } = req.body;
+    const { stops, label, description } = req.body;
     //Is this line needed?
 
-    const newTrip = await Trip.create({ id, stops, label, description });
+    const newTrip = await Trip.create({ stops, label, description });
     res.json(newTrip);
     res.status(200);
   } catch (e) {

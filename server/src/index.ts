@@ -1,18 +1,19 @@
 import express from 'express';
-// import * as cors from 'cors';
-// import * as morgan from 'morgan';
-// import dotenv from 'dotenv';
+const cors = require('cors');
+const morgan = require('morgan');
+
+const dotenv = require('dotenv');
 
 const tripsRouter = require('./router.ts');
 
 const port = process.env.PORT || 3001;
 
-// dotenv.config();
+dotenv.config();
 
 const app: express.Application = express();
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
-// app.use(morgan('tiny'));
+app.use(morgan('tiny'));
 
 app.use('/', tripsRouter);
 
