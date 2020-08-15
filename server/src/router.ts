@@ -10,7 +10,7 @@ router.get('/trips', controllers.getAllTrips);
 router.post('/trips', controllers.addTrip);
 
 //added delete route to clean up database
-// router.delete('/trips/:id', controllers.deleteTrip);
+router.delete('/trips/:id', controllers.deleteTrip);
 
 router.get('/trips/:id', controllers.getOneTrip);
 

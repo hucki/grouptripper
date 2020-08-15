@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const uri = 'mongodb://localhost/group_tripper';
+const uri = process.env.mongo_uri || 'mongodb://localhost/group_tripper';
 
 mongoose.connect(uri, {
   useNewUrlParser: true,

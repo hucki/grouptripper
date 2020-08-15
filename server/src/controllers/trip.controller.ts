@@ -15,10 +15,9 @@ exports.getAllTrips = async (req: Request, res: Response) => {
 
 exports.addTrip = async (req: Request, res: Response) => {
   try {
-    const { stops, label, description } = req.body;
-    //Is this line needed?
+    const { name, country, stops } = req.body;
 
-    const newTrip = await Trip.create({ stops, label, description });
+    const newTrip = await Trip.create({ name, country, stops });
     res.json(newTrip);
     res.status(200);
   } catch (e) {
@@ -31,6 +30,17 @@ exports.getOneTrip = async (req: Request, res: Response) => {
   try {
     const singleTrip = await Trip.findById(req.params.id);
     res.json(singleTrip);
+    res.status(200);
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+  }
+};
+
+exports.deleteTrip = async (req: Request, res: Response) => {
+  try {
+    await Trip.findByIdAndDelete(req.params.id);
+    res.json('Trip deleted');
     res.status(200);
   } catch (e) {
     console.log(e);
