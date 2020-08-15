@@ -9,6 +9,7 @@ type Trip = {
   country: string;
   startDate: Date;
   endDate: Date;
+  stops: string[];
 };
 
 type TripInput = {
@@ -16,6 +17,8 @@ type TripInput = {
   country: string;
   startDate: string;
   endDate: string;
+  stop1: string;
+  stop2: string;
 };
 
 function transformTrip(tripInput: TripInput): Trip {
@@ -24,6 +27,7 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
+    stops: [tripInput.stop1, tripInput.stop2],
   };
 }
 
@@ -34,11 +38,20 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
+  stop1: Yup.string(),
+  stop2: Yup.string(),
 });
 
 export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const formPages = [FormFirstPage, FormSecondPage];
+
+  function renderFormPage(): JSX.Element {
+    return formPages[currentPage]();
+  }
 
   if (redirect) return <div>Success</div>;
 
@@ -51,6 +64,8 @@ export default function CreateTrip(): JSX.Element {
           country: '',
           startDate: '',
           endDate: '',
+          stop1: '',
+          stop2: '',
         }}
         validationSchema={validationSchema}
         onSubmit={async (
@@ -70,10 +85,28 @@ export default function CreateTrip(): JSX.Element {
       >
         {(formikProps): JSX.Element => (
           <Form>
-            <FormFirstPage />
+            {renderFormPage()}
+            {currentPage > 0 ? (
+              <button
+                type="button"
+                onClick={(): void => setCurrentPage((page) => page - 1)}
+                className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
+              >
+                Previous page
+              </button>
+            ) : null}
+            {currentPage < formPages.length - 1 ? (
+              <button
+                type="button"
+                onClick={(): void => setCurrentPage((page) => page + 1)}
+                className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
+              >
+                Next page
+              </button>
+            ) : null}
             <button
               type="submit"
-              className={`flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400 `}
+              className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
               disabled={formikProps.isSubmitting || !formikProps.isValid}
             >
               Create Trip
@@ -117,6 +150,15 @@ function FormFirstPage(): JSX.Element {
         type="date"
       />
       <TextInput name="endDate" id="endDate" label="End Date" type="date" />
+    </>
+  );
+}
+
+function FormSecondPage(): JSX.Element {
+  return (
+    <>
+      <TextInput name="stop1" id="stop1" label="Stop One" />
+      <TextInput name="stop2" id="stop2" label="Stop Two" />
     </>
   );
 }
