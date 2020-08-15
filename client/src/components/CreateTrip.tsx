@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 
+import { client } from './../services/ApiClient';
+
 type Trip = {
   name: string;
   country: string;
@@ -19,14 +21,17 @@ export default function CreateTrip(): JSX.Element {
           name: '',
           country: '',
         }}
-        onSubmit={(
+        onSubmit={async (
           values: Trip,
           { setSubmitting }: FormikHelpers<Trip>
-        ): void => {
-          setTimeout(() => {
+        ): Promise<void> => {
+          try {
+            await client('trips', { data: values });
             setSubmitting(false);
             setRedirect(true);
-          }, 500);
+          } catch (e) {
+            console.error(e);
+          }
         }}
       >
         <Form>

@@ -30,7 +30,7 @@ type clientOptions<T> = {
 
 export function client<T>(
   endpoint: string,
-  { data }: clientOptions<T>
+  { data }: clientOptions<T> = {}
 ): Promise<T> {
   const headers = new Headers();
   if (data) headers.append('Content-Type', 'application/json');
@@ -43,14 +43,12 @@ export function client<T>(
 
   const request = new Request(`${apiUrl}/${endpoint}`, config);
 
-  return window
-    .fetch(`${apiUrl}/${endpoint}`, config)
-    .then(async (response) => {
-      const data = await response.json();
-      if (response.ok) {
-        return data;
-      } else {
-        return Promise.reject(data);
-      }
-    });
+  return window.fetch(request).then(async (response) => {
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      return Promise.reject(data);
+    }
+  });
 }
