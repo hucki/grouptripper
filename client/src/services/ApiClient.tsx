@@ -22,3 +22,36 @@ const ApiClient = {
 };
 
 export default ApiClient;
+
+const apiUrl = process.env.REACT_APP_API_URL;
+
+type clientOptions<T> = {
+  data?: T;
+};
+
+export function client<T>(
+  endpoint: string,
+  { data }: clientOptions<T>
+): Promise<T> {
+  const headers = new Headers();
+  if (data) headers.append('Content-Type', 'application/json');
+
+  const config = {
+    method: data ? 'POST' : 'GET',
+    body: data ? JSON.stringify(data) : undefined,
+    headers,
+  };
+
+  const request = new Request(`${apiUrl}/${endpoint}`, config);
+
+  return window
+    .fetch(`${apiUrl}/${endpoint}`, config)
+    .then(async (response) => {
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        return Promise.reject(data);
+      }
+    });
+}
