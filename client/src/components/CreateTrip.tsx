@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 
 type Trip = {
@@ -7,6 +7,8 @@ type Trip = {
 };
 
 export default function CreateTrip(): JSX.Element {
+  const [redirect, setRedirect] = useState(false);
+
   return (
     <>
       <h2>Start planning your trip</h2>
@@ -20,7 +22,7 @@ export default function CreateTrip(): JSX.Element {
           { setSubmitting }: FormikHelpers<Trip>
         ): void => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+            setRedirect(true);
             setSubmitting(false);
           }, 500);
         }}
@@ -50,6 +52,7 @@ export default function CreateTrip(): JSX.Element {
           </button>
         </Form>
       </Formik>
+      {redirect ? <div>Success</div> : null}
     </>
   );
 }
