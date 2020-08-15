@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, FormikHelpers } from 'formik';
+import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
 
@@ -7,6 +8,11 @@ type Trip = {
   name: string;
   country: string;
 };
+
+const validationSchema = Yup.object({
+  name: Yup.string().required('Required'),
+  country: Yup.string().required('Required'),
+});
 
 export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
@@ -22,6 +28,7 @@ export default function CreateTrip(): JSX.Element {
           name: '',
           country: '',
         }}
+        validationSchema={validationSchema}
         onSubmit={async (
           values: Trip,
           { setSubmitting, setFieldError }: FormikHelpers<Trip>
@@ -45,6 +52,7 @@ export default function CreateTrip(): JSX.Element {
                 name="name"
                 className="p-3 border border-gray-500"
               />
+              <ErrorMessage name="name" />
             </div>
             <div className="flex flex-row items-center my-3 space-x-2">
               <label htmlFor="country">Country</label>
@@ -53,11 +61,12 @@ export default function CreateTrip(): JSX.Element {
                 name="country"
                 className="p-3 border border-gray-500"
               />
+              <ErrorMessage name="country" />
             </div>
             <button
               type="submit"
               className="flex flex-row items-center justify-center p-3 bg-blue-500"
-              disabled={formikProps.isSubmitting}
+              disabled={formikProps.isSubmitting || !formikProps.isValid}
             >
               Create Trip
             </button>
