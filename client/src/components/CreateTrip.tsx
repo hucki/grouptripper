@@ -7,11 +7,31 @@ import { client } from './../services/ApiClient';
 type Trip = {
   name: string;
   country: string;
+  startDate: Date;
+  endDate: Date;
 };
+
+type TripInput = {
+  name: string;
+  country: string;
+  startDate: string;
+  endDate: string;
+};
+
+function transformTrip(tripInput: TripInput): Trip {
+  return {
+    name: tripInput.name,
+    country: tripInput.country,
+    startDate: new Date(tripInput.startDate),
+    endDate: new Date(tripInput.endDate),
+  };
+}
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Required'),
   country: Yup.string().required('Required'),
+  startDate: Yup.date().required('Required'),
+  endDate: Yup.date().required('Required'),
 });
 
 export default function CreateTrip(): JSX.Element {
@@ -27,15 +47,18 @@ export default function CreateTrip(): JSX.Element {
         initialValues={{
           name: '',
           country: '',
+          startDate: '',
+          endDate: '',
         }}
         validationSchema={validationSchema}
         onSubmit={async (
-          values: Trip,
-          { setSubmitting }: FormikHelpers<Trip>
+          values: TripInput,
+          { setSubmitting }: FormikHelpers<TripInput>
         ): Promise<void> => {
           setServerError('');
+          const newTrip = transformTrip(values);
           try {
-            await client('trips', { data: values });
+            await client('trips', { data: newTrip });
             setSubmitting(false);
             setRedirect(true);
           } catch (error) {
@@ -45,15 +68,11 @@ export default function CreateTrip(): JSX.Element {
       >
         {(formikProps): JSX.Element => (
           <Form>
-            <div className="flex flex-row items-center my-3 space-x-2">
-              <label htmlFor="name">Trip Name</label>
-              <Field
-                id="name"
-                name="name"
-                className="p-3 border border-gray-500"
-              />
-              <ErrorMessage name="name" />
-            </div>
+            <InputField name="name" id="name" label="Trip Name" />
+            <InputField name="country" id="country" label="Country" />
+            <InputField name="startDate" id="startDate" label="Start Date" />
+            <InputField name="endDate" id="endDate" label="End Date" />
+
             <div className="flex flex-row items-center my-3 space-x-2">
               <label htmlFor="country">Country</label>
               <Field
@@ -75,5 +94,21 @@ export default function CreateTrip(): JSX.Element {
         )}
       </Formik>
     </>
+  );
+}
+
+type InputProps = {
+  name: string;
+  id: string;
+  label: string;
+};
+
+function InputField({ name, id, label }: InputProps): JSX.Element {
+  return (
+    <div className="flex flex-row items-center my-3 space-x-2">
+      <label htmlFor={name}>{label}</label>
+      <Field id={id} name={name} className="p-3 border border-gray-500" />
+      <ErrorMessage name={name} />
+    </div>
   );
 }
