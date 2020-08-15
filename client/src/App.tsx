@@ -2,6 +2,7 @@ import React from 'react';
 import MapContainer from './components/MapContainer';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
+import CreateTrip from './components/CreateTrip';
 
 function App(): JSX.Element {
   return (
@@ -10,7 +11,7 @@ function App(): JSX.Element {
         <Navigation />
         <Switch>
           <Route path="/create-trip">
-            <div>Create a trip</div>
+            <CreateTrip />
             <div>And here is a map of your last Trip</div>
             <MapContainer />
           </Route>
