@@ -1,6 +1,8 @@
 import React from 'react';
-import { Map, TileLayer, Marker, Polyline } from 'react-leaflet';
-import { LatLng } from 'leaflet';
+import { Map, TileLayer, Marker, Polyline, GeoJSON } from 'react-leaflet';
+import L from 'leaflet';
+import { useQuery } from 'react-query';
+import ApiClient from '../services/ApiClient';
 
 function MapContainer(): JSX.Element {
   // TODO: define Data structure and make it a type
@@ -136,8 +138,17 @@ function MapContainer(): JSX.Element {
 
   const center: [number, number] = [stops[0].lat, stops[1].lng];
   const polyline = route.geometry.coordinates.map(
-    (latLng) => new LatLng(latLng[1], latLng[0])
+    (latLng) => new L.LatLng(latLng[1], latLng[0])
   );
+
+  const { status, data, error } = useQuery('pois', ApiClient.getPois);
+
+  if (status === 'loading') return <div>Loading ...</div>;
+  if (error) return <div>error</div>;
+
+  const pois = data?.features.map((poi: GeoJSON.Feature) => (
+    <GeoJSON data={poi} color="red" />
+  ));
 
   return (
     <>
@@ -147,11 +158,12 @@ function MapContainer(): JSX.Element {
         className="container h-64 max-w-screen-lg mx-auto"
       >
         <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='Map tiles by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+          url="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
         />
         {markers}
         <Polyline positions={polyline} color="lime" />
+        {pois}
       </Map>
     </>
   );

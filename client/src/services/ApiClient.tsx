@@ -4,18 +4,19 @@ const routingApiUrl =
 const routingApiKey = process.env.REACT_APP_ROUTING_API_KEY || '';
 
 // request POIs
-const reqBody =
+const reqBodyPoi =
   '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.106,51.505687]},"buffer":200}}';
-const endpoint = 'pois';
+const endpointPoi = 'pois';
 
 const ApiClient = {
-  getPois: (): Promise<unknown> => {
-    return fetch(`${routingApiUrl}${endpoint}`, {
+  getPois: (): Promise<GeoJSON.FeatureCollection> => {
+    return fetch(`${routingApiUrl}${endpointPoi}`, {
+      method: 'POST',
       headers: {
         'content-type': 'application/json',
         Authorization: routingApiKey,
       },
-      body: reqBody,
+      body: reqBodyPoi,
     }).then((res) => res.json());
   },
 };
