@@ -1,7 +1,7 @@
-const apiUrl =
+const routingApiUrl =
   process.env.REACT_APP_ROUTING_API_URL || 'https://api.openrouteservice.org/';
 // TODO: get API_KEY securly
-const apiKey = process.env.REACT_APP_ROUTING_API_KEY || '';
+const routingApiKey = process.env.REACT_APP_ROUTING_API_KEY || '';
 
 // request POIs
 const reqBodyPoi =
@@ -9,12 +9,12 @@ const reqBodyPoi =
 const endpointPoi = 'pois';
 
 const ApiClient = {
-  getPois: (): Promise<unknown> => {
-    return fetch(`${apiUrl}${endpointPoi}`, {
+  getPois: (): Promise<GeoJSON.FeatureCollection> => {
+    return fetch(`${routingApiUrl}${endpointPoi}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        Authorization: apiKey,
+        Authorization: routingApiKey,
       },
       body: reqBodyPoi,
     }).then((res) => res.json());

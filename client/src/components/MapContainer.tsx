@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, TileLayer, Marker, Polyline } from 'react-leaflet';
+import { Map, TileLayer, Marker, Polyline, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import { useQuery } from 'react-query';
 import ApiClient from '../services/ApiClient';
@@ -140,10 +140,16 @@ function MapContainer(): JSX.Element {
   const polyline = route.geometry.coordinates.map(
     (latLng) => new L.LatLng(latLng[1], latLng[0])
   );
+
   const { status, data, error } = useQuery('pois', ApiClient.getPois);
+
   if (status === 'loading') return <div>Loading ...</div>;
   if (error) return <div>error</div>;
-  console.log(data);
+
+  const pois = data?.features.map((poi: GeoJSON.Feature) => (
+    <GeoJSON data={poi} color="red" />
+  ));
+
   return (
     <>
       <Map
@@ -157,6 +163,7 @@ function MapContainer(): JSX.Element {
         />
         {markers}
         <Polyline positions={polyline} color="lime" />
+        {pois}
       </Map>
     </>
   );
