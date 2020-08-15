@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, FormikHelpers, useField } from 'formik';
+import {
+  Formik,
+  Form,
+  Field,
+  FormikHelpers,
+  useField,
+  FieldArray,
+  FormikProps,
+} from 'formik';
 import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
@@ -9,6 +17,7 @@ type Trip = {
   country: string;
   startDate: Date;
   endDate: Date;
+  stops: string[];
 };
 
 type TripInput = {
@@ -16,6 +25,7 @@ type TripInput = {
   country: string;
   startDate: string;
   endDate: string;
+  stops: string[];
 };
 
 function transformTrip(tripInput: TripInput): Trip {
@@ -24,6 +34,7 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
+    stops: tripInput.stops,
   };
 }
 
@@ -34,11 +45,19 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
+  stops: Yup.array().of(Yup.string()),
 });
 
 export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const formPages = [FormFirstPage, FormSecondPage];
+
+  function renderFormPage(formikProps: FormikProps<TripInput>): JSX.Element {
+    return formPages[currentPage](formikProps);
+  }
 
   if (redirect) return <div>Success</div>;
 
@@ -51,6 +70,7 @@ export default function CreateTrip(): JSX.Element {
           country: '',
           startDate: '',
           endDate: '',
+          stops: [''],
         }}
         validationSchema={validationSchema}
         onSubmit={async (
@@ -70,23 +90,28 @@ export default function CreateTrip(): JSX.Element {
       >
         {(formikProps): JSX.Element => (
           <Form>
-            <TextInput name="name" id="name" label="Trip Name" />
-            <TextInput name="country" id="country" label="Country" />
-            <TextInput
-              name="startDate"
-              id="startDate"
-              label="Start Date"
-              type="date"
-            />
-            <TextInput
-              name="endDate"
-              id="endDate"
-              label="End Date"
-              type="date"
-            />
+            {renderFormPage(formikProps)}
+            {currentPage > 0 ? (
+              <button
+                type="button"
+                onClick={(): void => setCurrentPage((page) => page - 1)}
+                className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
+              >
+                Previous page
+              </button>
+            ) : null}
+            {currentPage < formPages.length - 1 ? (
+              <button
+                type="button"
+                onClick={(): void => setCurrentPage((page) => page + 1)}
+                className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
+              >
+                Next page
+              </button>
+            ) : null}
             <button
               type="submit"
-              className={`flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400 `}
+              className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
               disabled={formikProps.isSubmitting || !formikProps.isValid}
             >
               Create Trip
@@ -115,5 +140,51 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
       <Field {...field} {...props} className="p-3 border border-gray-500" />
       {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
     </div>
+  );
+}
+
+function FormFirstPage(): JSX.Element {
+  return (
+    <>
+      <TextInput name="name" id="name" label="Trip Name" />
+      <TextInput name="country" id="country" label="Country" />
+      <TextInput
+        name="startDate"
+        id="startDate"
+        label="Start Date"
+        type="date"
+      />
+      <TextInput name="endDate" id="endDate" label="End Date" type="date" />
+    </>
+  );
+}
+
+function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
+  return (
+    <>
+      <FieldArray name="stops">
+        {({ push }): JSX.Element => (
+          <>
+            {values.stops.map(
+              (stop, index): JSX.Element => (
+                <TextInput
+                  name={`stops.${index}`}
+                  id={`stops.${index}`}
+                  label={`Stop ${index + 1}`}
+                  key={`stops.${index}`}
+                />
+              )
+            )}
+            <button
+              type="button"
+              onClick={(): void => push('')}
+              className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
+            >
+              Add stop
+            </button>
+          </>
+        )}
+      </FieldArray>
+    </>
   );
 }
