@@ -21,5 +21,18 @@
   "homepage": "https://github.com/hucki/grouptripper#readme",
   "prettier": {
     "singleQuote": true
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lerna": "^3.22.1",
+    "prettier": "^2.0.5"
+  },
+  "workspaces": [
+    "client"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
+    }
   }
 }

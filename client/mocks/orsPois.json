@@ -1,0 +1,2217 @@
+{
+  "type": "FeatureCollection",
+  "bbox": [
+      -0.106718,
+      51.504703,
+      -0.103536,
+      51.507347
+  ],
+  "features": [
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106412,
+                  51.507161
+              ]
+          },
+          "properties": {
+              "osm_id": 4083412782,
+              "osm_type": 1,
+              "distance": 166.43270474,
+              "category_ids": {
+                  "608": {
+                      "category_name": "stop_position",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Kings Reach Building"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104986,
+                  51.506963
+              ]
+          },
+          "properties": {
+              "osm_id": 77739567,
+              "osm_type": 2,
+              "distance": 158.4600802,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "The Mad Hatter Hotel"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104408,
+                  51.506615
+              ]
+          },
+          "properties": {
+              "osm_id": 4859130048,
+              "osm_type": 1,
+              "distance": 151.30247636,
+              "category_ids": {
+                  "608": {
+                      "category_name": "stop_position",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105846,
+                  51.505467
+              ]
+          },
+          "properties": {
+              "osm_id": 3355248774,
+              "osm_type": 1,
+              "distance": 26.76222497,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106594,
+                  51.505051
+              ]
+          },
+          "properties": {
+              "osm_id": 587741187,
+              "osm_type": 1,
+              "distance": 81.90210324,
+              "category_ids": {
+                  "501": {
+                      "category_name": "newsagent",
+                      "category_group": "shops"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Denney's"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105168,
+                  51.505687
+              ]
+          },
+          "properties": {
+              "osm_id": 476077470,
+              "osm_type": 2,
+              "distance": 57.79511164,
+              "category_ids": {
+                  "363": {
+                      "category_name": "community_centre",
+                      "category_group": "public_places"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Colombo Centre"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104207,
+                  51.506764
+              ]
+          },
+          "properties": {
+              "osm_id": 3474103568,
+              "osm_type": 1,
+              "distance": 172.75262975,
+              "category_ids": {
+                  "564": {
+                      "category_name": "cafe",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Pret A Manger",
+                  "phone": "+44 207 6200689",
+                  "opening_hours": "Mo-Fr 06:30-18:30"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105089,
+                  51.505093
+              ]
+          },
+          "properties": {
+              "osm_id": 476077469,
+              "osm_type": 2,
+              "distance": 91.42864824,
+              "category_ids": {
+                  "108": {
+                      "category_name": "hotel",
+                      "category_group": "accomodation"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Novotel"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104422,
+                  51.505976
+              ]
+          },
+          "properties": {
+              "osm_id": 4859130049,
+              "osm_type": 1,
+              "distance": 114.16026047,
+              "category_ids": {
+                  "608": {
+                      "category_name": "stop_position",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10409,
+                  51.505357
+              ]
+          },
+          "properties": {
+              "osm_id": 306663723,
+              "osm_type": 1,
+              "distance": 137.63363446,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Prince William Henry"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104503,
+                  51.505135
+              ]
+          },
+          "properties": {
+              "osm_id": 5207546654,
+              "osm_type": 1,
+              "distance": 120.7394436,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104364,
+                  51.504947
+              ]
+          },
+          "properties": {
+              "osm_id": 914501414,
+              "osm_type": 1,
+              "distance": 140.25212723,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10364,
+                  51.50653
+              ]
+          },
+          "properties": {
+              "osm_id": 77739559,
+              "osm_type": 2,
+              "distance": 188.77033533,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Bar 242"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104616,
+                  51.504716
+              ]
+          },
+          "properties": {
+              "osm_id": 914501429,
+              "osm_type": 1,
+              "distance": 144.60130346,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105769,
+                  51.505363
+              ]
+          },
+          "properties": {
+              "osm_id": 77755317,
+              "osm_type": 2,
+              "distance": 39.4023832,
+              "category_ids": {
+                  "204": {
+                      "category_name": "doctors",
+                      "category_group": "healthcare"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Blackfriars Medical Practice"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105175,
+                  51.5062
+              ]
+          },
+          "properties": {
+              "osm_id": 1504407648,
+              "osm_type": 1,
+              "distance": 80.86224679,
+              "category_ids": {
+                  "565": {
+                      "category_name": "drinking_water",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Christchurch, Southwark"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.1039,
+                  51.505953
+              ]
+          },
+          "properties": {
+              "osm_id": 914314579,
+              "osm_type": 1,
+              "distance": 148.80890488,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104422,
+                  51.505976
+              ]
+          },
+          "properties": {
+              "osm_id": 4859130049,
+              "osm_type": 1,
+              "distance": 114.16026046,
+              "category_ids": {
+                  "608": {
+                      "category_name": "stop_position",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104616,
+                  51.505713
+              ]
+          },
+          "properties": {
+              "osm_id": 914501354,
+              "osm_type": 1,
+              "distance": 96.12367105,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104708,
+                  51.504703
+              ]
+          },
+          "properties": {
+              "osm_id": 5396989382,
+              "osm_type": 1,
+              "distance": 141.54601379,
+              "category_ids": {
+                  "171": {
+                      "category_name": "post_box",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104492,
+                  51.506604
+              ]
+          },
+          "properties": {
+              "osm_id": 469780846,
+              "osm_type": 1,
+              "distance": 146.15900784,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105725,
+                  51.507214
+              ]
+          },
+          "properties": {
+              "osm_id": 486099302,
+              "osm_type": 1,
+              "distance": 171.01573715,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106097,
+                  51.507347
+              ]
+          },
+          "properties": {
+              "osm_id": 269694165,
+              "osm_type": 1,
+              "distance": 184.84305682,
+              "category_ids": {
+                  "191": {
+                      "category_name": "atm",
+                      "category_group": "financial"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106365,
+                  51.50496
+              ]
+          },
+          "properties": {
+              "osm_id": 597294939,
+              "osm_type": 1,
+              "distance": 84.7662038,
+              "category_ids": {
+                  "171": {
+                      "category_name": "post_box",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105089,
+                  51.505093
+              ]
+          },
+          "properties": {
+              "osm_id": 476077469,
+              "osm_type": 2,
+              "distance": 91.42864824,
+              "category_ids": {
+                  "108": {
+                      "category_name": "hotel",
+                      "category_group": "accomodation"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Novotel"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104503,
+                  51.505135
+              ]
+          },
+          "properties": {
+              "osm_id": 5207546654,
+              "osm_type": 1,
+              "distance": 120.73944361,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104336,
+                  51.505758
+              ]
+          },
+          "properties": {
+              "osm_id": 914314569,
+              "osm_type": 1,
+              "distance": 115.80893449,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105654,
+                  51.50535
+              ]
+          },
+          "properties": {
+              "osm_id": 854355949,
+              "osm_type": 1,
+              "distance": 44.49445627,
+              "category_ids": {
+                  "584": {
+                      "category_name": "bicycle_rental",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Colombo Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105134,
+                  51.506222
+              ]
+          },
+          "properties": {
+              "osm_id": 77739561,
+              "osm_type": 2,
+              "distance": 84.59918525,
+              "category_ids": {
+                  "135": {
+                      "category_name": "place_of_worship",
+                      "category_group": "arts_and_culture"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Christ Church",
+                  "website": "www.christchurchsouthwark.org.uk"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104986,
+                  51.506963
+              ]
+          },
+          "properties": {
+              "osm_id": 77739567,
+              "osm_type": 2,
+              "distance": 158.4600802,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "The Mad Hatter Hotel"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105654,
+                  51.50535
+              ]
+          },
+          "properties": {
+              "osm_id": 854355949,
+              "osm_type": 1,
+              "distance": 44.49445627,
+              "category_ids": {
+                  "584": {
+                      "category_name": "bicycle_rental",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Colombo Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106407,
+                  51.507108
+              ]
+          },
+          "properties": {
+              "osm_id": 469772821,
+              "osm_type": 1,
+              "distance": 160.64695441,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Kings Reach Building"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106109,
+                  51.507238
+              ]
+          },
+          "properties": {
+              "osm_id": 597319420,
+              "osm_type": 1,
+              "distance": 172.67078016,
+              "category_ids": {
+                  "178": {
+                      "category_name": "telephone",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106718,
+                  51.507189
+              ]
+          },
+          "properties": {
+              "osm_id": 344519019,
+              "osm_type": 1,
+              "distance": 174.43007915,
+              "category_ids": {
+                  "171": {
+                      "category_name": "post_box",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105769,
+                  51.505363
+              ]
+          },
+          "properties": {
+              "osm_id": 77755317,
+              "osm_type": 2,
+              "distance": 39.4023832,
+              "category_ids": {
+                  "204": {
+                      "category_name": "doctors",
+                      "category_group": "healthcare"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Blackfriars Medical Practice"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104246,
+                  51.506167
+              ]
+          },
+          "properties": {
+              "osm_id": 4315955090,
+              "osm_type": 1,
+              "distance": 132.95471711,
+              "category_ids": {
+                  "564": {
+                      "category_name": "cafe",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "CoffeeWorks project"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106365,
+                  51.50496
+              ]
+          },
+          "properties": {
+              "osm_id": 597294939,
+              "osm_type": 1,
+              "distance": 84.76620381,
+              "category_ids": {
+                  "171": {
+                      "category_name": "post_box",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10476,
+                  51.505134
+              ]
+          },
+          "properties": {
+              "osm_id": 4697297510,
+              "osm_type": 1,
+              "distance": 105.80416274,
+              "category_ids": {
+                  "570": {
+                      "category_name": "restaurant",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Jamboree"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104364,
+                  51.504947
+              ]
+          },
+          "properties": {
+              "osm_id": 914501414,
+              "osm_type": 1,
+              "distance": 140.25212722,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105193,
+                  51.504951
+              ]
+          },
+          "properties": {
+              "osm_id": 77739550,
+              "osm_type": 2,
+              "distance": 99.27114487,
+              "category_ids": {
+                  "108": {
+                      "category_name": "hotel",
+                      "category_group": "accomodation"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Ibis"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106594,
+                  51.505051
+              ]
+          },
+          "properties": {
+              "osm_id": 587741187,
+              "osm_type": 1,
+              "distance": 81.90210322,
+              "category_ids": {
+                  "501": {
+                      "category_name": "newsagent",
+                      "category_group": "shops"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Denney's"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10364,
+                  51.50653
+              ]
+          },
+          "properties": {
+              "osm_id": 77739559,
+              "osm_type": 2,
+              "distance": 188.77033533,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Bar 242"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104337,
+                  51.505971
+              ]
+          },
+          "properties": {
+              "osm_id": 469780845,
+              "osm_type": 1,
+              "distance": 119.74198255,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.103852,
+                  51.506744
+              ]
+          },
+          "properties": {
+              "osm_id": 5121352970,
+              "osm_type": 1,
+              "distance": 189.94357849,
+              "category_ids": {
+                  "561": {
+                      "category_name": "bar",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "opening_hours": "Mo, Tu 10:00-11:00; We, Th 10:00-00:00; Fr 10:00-01:30; Sa 16:00-01:30",
+                  "phone": "+44 20 3904 6760;+44 7968 828 504",
+                  "website": "https://www.samabankside.co.uk/",
+                  "name": "Sama"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105134,
+                  51.506222
+              ]
+          },
+          "properties": {
+              "osm_id": 77739561,
+              "osm_type": 2,
+              "distance": 84.59918525,
+              "category_ids": {
+                  "135": {
+                      "category_name": "place_of_worship",
+                      "category_group": "arts_and_culture"
+                  }
+              },
+              "osm_tags": {
+                  "website": "www.christchurchsouthwark.org.uk",
+                  "name": "Christ Church"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104718,
+                  51.507263
+              ]
+          },
+          "properties": {
+              "osm_id": 289900772,
+              "osm_type": 2,
+              "distance": 196.63087042,
+              "category_ids": {
+                  "280": {
+                      "category_name": "park",
+                      "category_group": "leisure_and_entertainment"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104492,
+                  51.506604
+              ]
+          },
+          "properties": {
+              "osm_id": 469780846,
+              "osm_type": 1,
+              "distance": 146.15900785,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.103941,
+                  51.506867
+              ]
+          },
+          "properties": {
+              "osm_id": 469765600,
+              "osm_type": 1,
+              "distance": 194.13004167,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Blackfriars Road"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105296,
+                  51.50601
+              ]
+          },
+          "properties": {
+              "osm_id": 28966973,
+              "osm_type": 2,
+              "distance": 60.65011853,
+              "category_ids": {
+                  "280": {
+                      "category_name": "park",
+                      "category_group": "leisure_and_entertainment"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Christ Church Garden"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105725,
+                  51.507214
+              ]
+          },
+          "properties": {
+              "osm_id": 486099302,
+              "osm_type": 1,
+              "distance": 171.01573716,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105109,
+                  51.50689
+              ]
+          },
+          "properties": {
+              "osm_id": 478176913,
+              "osm_type": 2,
+              "distance": 147.4705867,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "The Mad Hatter Hotel"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104246,
+                  51.506167
+              ]
+          },
+          "properties": {
+              "osm_id": 4315955090,
+              "osm_type": 1,
+              "distance": 132.95471711,
+              "category_ids": {
+                  "564": {
+                      "category_name": "cafe",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "CoffeeWorks project"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105712,
+                  51.505652
+              ]
+          },
+          "properties": {
+              "osm_id": 77739551,
+              "osm_type": 2,
+              "distance": 20.40835457,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Rose & Crown"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105846,
+                  51.505467
+              ]
+          },
+          "properties": {
+              "osm_id": 3355248774,
+              "osm_type": 1,
+              "distance": 26.76222497,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104337,
+                  51.505971
+              ]
+          },
+          "properties": {
+              "osm_id": 469780845,
+              "osm_type": 1,
+              "distance": 119.74198255,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105109,
+                  51.50689
+              ]
+          },
+          "properties": {
+              "osm_id": 478176913,
+              "osm_type": 2,
+              "distance": 147.47058671,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "The Mad Hatter Hotel"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.103941,
+                  51.506867
+              ]
+          },
+          "properties": {
+              "osm_id": 469765600,
+              "osm_type": 1,
+              "distance": 194.13004167,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Blackfriars Road"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105715,
+                  51.507272
+              ]
+          },
+          "properties": {
+              "osm_id": 4318362414,
+              "osm_type": 1,
+              "distance": 177.43953514,
+              "category_ids": {
+                  "518": {
+                      "category_name": "supermarket",
+                      "category_group": "shops"
+                  }
+              },
+              "osm_tags": {
+                  "phone": "+44 20792 80672",
+                  "opening_hours": "Mo-Sa 07:00-22:00; Su 08:00-22:00",
+                  "name": "Little Waitrose",
+                  "wheelchair": "yes"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.103852,
+                  51.506744
+              ]
+          },
+          "properties": {
+              "osm_id": 5121352970,
+              "osm_type": 1,
+              "distance": 189.94357849,
+              "category_ids": {
+                  "561": {
+                      "category_name": "bar",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "website": "https://www.samabankside.co.uk/",
+                  "name": "Sama",
+                  "phone": "+44 20 3904 6760;+44 7968 828 504",
+                  "opening_hours": "Mo, Tu 10:00-11:00; We, Th 10:00-00:00; Fr 10:00-01:30; Sa 16:00-01:30"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.103536,
+                  51.50568
+              ]
+          },
+          "properties": {
+              "osm_id": 31571909,
+              "osm_type": 2,
+              "distance": 171.08720738,
+              "category_ids": {
+                  "601": {
+                      "category_name": "parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104408,
+                  51.506615
+              ]
+          },
+          "properties": {
+              "osm_id": 4859130048,
+              "osm_type": 1,
+              "distance": 151.30247634,
+              "category_ids": {
+                  "608": {
+                      "category_name": "stop_position",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Stamford Street"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10409,
+                  51.505357
+              ]
+          },
+          "properties": {
+              "osm_id": 306663723,
+              "osm_type": 1,
+              "distance": 137.63363446,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Prince William Henry"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104616,
+                  51.505713
+              ]
+          },
+          "properties": {
+              "osm_id": 914501354,
+              "osm_type": 1,
+              "distance": 96.12367105,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106407,
+                  51.507108
+              ]
+          },
+          "properties": {
+              "osm_id": 469772821,
+              "osm_type": 1,
+              "distance": 160.64695442,
+              "category_ids": {
+                  "607": {
+                      "category_name": "platform",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Kings Reach Building"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10476,
+                  51.505134
+              ]
+          },
+          "properties": {
+              "osm_id": 4697297510,
+              "osm_type": 1,
+              "distance": 105.80416272,
+              "category_ids": {
+                  "570": {
+                      "category_name": "restaurant",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Jamboree"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105675,
+                  51.505437
+              ]
+          },
+          "properties": {
+              "osm_id": 3355248773,
+              "osm_type": 1,
+              "distance": 35.78651759,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104655,
+                  51.504771
+              ]
+          },
+          "properties": {
+              "osm_id": 3080103387,
+              "osm_type": 1,
+              "distance": 138.24287391,
+              "category_ids": {
+                  "178": {
+                      "category_name": "telephone",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106252,
+                  51.505337
+              ]
+          },
+          "properties": {
+              "osm_id": 29099582,
+              "osm_type": 2,
+              "distance": 42.69699876,
+              "category_ids": {
+                  "282": {
+                      "category_name": "pitch",
+                      "category_group": "leisure_and_entertainment"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104718,
+                  51.507263
+              ]
+          },
+          "properties": {
+              "osm_id": 289900772,
+              "osm_type": 2,
+              "distance": 196.63087043,
+              "category_ids": {
+                  "280": {
+                      "category_name": "park",
+                      "category_group": "leisure_and_entertainment"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104616,
+                  51.504716
+              ]
+          },
+          "properties": {
+              "osm_id": 914501429,
+              "osm_type": 1,
+              "distance": 144.60130345,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106252,
+                  51.505337
+              ]
+          },
+          "properties": {
+              "osm_id": 29099582,
+              "osm_type": 2,
+              "distance": 42.69699876,
+              "category_ids": {
+                  "282": {
+                      "category_name": "pitch",
+                      "category_group": "leisure_and_entertainment"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105712,
+                  51.505652
+              ]
+          },
+          "properties": {
+              "osm_id": 77739551,
+              "osm_type": 2,
+              "distance": 20.40835457,
+              "category_ids": {
+                  "569": {
+                      "category_name": "pub",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Rose & Crown"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105175,
+                  51.5062
+              ]
+          },
+          "properties": {
+              "osm_id": 1504407648,
+              "osm_type": 1,
+              "distance": 80.86224677,
+              "category_ids": {
+                  "565": {
+                      "category_name": "drinking_water",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Christchurch, Southwark"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105193,
+                  51.504951
+              ]
+          },
+          "properties": {
+              "osm_id": 77739550,
+              "osm_type": 2,
+              "distance": 99.27114487,
+              "category_ids": {
+                  "108": {
+                      "category_name": "hotel",
+                      "category_group": "accomodation"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Ibis"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104207,
+                  51.506764
+              ]
+          },
+          "properties": {
+              "osm_id": 3474103568,
+              "osm_type": 1,
+              "distance": 172.75262963,
+              "category_ids": {
+                  "564": {
+                      "category_name": "cafe",
+                      "category_group": "sustenance"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Pret A Manger",
+                  "phone": "+44 207 6200689",
+                  "opening_hours": "Mo-Fr 06:30-18:30"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104655,
+                  51.504771
+              ]
+          },
+          "properties": {
+              "osm_id": 3080103387,
+              "osm_type": 1,
+              "distance": 138.24287392,
+              "category_ids": {
+                  "178": {
+                      "category_name": "telephone",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105296,
+                  51.50601
+              ]
+          },
+          "properties": {
+              "osm_id": 28966973,
+              "osm_type": 2,
+              "distance": 60.65011853,
+              "category_ids": {
+                  "280": {
+                      "category_name": "park",
+                      "category_group": "leisure_and_entertainment"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Christ Church Garden"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106718,
+                  51.507189
+              ]
+          },
+          "properties": {
+              "osm_id": 344519019,
+              "osm_type": 1,
+              "distance": 174.43007916,
+              "category_ids": {
+                  "171": {
+                      "category_name": "post_box",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10619,
+                  51.5072
+              ]
+          },
+          "properties": {
+              "osm_id": 850158039,
+              "osm_type": 1,
+              "distance": 168.79285834,
+              "category_ids": {
+                  "584": {
+                      "category_name": "bicycle_rental",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Milroy Walk, South Bank"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105675,
+                  51.505437
+              ]
+          },
+          "properties": {
+              "osm_id": 3355248773,
+              "osm_type": 1,
+              "distance": 35.78651759,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.103536,
+                  51.50568
+              ]
+          },
+          "properties": {
+              "osm_id": 31571909,
+              "osm_type": 2,
+              "distance": 171.08720738,
+              "category_ids": {
+                  "601": {
+                      "category_name": "parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104708,
+                  51.504703
+              ]
+          },
+          "properties": {
+              "osm_id": 5396989382,
+              "osm_type": 1,
+              "distance": 141.5460138,
+              "category_ids": {
+                  "171": {
+                      "category_name": "post_box",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106109,
+                  51.507238
+              ]
+          },
+          "properties": {
+              "osm_id": 597319420,
+              "osm_type": 1,
+              "distance": 172.67078016,
+              "category_ids": {
+                  "178": {
+                      "category_name": "telephone",
+                      "category_group": "facilities"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.104336,
+                  51.505758
+              ]
+          },
+          "properties": {
+              "osm_id": 914314569,
+              "osm_type": 1,
+              "distance": 115.80893449,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.1039,
+                  51.505953
+              ]
+          },
+          "properties": {
+              "osm_id": 914314579,
+              "osm_type": 1,
+              "distance": 148.80890488,
+              "category_ids": {
+                  "583": {
+                      "category_name": "bicycle_parking",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105715,
+                  51.507272
+              ]
+          },
+          "properties": {
+              "osm_id": 4318362414,
+              "osm_type": 1,
+              "distance": 177.4395352,
+              "category_ids": {
+                  "518": {
+                      "category_name": "supermarket",
+                      "category_group": "shops"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Little Waitrose",
+                  "opening_hours": "Mo-Sa 07:00-22:00; Su 08:00-22:00",
+                  "phone": "+44 20792 80672",
+                  "wheelchair": "yes"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.10619,
+                  51.507199
+              ]
+          },
+          "properties": {
+              "osm_id": 850158039,
+              "osm_type": 1,
+              "distance": 168.79285833,
+              "category_ids": {
+                  "584": {
+                      "category_name": "bicycle_rental",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Milroy Walk, South Bank"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.105168,
+                  51.505687
+              ]
+          },
+          "properties": {
+              "osm_id": 476077470,
+              "osm_type": 2,
+              "distance": 57.79511165,
+              "category_ids": {
+                  "363": {
+                      "category_name": "community_centre",
+                      "category_group": "public_places"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Colombo Centre"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106412,
+                  51.507161
+              ]
+          },
+          "properties": {
+              "osm_id": 4083412782,
+              "osm_type": 1,
+              "distance": 166.43270474,
+              "category_ids": {
+                  "608": {
+                      "category_name": "stop_position",
+                      "category_group": "transport"
+                  }
+              },
+              "osm_tags": {
+                  "name": "Kings Reach Building"
+              }
+          }
+      },
+      {
+          "type": "Feature",
+          "geometry": {
+              "type": "Point",
+              "coordinates": [
+                  -0.106096,
+                  51.507347
+              ]
+          },
+          "properties": {
+              "osm_id": 269694165,
+              "osm_type": 1,
+              "distance": 184.84305684,
+              "category_ids": {
+                  "191": {
+                      "category_name": "atm",
+                      "category_group": "financial"
+                  }
+              },
+              "osm_tags": {
+                  "null": null
+              }
+          }
+      }
+  ],
+  "information": {
+      "attribution": "openrouteservice.org | OpenStreetMap contributors",
+      "version": "0.1",
+      "timestamp": 1597431420,
+      "query": {
+          "request": "pois",
+          "geometry": {
+              "bbox": [
+                  [
+                      -0.1068,
+                      51.504687
+                  ],
+                  [
+                      -0.089934,
+                      51.5132
+                  ]
+              ],
+              "geojson": {
+                  "type": "Point",
+                  "coordinates": [
+                      -0.106,
+                      51.505687
+                  ]
+              },
+              "buffer": 200
+          }
+      }
+  }
+}
