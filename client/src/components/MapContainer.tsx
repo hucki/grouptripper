@@ -147,8 +147,8 @@ function MapContainer(): JSX.Element {
         className="container h-64 max-w-screen-lg mx-auto"
       >
         <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='Map tiles by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+          url="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
         />
         {markers}
         <Polyline positions={polyline} color="lime" />
