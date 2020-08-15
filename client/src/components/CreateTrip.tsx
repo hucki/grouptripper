@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, FormikHelpers, useField } from 'formik';
+import {
+  Formik,
+  Form,
+  Field,
+  FormikHelpers,
+  useField,
+  FieldArray,
+  FormikProps,
+} from 'formik';
 import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
@@ -17,8 +25,7 @@ type TripInput = {
   country: string;
   startDate: string;
   endDate: string;
-  stop1: string;
-  stop2: string;
+  stops: string[];
 };
 
 function transformTrip(tripInput: TripInput): Trip {
@@ -27,7 +34,7 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
-    stops: [tripInput.stop1, tripInput.stop2],
+    stops: tripInput.stops,
   };
 }
 
@@ -38,8 +45,7 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
-  stop1: Yup.string(),
-  stop2: Yup.string(),
+  stops: Yup.array().of(Yup.string()),
 });
 
 export default function CreateTrip(): JSX.Element {
@@ -49,8 +55,8 @@ export default function CreateTrip(): JSX.Element {
 
   const formPages = [FormFirstPage, FormSecondPage];
 
-  function renderFormPage(): JSX.Element {
-    return formPages[currentPage]();
+  function renderFormPage(formikProps: FormikProps<TripInput>): JSX.Element {
+    return formPages[currentPage](formikProps);
   }
 
   if (redirect) return <div>Success</div>;
@@ -64,8 +70,7 @@ export default function CreateTrip(): JSX.Element {
           country: '',
           startDate: '',
           endDate: '',
-          stop1: '',
-          stop2: '',
+          stops: [''],
         }}
         validationSchema={validationSchema}
         onSubmit={async (
@@ -85,7 +90,7 @@ export default function CreateTrip(): JSX.Element {
       >
         {(formikProps): JSX.Element => (
           <Form>
-            {renderFormPage()}
+            {renderFormPage(formikProps)}
             {currentPage > 0 ? (
               <button
                 type="button"
@@ -154,11 +159,23 @@ function FormFirstPage(): JSX.Element {
   );
 }
 
-function FormSecondPage(): JSX.Element {
+function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
   return (
     <>
-      <TextInput name="stop1" id="stop1" label="Stop One" />
-      <TextInput name="stop2" id="stop2" label="Stop Two" />
+      <FieldArray name="stops">
+        {({ push }) =>
+          values.stops.map(
+            (stop, index): JSX.Element => (
+              <TextInput
+                name={`stops.${index}`}
+                id={`stops.${index}`}
+                label={`Stop ${index + 1}`}
+                key={`stops.${index}`}
+              />
+            )
+          )
+        }
+      </FieldArray>
     </>
   );
 }
