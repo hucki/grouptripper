@@ -9,6 +9,8 @@ type Trip = {
 export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
 
+  if (redirect) return <div>Success</div>;
+
   return (
     <>
       <h2>Start planning your trip</h2>
@@ -22,8 +24,8 @@ export default function CreateTrip(): JSX.Element {
           { setSubmitting }: FormikHelpers<Trip>
         ): void => {
           setTimeout(() => {
-            setRedirect(true);
             setSubmitting(false);
+            setRedirect(true);
           }, 500);
         }}
       >
@@ -52,7 +54,6 @@ export default function CreateTrip(): JSX.Element {
           </button>
         </Form>
       </Formik>
-      {redirect ? <div>Success</div> : null}
     </>
   );
 }
