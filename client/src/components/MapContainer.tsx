@@ -12,7 +12,7 @@ const poiMarker = new L.Icon({
   iconAnchor: [16, 45],
 });
 
-function MapContainer(): JSX.Element {
+export default function MapContainer(/*tripStops: string[]*/): JSX.Element {
   // TODO: define Data structure and make it a type
   interface Stop {
     id: number;
@@ -102,5 +102,3 @@ function MapContainer(): JSX.Element {
     </>
   );
 }
-
-export default MapContainer;

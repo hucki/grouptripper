@@ -13,6 +13,9 @@ export default function Navigation(): JSX.Element {
           <li>
             <Link to="/create-trip">Create Trip</Link>
           </li>
+          <li>
+            <Link to="/trip/1">Your current Trip</Link>
+          </li>
         </ul>
       </nav>
     </header>
