@@ -1,6 +1,6 @@
 import React from 'react';
 import { Map, TileLayer, Marker, Polyline } from 'react-leaflet';
-import { LatLng } from 'leaflet';
+import L from 'leaflet';
 
 function MapContainer(): JSX.Element {
   // TODO: define Data structure and make it a type
@@ -136,7 +136,7 @@ function MapContainer(): JSX.Element {
 
   const center: [number, number] = [stops[0].lat, stops[1].lng];
   const polyline = route.geometry.coordinates.map(
-    (latLng) => new LatLng(latLng[1], latLng[0])
+    (latLng) => new L.LatLng(latLng[1], latLng[0])
   );
 
   return (
