@@ -144,7 +144,7 @@ function MapContainer(): JSX.Element {
   const { status, data, error } = useQuery('pois', ApiClient.getPois);
 
   if (status === 'loading') return <div>Loading ...</div>;
-  if (error) return <div>error</div>;
+  if (error) return <div>error: {error}</div>;
 
   interface PoiContainer {
     [key: number]: GeoJSON.Feature;
