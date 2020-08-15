@@ -52,7 +52,7 @@ export default function CreateTrip(): JSX.Element {
           </button>
         </Form>
       </Formik>
-      {redirect ? <div>Success</div> : null}
+      {redirect ? <div role="alert">Success</div> : null}
     </>
   );
 }
