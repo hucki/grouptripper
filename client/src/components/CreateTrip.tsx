@@ -163,18 +163,27 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
   return (
     <>
       <FieldArray name="stops">
-        {({ push }) =>
-          values.stops.map(
-            (stop, index): JSX.Element => (
-              <TextInput
-                name={`stops.${index}`}
-                id={`stops.${index}`}
-                label={`Stop ${index + 1}`}
-                key={`stops.${index}`}
-              />
-            )
-          )
-        }
+        {({ push }): JSX.Element => (
+          <>
+            {values.stops.map(
+              (stop, index): JSX.Element => (
+                <TextInput
+                  name={`stops.${index}`}
+                  id={`stops.${index}`}
+                  label={`Stop ${index + 1}`}
+                  key={`stops.${index}`}
+                />
+              )
+            )}
+            <button
+              type="button"
+              onClick={(): void => push('')}
+              className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
+            >
+              Add stop
+            </button>
+          </>
+        )}
       </FieldArray>
     </>
   );
