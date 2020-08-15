@@ -32,7 +32,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents"
+      "pre-commit": "lerna run --concurrency 1 --stream precommit --since HEAD --exclude-dependents",
+      "post-commit": "cd client && npm run build:tailwind"
     }
   }
 }
