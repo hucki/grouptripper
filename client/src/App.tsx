@@ -13,7 +13,7 @@ function App(): JSX.Element {
           <Route path="/create-trip">
             <CreateTrip />
             <div>And here is a map of your last Trip</div>
-            <MapContainer />
+            {/* <MapContainer /> */}
           </Route>
           <Route path="/">
             <div>Here's a list of trips</div>

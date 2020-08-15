@@ -70,20 +70,7 @@ export default function CreateTrip(): JSX.Element {
       >
         {(formikProps): JSX.Element => (
           <Form>
-            <TextInput name="name" id="name" label="Trip Name" />
-            <TextInput name="country" id="country" label="Country" />
-            <TextInput
-              name="startDate"
-              id="startDate"
-              label="Start Date"
-              type="date"
-            />
-            <TextInput
-              name="endDate"
-              id="endDate"
-              label="End Date"
-              type="date"
-            />
+            <FormFirstPage />
             <button
               type="submit"
               className={`flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400 `}
@@ -115,5 +102,21 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
       <Field {...field} {...props} className="p-3 border border-gray-500" />
       {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
     </div>
+  );
+}
+
+function FormFirstPage(): JSX.Element {
+  return (
+    <>
+      <TextInput name="name" id="name" label="Trip Name" />
+      <TextInput name="country" id="country" label="Country" />
+      <TextInput
+        name="startDate"
+        id="startDate"
+        label="Start Date"
+        type="date"
+      />
+      <TextInput name="endDate" id="endDate" label="End Date" type="date" />
+    </>
   );
 }
