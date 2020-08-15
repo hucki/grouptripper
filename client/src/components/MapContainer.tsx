@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, TileLayer, Marker, Polyline } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 
-function MapContainer(): JSX.Element  {
+function MapContainer(): JSX.Element {
   // TODO: define Data structure and make it a type
   interface Stop {
     id: number;
