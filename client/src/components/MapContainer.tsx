@@ -1,8 +1,16 @@
 import React from 'react';
 import { Map, TileLayer, Marker, Polyline, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useQuery } from 'react-query';
 import ApiClient from '../services/ApiClient';
+import gtmarker from '../assets/gtmarker.png';
+
+const poiMarker = new L.Icon({
+  iconUrl: gtmarker,
+  iconSize: [36, 48],
+  iconAnchor: [16, 45],
+});
 
 function MapContainer(): JSX.Element {
   // TODO: define Data structure and make it a type
@@ -133,7 +141,11 @@ function MapContainer(): JSX.Element {
     },
   };
   const markers = stops.map((stop) => (
-    <Marker key={stop.id} position={[stop.lat, stop.lng]}></Marker>
+    <Marker
+      key={stop.id}
+      position={[stop.lat, stop.lng]}
+      icon={poiMarker}
+    ></Marker>
   ));
 
   const center: [number, number] = [stops[0].lat, stops[1].lng];
@@ -155,7 +167,15 @@ function MapContainer(): JSX.Element {
     if (poiContainer[poi.properties?.osm_id]) return null;
     else {
       poiContainer[poi.properties?.osm_id] = poi;
-      return <GeoJSON data={poi} key={poi.properties?.osm_id} />;
+      return (
+        <GeoJSON
+          data={poi}
+          key={poi.properties?.osm_id}
+          pointToLayer={(feature, latlng): L.Marker =>
+            L.marker(latlng, { icon: poiMarker })
+          }
+        />
+      );
     }
   });
 
