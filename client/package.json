@@ -33,7 +33,7 @@
     "test": "react-scripts test",
     "test:coverage": "npm test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
-    "lint": "eslint '*/**/*.{js,ts,tsx}' --ignore-parth .gitignore --quiet --fix",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --ignore-path .gitignore --quiet --fix",
     "precommit": "lint-staged"
   },
   "eslintConfig": {
