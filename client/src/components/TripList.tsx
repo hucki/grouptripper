@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { client } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
@@ -13,7 +14,11 @@ export default function TripList(): JSX.Element {
   return (
     <ul>
       {data?.map((trip) => (
-        <li>{trip.name}</li>
+        <li key={trip._id}>
+          <Link to={`/trips/${trip._id}`} className="text-blue-800 underline">
+            {trip.name}
+          </Link>
+        </li>
       ))}
     </ul>
   );
