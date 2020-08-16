@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
 import Trip from './components/Trip';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 // const trip1 = {
 //   name: 'First Trip to GB',
@@ -22,7 +22,7 @@ function App(): JSX.Element {
           <Route path="/create-trip">
             <CreateTrip />
           </Route>
-          <Route path="/">
+          <Route exact={true} path="/">
             <div>Here's a list of trips</div>
           </Route>
           <Route path="/trip/1">
