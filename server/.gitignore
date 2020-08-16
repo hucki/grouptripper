@@ -1,2 +1,4 @@
 # dist foler where the compiled ts files sit
 /dist
+
+.env
