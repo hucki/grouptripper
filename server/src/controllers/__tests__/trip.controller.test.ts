@@ -2,8 +2,8 @@ import mockingoose from 'mockingoose';
 import mongoose from 'mongoose';
 import * as tripController from './../trip.controller';
 import Trip from './../../models/trip.model';
-import { buildTrip, buildReq, buildRes } from './../../../test/utils/generate';
-import { jsonStrinigifyParse } from './../../../test/utils/helpers';
+import { buildTrip, buildReq, buildRes } from '../../utils/generate';
+import { jsonStrinigifyParse } from '../../utils/helpers';
 
 beforeEach(() => {
   mockingoose.resetAll();
