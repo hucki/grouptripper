@@ -14,6 +14,23 @@ export const getAllTrips = async (req: Request, res: Response) => {
   }
 };
 
+export const getOneTrip = async (req: Request, res: Response) => {
+  try {
+    const singleTrip = await Trip.findById(req.params.id);
+    if (singleTrip) {
+      res.json(singleTrip);
+      res.status(200);
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+    res.json({ message: 'Server error' });
+  }
+};
+
 export const addTrip = async (req: Request, res: Response) => {
   try {
     const newTrip = await Trip.create(req.body);
@@ -25,18 +42,6 @@ export const addTrip = async (req: Request, res: Response) => {
       res.status(400);
       res.json({ message: 'Invalid data' });
     }
-    res.status(500);
-    res.json({ message: 'Server error' });
-  }
-};
-
-export const getOneTrip = async (req: Request, res: Response) => {
-  try {
-    const singleTrip = await Trip.findById(req.params.id);
-    res.json(singleTrip);
-    res.status(200);
-  } catch (e) {
-    console.log(e);
     res.status(500);
     res.json({ message: 'Server error' });
   }
