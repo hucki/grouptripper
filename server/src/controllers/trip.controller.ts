@@ -2,19 +2,27 @@ import { Request, Response } from 'express';
 
 import Trip from '../models/trip.model';
 
-export const getAllTrips = async (req: Request, res: Response) => {
+export const getAllTrips = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const response = await Trip.find();
     res.json(response);
     res.status(200);
+    return;
   } catch (e) {
     console.log(e);
     res.status(500);
     res.json({ message: 'Server error' });
+    return;
   }
 };
 
-export const getOneTrip = async (req: Request, res: Response) => {
+export const getOneTrip = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const singleTrip = await Trip.findById(req.params.id);
     if (singleTrip) {
@@ -31,7 +39,10 @@ export const getOneTrip = async (req: Request, res: Response) => {
   }
 };
 
-export const createTrip = async (req: Request, res: Response) => {
+export const createTrip = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const newTrip = await Trip.create(req.body);
     res.status(201);
@@ -47,7 +58,10 @@ export const createTrip = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteTrip = async (req: Request, res: Response) => {
+export const deleteTrip = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     await Trip.findByIdAndDelete(req.params.id);
     res.json('Trip deleted');

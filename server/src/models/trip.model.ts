@@ -1,4 +1,13 @@
 import mongoose from './index';
+import { Document } from 'mongoose';
+
+export interface ITrip extends Document {
+  name: string;
+  country: string;
+  startDate: Date;
+  endDate: Date;
+  stops?: string[];
+}
 
 const tripSchema = new mongoose.Schema({
   name: {
@@ -23,6 +32,4 @@ const tripSchema = new mongoose.Schema({
   },
 });
 
-const Trip = mongoose.model('Trip', tripSchema);
-
-export default Trip;
+export default mongoose.model<ITrip>('Trip', tripSchema);
