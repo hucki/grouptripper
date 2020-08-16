@@ -43,6 +43,10 @@ function jsonStrinigifyParse(item: any) {
   return JSON.parse(JSON.stringify(item));
 }
 
+beforeEach(() => {
+  mockingoose.resetAll();
+});
+
 test('getAllTrips returns all trips', async () => {
   const fakeTrips = [buildTrip(), buildTrip()];
 
@@ -100,5 +104,22 @@ test('getOneTrip returns 404 when id not found', async () => {
   `);
   expect(res.json).toHaveBeenCalledTimes(1);
   expect(res.status).toHaveBeenCalledWith(404);
+  expect(res.status).toHaveBeenCalledTimes(1);
+});
+
+test('createTrip creates and returns a trip', async () => {
+  const { _id, ...fakeTrip } = buildTrip();
+
+  mockingoose(Trip).toReturn({ _id, ...fakeTrip }, 'save');
+
+  const req = buildReq({ body: fakeTrip });
+  const res = buildRes();
+
+  await tripController.createTrip(req, res);
+
+  const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
+  expect(responseJson).toEqual(jsonStrinigifyParse({ _id, ...fakeTrip }));
+  expect(res.json).toHaveBeenCalledTimes(1);
+  expect(res.status).toHaveBeenCalledWith(200);
   expect(res.status).toHaveBeenCalledTimes(1);
 });

@@ -31,7 +31,7 @@ export const getOneTrip = async (req: Request, res: Response) => {
   }
 };
 
-export const addTrip = async (req: Request, res: Response) => {
+export const createTrip = async (req: Request, res: Response) => {
   try {
     const newTrip = await Trip.create(req.body);
     res.json(newTrip);
