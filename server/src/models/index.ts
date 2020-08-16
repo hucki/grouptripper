@@ -16,4 +16,4 @@ connection.once('open', () => {
   console.log('successfully connected mongodb');
 });
 
-module.exports = mongoose;
+export default mongoose;

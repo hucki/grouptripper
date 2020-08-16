@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-const Trip = require('../models/trip.model.ts');
+import Trip from '../models/trip.model';
 
-exports.getAllTrips = async (req: Request, res: Response) => {
+export const getAllTrips = async (req: Request, res: Response) => {
   try {
     const response = await Trip.find();
     res.json(response);
@@ -14,7 +14,7 @@ exports.getAllTrips = async (req: Request, res: Response) => {
   }
 };
 
-exports.addTrip = async (req: Request, res: Response) => {
+export const addTrip = async (req: Request, res: Response) => {
   try {
     const newTrip = await Trip.create(req.body);
     res.json(newTrip);
@@ -30,7 +30,7 @@ exports.addTrip = async (req: Request, res: Response) => {
   }
 };
 
-exports.getOneTrip = async (req: Request, res: Response) => {
+export const getOneTrip = async (req: Request, res: Response) => {
   try {
     const singleTrip = await Trip.findById(req.params.id);
     res.json(singleTrip);
@@ -42,7 +42,7 @@ exports.getOneTrip = async (req: Request, res: Response) => {
   }
 };
 
-exports.deleteTrip = async (req: Request, res: Response) => {
+export const deleteTrip = async (req: Request, res: Response) => {
   try {
     await Trip.findByIdAndDelete(req.params.id);
     res.json('Trip deleted');

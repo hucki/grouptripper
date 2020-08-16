@@ -1,6 +1,4 @@
-const mongoose = require('./index.ts');
-
-const Schema = mongoose.Schema;
+import mongoose from './index';
 
 const tripSchema = new mongoose.Schema({
   name: {
@@ -27,4 +25,4 @@ const tripSchema = new mongoose.Schema({
 
 const Trip = mongoose.model('Trip', tripSchema);
 
-module.exports = Trip;
+export default Trip;
