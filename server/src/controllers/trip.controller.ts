@@ -34,8 +34,8 @@ export const getOneTrip = async (req: Request, res: Response) => {
 export const createTrip = async (req: Request, res: Response) => {
   try {
     const newTrip = await Trip.create(req.body);
+    res.status(201);
     res.json(newTrip);
-    res.status(200);
   } catch (e) {
     console.log(e);
     if (/validation failed/i.test(e._message)) {

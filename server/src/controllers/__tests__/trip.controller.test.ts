@@ -5,6 +5,7 @@ import Trip from './../../models/trip.model';
 
 import faker from 'faker';
 import dayjs from 'dayjs';
+import { hasUncaughtExceptionCaptureCallback } from 'process';
 
 function buildTrip(): any {
   return {
@@ -63,6 +64,8 @@ test('getAllTrips returns all trips', async () => {
   const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
   expect(responseJson).toEqual(jsonStrinigifyParse(fakeTrips));
   expect(res.json).toHaveBeenCalledTimes(1);
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.status).toHaveBeenCalledTimes(1);
 });
 
 test('getOneTrip returns trip when given an id', async () => {
@@ -84,6 +87,8 @@ test('getOneTrip returns trip when given an id', async () => {
   const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
   expect(responseJson).toEqual(jsonStrinigifyParse(fakeTrip));
   expect(res.json).toHaveBeenCalledTimes(1);
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.status).toHaveBeenCalledTimes(1);
 });
 
 test('getOneTrip returns 404 when id not found', async () => {
@@ -120,6 +125,6 @@ test('createTrip creates and returns a trip', async () => {
   const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
   expect(responseJson).toEqual(jsonStrinigifyParse({ _id, ...fakeTrip }));
   expect(res.json).toHaveBeenCalledTimes(1);
-  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.status).toHaveBeenCalledWith(201);
   expect(res.status).toHaveBeenCalledTimes(1);
 });
