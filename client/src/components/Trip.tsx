@@ -12,12 +12,14 @@ type Trip = {
 
 export default function Trip({ ...props }): JSX.Element {
   const { trip } = props;
-  console.log(trip);
   const stopCards = trip.stops.map((stop: string, index: number) => (
-    <div key={stop} className="max-w-sm overflow-hidden rounded shadow-lg">
+    <div
+      key={stop}
+      className="self-center justify-center overflow-hidden rounded shadow-lg"
+    >
       <img
-        className="w-full"
-        src="https://source.unsplash.com/random/200x200"
+        className="max-w-full"
+        src="https://source.unsplash.com/random/500x200"
         alt="Random unsplash"
       />
       <div className="px-6 py-4">
@@ -36,7 +38,9 @@ export default function Trip({ ...props }): JSX.Element {
   return (
     <>
       <h2 className="self-center">This is your Trip</h2>
-      <div className="grid grid-cols-3 gap-4 m-4">{stopCards}</div>
+      <div className="grid content-center grid-cols-3 gap-4 m-4">
+        {stopCards}
+      </div>
       <MapContainer trip={trip} />
     </>
   );
