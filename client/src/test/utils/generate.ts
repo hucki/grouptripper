@@ -1,9 +1,9 @@
 import faker from 'faker';
 import dayjs from 'dayjs';
 
-import { Trip, TripOverrides } from '../../types/Trip';
+import { Trip } from '../../types/Trip';
 
-function buildTrip(overrides: TripOverrides = {}): Trip {
+function buildTrip(overrides: Partial<Trip> = {}): Trip {
   return {
     _id: faker.random.uuid(),
     name: faker.lorem.words(),
