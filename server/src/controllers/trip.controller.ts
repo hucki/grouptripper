@@ -10,19 +10,23 @@ exports.getAllTrips = async (req: Request, res: Response) => {
   } catch (e) {
     console.log(e);
     res.status(500);
+    res.json({ message: 'Server error' });
   }
 };
 
 exports.addTrip = async (req: Request, res: Response) => {
   try {
-    const { name, country, stops } = req.body;
-
-    const newTrip = await Trip.create({ name, country, stops });
+    const newTrip = await Trip.create(req.body);
     res.json(newTrip);
     res.status(200);
   } catch (e) {
     console.log(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+    }
     res.status(500);
+    res.json({ message: 'Server error' });
   }
 };
 
@@ -34,6 +38,7 @@ exports.getOneTrip = async (req: Request, res: Response) => {
   } catch (e) {
     console.log(e);
     res.status(500);
+    res.json({ message: 'Server error' });
   }
 };
 
@@ -45,5 +50,6 @@ exports.deleteTrip = async (req: Request, res: Response) => {
   } catch (e) {
     console.log(e);
     res.status(500);
+    res.json({ message: 'Server error' });
   }
 };

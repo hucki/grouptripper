@@ -5,11 +5,19 @@ const Schema = mongoose.Schema;
 const tripSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: false,
+    required: true,
   },
   country: {
     type: String,
-    required: false,
+    required: true,
+  },
+  startDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
   },
   stops: {
     type: [String],
