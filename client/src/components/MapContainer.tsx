@@ -11,8 +11,16 @@ const poiMarker = new L.Icon({
   iconSize: [36, 48],
   iconAnchor: [16, 45],
 });
+// TODO: move type to central types
+type Trip = {
+  name: string;
+  country: string;
+  startDate: Date;
+  endDate: Date;
+  stops: string[];
+};
 
-export default function MapContainer(/*tripStops: string[]*/): JSX.Element {
+export default function MapContainer({ ...props }): JSX.Element {
   // TODO: define Data structure and make it a type
   interface Stop {
     id: number;
