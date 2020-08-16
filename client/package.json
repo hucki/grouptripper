@@ -74,8 +74,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
-      "!src/test/**/*.*",
-      "!<rootDir>/path/to/dir/"
+      "!src/test/**/*.*"
     ]
   }
 }
