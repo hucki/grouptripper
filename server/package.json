@@ -8,7 +8,7 @@
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "tsc",
-    "precommit": "npm-run-all -p build"
+    "precommit": "npm-run-all -p build test:coverage"
   },
   "keywords": [],
   "author": "",
