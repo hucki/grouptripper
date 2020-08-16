@@ -1,7 +1,7 @@
 import mockingoose from 'mockingoose';
 import mongoose, { Query } from 'mongoose';
 import * as tripController from './../trip.controller';
-import Trip, { ITrip } from './../../models/trip.model';
+import Trip, { TripDocument } from './../../models/trip.model';
 import { buildTrip, buildReq, buildRes } from '../../utils/generate';
 import { jsonStrinigifyParse } from '../../utils/helpers';
 
@@ -32,7 +32,7 @@ test('getAllTrips returns all trips', async () => {
 test('getOneTrip returns trip when given an id', async () => {
   const fakeTrip = buildTrip();
 
-  const finderMock = (query: Query<ITrip>) => {
+  const finderMock = (query: Query<TripDocument>) => {
     if (query.getQuery()._id === fakeTrip._id) {
       return fakeTrip;
     }

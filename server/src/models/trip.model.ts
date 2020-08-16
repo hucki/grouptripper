@@ -1,13 +1,16 @@
 import mongoose from './index';
 import { Document } from 'mongoose';
 
-export interface ITrip extends Document {
+export type Trip = {
+  _id: mongoose.Types.ObjectId;
   name: string;
   country: string;
   startDate: Date;
   endDate: Date;
   stops?: string[];
-}
+};
+
+export type TripDocument = Trip & Document;
 
 const tripSchema = new mongoose.Schema({
   name: {
@@ -32,4 +35,4 @@ const tripSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model<ITrip>('Trip', tripSchema);
+export default mongoose.model<TripDocument>('Trip', tripSchema);

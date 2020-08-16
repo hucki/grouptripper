@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+import { Trip } from '../models/trip.model';
 
 import faker from 'faker';
 import dayjs from 'dayjs';
 
-function buildTrip(): any {
+function buildTrip(): Trip {
   return {
     _id: mongoose.Types.ObjectId(),
     name: faker.lorem.words(),

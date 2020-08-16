@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 
-import Trip from '../models/trip.model';
+import TripModel from '../models/trip.model';
 
 export const getAllTrips = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const response = await Trip.find();
+    const response = await TripModel.find();
     res.json(response);
     res.status(200);
     return;
@@ -24,7 +24,7 @@ export const getOneTrip = async (
   res: Response
 ): Promise<void> => {
   try {
-    const singleTrip = await Trip.findById(req.params.id);
+    const singleTrip = await TripModel.findById(req.params.id);
     if (singleTrip) {
       res.json(singleTrip);
       res.status(200);
@@ -44,7 +44,7 @@ export const createTrip = async (
   res: Response
 ): Promise<void> => {
   try {
-    const newTrip = await Trip.create(req.body);
+    const newTrip = await TripModel.create(req.body);
     res.status(201);
     res.json(newTrip);
   } catch (e) {
@@ -63,7 +63,7 @@ export const deleteTrip = async (
   res: Response
 ): Promise<void> => {
   try {
-    await Trip.findByIdAndDelete(req.params.id);
+    await TripModel.findByIdAndDelete(req.params.id);
     res.json('Trip deleted');
     res.status(200);
   } catch (e) {
