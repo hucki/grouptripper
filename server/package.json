@@ -8,6 +8,7 @@
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "tsc",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "precommit": "npm-run-all -p build test:coverage"
   },
   "keywords": [],

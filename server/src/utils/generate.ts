@@ -15,7 +15,7 @@ function buildTrip(): any {
 }
 
 function transformTimestampToDate(timestamp: Date): Date {
-  return new Date(dayjs().format('YYYY-MM-DD'));
+  return new Date(dayjs(timestamp).format('YYYY-MM-DD'));
 }
 
 function buildReq(overrides = {}) {
