@@ -11,17 +11,19 @@ const poiMarker = new L.Icon({
   iconSize: [36, 48],
   iconAnchor: [16, 45],
 });
-// TODO: move type to central types
-type Trip = {
-  name: string;
-  country: string;
-  startDate: Date;
-  endDate: Date;
-  stops: string[];
-};
 
 export default function MapContainer({ ...props }): JSX.Element {
   const { trip } = props;
+
+  const gotPois = useQuery('pois', ApiClient.getPois);
+  const gotRoute = useQuery('route', ApiClient.getRoute);
+
+  if (gotRoute.status === 'loading' || gotPois.status === 'loading')
+    return <div>Loading ...</div>;
+  if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
+  if (gotPois.error) return <div>error: {gotPois.error}</div>;
+
+  if (!trip.details) return <div> old trip format. No map Data available </div>;
 
   const markers = trip.details.features.map(
     (feature: GeoJSON.Feature, index: number) => (
@@ -39,14 +41,6 @@ export default function MapContainer({ ...props }): JSX.Element {
     trip.details.features[0].geometry.coordinates[1],
     trip.details.features[0].geometry.coordinates[0],
   ];
-
-  const gotPois = useQuery('pois', ApiClient.getPois);
-  const gotRoute = useQuery('route', ApiClient.getRoute);
-
-  if (gotRoute.status === 'loading' || gotPois.status === 'loading')
-    return <div>Loading ...</div>;
-  if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
-  if (gotPois.error) return <div>error: {gotPois.error}</div>;
 
   interface PoiContainer {
     [key: number]: GeoJSON.Feature;
