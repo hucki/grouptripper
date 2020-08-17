@@ -17,7 +17,8 @@ function buildTrip(overrides: Partial<Trip> = {}): Trip {
         return {
           type: 'Feature',
           properties: {
-            name: { stop },
+            stopId: faker.random.uuid(),
+            name: stop,
           },
           geometry: {
             type: 'Point',
