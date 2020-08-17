@@ -1,0 +1,7 @@
+{
+  "name": "First Trip to GB",
+  "country": "Great Britain",
+  "startDate": "dayjs().subtract(5, 'd')",
+  "endDate": "dayjs()",
+  "stops": ["London", "Birmingham", "Manchester"]
+}

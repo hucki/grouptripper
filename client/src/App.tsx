@@ -1,5 +1,4 @@
 import React from 'react';
-import MapContainer from './components/MapContainer';
 import {
   BrowserRouter as Router,
   Switch,
@@ -18,8 +17,6 @@ function App(): JSX.Element {
         <Switch>
           <Route path="/create-trip">
             <CreateTrip />
-            <div>And here is a map of your last Trip</div>
-            <MapContainer />
           </Route>
           <Route path="/trips/:id">
             <PlaceholderTrip />
