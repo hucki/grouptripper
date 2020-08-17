@@ -15,25 +15,8 @@ export default function TripView(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
 
   const trip = data;
-  const stopCards = trip?.stops.map((stop: string, index: number) => (
-    <div
-      key={stop}
-      className="self-center justify-center overflow-hidden rounded shadow-lg"
-    >
-      <img
-        className="max-w-full"
-        src="https://source.unsplash.com/random/500x200"
-        alt="Random unsplash"
-      />
-      <div className="px-6 py-4">
-        <div className="mb-2 text-xl font-bold">
-          Day {index + 1}: {stop}
-        </div>
-        <p className="text-base text-gray-700">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-      </div>
-    </div>
+  const stopCards = trip?.details.features.map((stop, index) => (
+    <StopCard key={index} stop={stop} />
   ));
 
   return (
@@ -43,6 +26,31 @@ export default function TripView(): JSX.Element {
         {stopCards}
       </div>
       <MapContainer trip={trip} />
+    </>
+  );
+}
+
+function StopCard({ ...stop }): JSX.Element {
+  return (
+    <>
+      <div className="self-center justify-center overflow-hidden rounded shadow-lg">
+        <img
+          className="max-w-full"
+          src="https://source.unsplash.com/random/500x200"
+          alt="Random unsplash"
+        />
+        <div className="px-6 py-4">
+          <div className="mb-2 text-xl font-bold">
+            {stop.stop.properties.name}
+          </div>
+          <p className="text-base text-gray-700">
+            {stop.stop.geometry.coordinates[0].toFixed(4)}
+          </p>
+          <p className="text-base text-gray-700">
+            {stop.stop.geometry.coordinates[1].toFixed(4)}
+          </p>
+        </div>
+      </div>
     </>
   );
 }
