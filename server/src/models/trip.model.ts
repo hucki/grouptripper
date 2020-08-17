@@ -1,4 +1,6 @@
 import mongoose from './index';
+import 'mongoose-geojson-schema';
+
 import { Document } from 'mongoose';
 
 export type Trip = {
@@ -8,6 +10,7 @@ export type Trip = {
   startDate: Date;
   endDate: Date;
   stops?: string[];
+  details?: mongoose.Schema.Types.FeatureCollection;
 };
 
 export type TripDocument = Trip & Document;
@@ -33,6 +36,7 @@ const tripSchema = new mongoose.Schema({
     type: [String],
     required: false,
   },
+  details: mongoose.Schema.Types.FeatureCollection,
 });
 
 export default mongoose.model<TripDocument>('Trip', tripSchema);
