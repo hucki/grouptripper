@@ -34,7 +34,7 @@ function transformTrip(tripInput: TripInput): Trip {
         return {
           type: 'Feature',
           properties: {
-            name: { stop },
+            name: stop,
           },
           geometry: {
             type: 'Point',
