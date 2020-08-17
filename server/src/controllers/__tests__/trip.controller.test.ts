@@ -2,7 +2,7 @@ import mockingoose from 'mockingoose';
 import mongoose, { Query } from 'mongoose';
 import * as tripController from './../trip.controller';
 import Trip, { TripDocument } from './../../models/trip.model';
-import { buildTrip, buildReq, buildRes } from '../../utils/generate';
+import { buildTrip, buildReq, buildRes, buildNext } from '../../utils/generate';
 import { jsonStrinigifyParse } from '../../utils/helpers';
 
 beforeEach(() => {
@@ -16,8 +16,9 @@ test('getAllTrips returns all trips', async () => {
 
   const req = buildReq();
   const res = buildRes();
+  const next = buildNext();
 
-  await tripController.getAllTrips(req, res);
+  await tripController.getAllTrips(req, res, next);
 
   // We have to stringify and parse the mongoose object, otherwise we
   // get inconsistent formatting issues. And we can't use .toHaveBeenCalledWith
@@ -42,8 +43,9 @@ test('getOneTrip returns trip when given an id', async () => {
 
   const req = buildReq({ params: { id: fakeTrip._id } });
   const res = buildRes();
+  const next = buildNext();
 
-  await tripController.getOneTrip(req, res);
+  await tripController.getOneTrip(req, res, next);
 
   const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
   expect(responseJson).toEqual(jsonStrinigifyParse(fakeTrip));
@@ -59,8 +61,9 @@ test('getOneTrip returns 404 when id not found', async () => {
 
   const req = buildReq({ params: { id: badId } });
   const res = buildRes();
+  const next = buildNext();
 
-  await tripController.getOneTrip(req, res);
+  await tripController.getOneTrip(req, res, next);
 
   const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
   expect(responseJson).toMatchInlineSnapshot(`
@@ -80,8 +83,9 @@ test('createTrip creates and returns a trip', async () => {
 
   const req = buildReq({ body: fakeTrip });
   const res = buildRes();
+  const next = buildNext();
 
-  await tripController.createTrip(req, res);
+  await tripController.createTrip(req, res, next);
 
   const responseJson = jsonStrinigifyParse(res.json.mock.calls[0][0]);
   expect(responseJson).toEqual(jsonStrinigifyParse({ _id, ...fakeTrip }));

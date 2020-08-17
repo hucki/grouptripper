@@ -37,4 +37,8 @@ function buildRes(overrides = {}) {
   return res;
 }
 
-export { buildReq, buildRes, buildTrip };
+function buildNext(impl?: (...args: any[]) => unknown) {
+  return jest.fn(impl).mockName('next');
+}
+
+export { buildReq, buildRes, buildNext, buildTrip };

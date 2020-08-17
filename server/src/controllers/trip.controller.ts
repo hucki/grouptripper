@@ -1,10 +1,11 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
 
 export const getAllTrips = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const response = await TripModel.find();
@@ -12,16 +13,14 @@ export const getAllTrips = async (
     res.status(200);
     return;
   } catch (e) {
-    console.log(e);
-    res.status(500);
-    res.json({ message: 'Server error' });
-    return;
+    next(e);
   }
 };
 
 export const getOneTrip = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const singleTrip = await TripModel.findById(req.params.id);
@@ -33,15 +32,14 @@ export const getOneTrip = async (
       res.json({ message: 'Trip not found' });
     }
   } catch (e) {
-    console.log(e);
-    res.status(500);
-    res.json({ message: 'Server error' });
+    next(e);
   }
 };
 
 export const createTrip = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     const newTrip = await TripModel.create(req.body);
@@ -53,22 +51,20 @@ export const createTrip = async (
       res.status(400);
       res.json({ message: 'Invalid data' });
     }
-    res.status(500);
-    res.json({ message: 'Server error' });
+    next(e);
   }
 };
 
 export const deleteTrip = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
   try {
     await TripModel.findByIdAndDelete(req.params.id);
     res.json('Trip deleted');
     res.status(200);
   } catch (e) {
-    console.log(e);
-    res.status(500);
-    res.json({ message: 'Server error' });
+    next(e);
   }
 };
