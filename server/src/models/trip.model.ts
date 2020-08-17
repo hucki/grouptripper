@@ -1,5 +1,6 @@
 import mongoose from './index';
 import 'mongoose-geojson-schema';
+import GeoJSON from 'geojson';
 
 import { Document } from 'mongoose';
 
@@ -10,10 +11,50 @@ export type Trip = {
   startDate: Date;
   endDate: Date;
   stops?: string[];
-  details?: mongoose.Schema.Types.FeatureCollection;
+  details?: GeoJSON.FeatureCollection;
+};
+
+export type Stop = {
+  _id: mongoose.Types.ObjectId;
+  type: string;
+  geometry: {
+    type: string;
+    coordinates: [number];
+  };
+  properties: {
+    name: string;
+    description: string;
+    upvotes: number;
+    downvotes: number;
+  };
 };
 
 export type TripDocument = Trip & Document;
+
+const stopSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['Feature'],
+    required: true,
+  },
+  geometry: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
+  },
+  properties: {
+    name: String,
+    description: String,
+    upvotes: Number,
+    downvotes: Number,
+  },
+});
 
 const tripSchema = new mongoose.Schema({
   name: {
@@ -36,7 +77,14 @@ const tripSchema = new mongoose.Schema({
     type: [String],
     required: false,
   },
-  details: mongoose.Schema.Types.FeatureCollection,
+  details: {
+    type: {
+      type: String,
+      enum: ['FeatureCollection'],
+      required: true,
+    },
+    features: [stopSchema],
+  },
 });
 
 export default mongoose.model<TripDocument>('Trip', tripSchema);
