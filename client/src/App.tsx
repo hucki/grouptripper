@@ -1,5 +1,4 @@
 import React from 'react';
-import MapContainer from './components/MapContainer';
 import {
   BrowserRouter as Router,
   Switch,
