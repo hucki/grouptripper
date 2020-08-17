@@ -12,6 +12,25 @@ function buildTrip(): Trip {
     startDate: transformTimestampToDate(faker.date.future()),
     endDate: transformTimestampToDate(faker.date.future()),
     stops: [faker.address.city(), faker.address.city()],
+    details: {
+      type: 'FeatureCollection',
+      features: [faker.address.city(), faker.address.city()].map((stop) => {
+        return {
+          _id: mongoose.Types.ObjectId(),
+          type: 'Feature',
+          properties: {
+            name: stop,
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [
+              parseFloat(faker.address.latitude()),
+              parseFloat(faker.address.longitude()),
+            ],
+          },
+        };
+      }),
+    },
   };
 }
 

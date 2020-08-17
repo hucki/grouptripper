@@ -28,6 +28,21 @@ function transformTrip(tripInput: TripInput): Trip {
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
     stops: tripInput.stops,
+    details: {
+      type: 'FeatureCollection',
+      features: tripInput.stops.map((stop) => {
+        return {
+          type: 'Feature',
+          properties: {
+            name: stop,
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [-0.10449886322021484, 51.507113101069415],
+          },
+        };
+      }),
+    },
   };
 }
 
