@@ -21,42 +21,24 @@ type Trip = {
 };
 
 export default function MapContainer({ ...props }): JSX.Element {
-  // TODO: define Data structure and make it a type
-  interface Stop {
-    id: number;
-    lat: number;
-    lng: number;
-    label: string;
-    description: string;
-  }
+  const { trip } = props;
 
-  // TODO: define array to use Stop Interface (or then type)
-  const stops = [
-    {
-      id: 0,
-      lat: 51.505,
-      lng: -0.09,
-      label: 'Central London',
-      description: 'The place to be',
-    },
-    {
-      id: 1,
-      lat: 51.51258,
-      lng: -0.1068,
-      label: 'Not Central London',
-      description: 'The place to be',
-    },
+  const markers = trip.details.features.map(
+    (feature: GeoJSON.Feature, index: number) => (
+      <GeoJSON
+        data={feature}
+        key={index}
+        pointToLayer={(feature, latlng): L.Marker =>
+          L.marker(latlng, { icon: poiMarker })
+        }
+      />
+    )
+  );
+
+  const center: [number, number] = [
+    trip.details.features[0].geometry.coordinates[1],
+    trip.details.features[0].geometry.coordinates[0],
   ];
-
-  const markers = stops.map((stop) => (
-    <Marker
-      key={stop.id}
-      position={[stop.lat, stop.lng]}
-      icon={poiMarker}
-    ></Marker>
-  ));
-
-  const center: [number, number] = [stops[0].lat, stops[1].lng];
 
   const gotPois = useQuery('pois', ApiClient.getPois);
   const gotRoute = useQuery('route', ApiClient.getRoute);
