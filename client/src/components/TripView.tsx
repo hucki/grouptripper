@@ -15,7 +15,6 @@ export default function TripView(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
 
   const trip = data;
-  console.log(data);
   const stopCards = trip?.stops.map((stop: string, index: number) => (
     <div
       key={stop}
