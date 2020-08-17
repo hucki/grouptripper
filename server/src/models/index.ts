@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 
-const uri = process.env.mongo_uri || 'mongodb://localhost/group_tripper';
+const DB_HOST = process.env.DB_HOSTL || 'mongodb://localhost';
+const DB_PORT = process.env.DB_PORT || 27017;
+const DB_NAME = process.env.DB_NAME || 'grouptripper';
 
-mongoose.connect(uri, {
+mongoose.connect(`${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
@@ -14,4 +16,4 @@ connection.once('open', () => {
   console.log('successfully connected mongodb');
 });
 
-module.exports = mongoose;
+export default mongoose;

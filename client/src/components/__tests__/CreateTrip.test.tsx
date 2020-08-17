@@ -4,24 +4,11 @@ import user from '@testing-library/user-event';
 import { server, rest } from './../../test/server/test-server';
 import faker from 'faker';
 import dayjs from 'dayjs';
+import { buildTrip } from './../../test/utils/generate';
 
 import CreateTrip from '../CreateTrip';
 
 const apiUrl = process.env.REACT_APP_API_URL;
-
-function buildTrip() {
-  return {
-    name: faker.lorem.words(),
-    country: faker.address.country(),
-    startDate: transformTimestampToDate(faker.date.future()),
-    endDate: transformTimestampToDate(faker.date.future()),
-    stops: [faker.address.city(), faker.address.city()],
-  };
-}
-
-function transformTimestampToDate(timestamp: Date): Date {
-  return new Date(dayjs().format('YYYY-MM-DD'));
-}
 
 function formatDateForInput(date: Date): string {
   return dayjs(date).format('YYYY-MM-DD');

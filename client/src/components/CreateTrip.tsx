@@ -11,14 +11,7 @@ import {
 import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
-
-type Trip = {
-  name: string;
-  country: string;
-  startDate: Date;
-  endDate: Date;
-  stops: string[];
-};
+import { Trip } from './../types/Trip';
 
 type TripInput = {
   name: string;
