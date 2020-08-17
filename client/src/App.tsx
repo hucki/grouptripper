@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useParams,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
 import TripList from './components/TripList';
+import TripView from './components/TripView';
 
 function App(): JSX.Element {
   return (
@@ -19,7 +15,7 @@ function App(): JSX.Element {
             <CreateTrip />
           </Route>
           <Route path="/trips/:id">
-            <PlaceholderTrip />
+            <TripView />
           </Route>
           <Route path="/">
             <div>Here's a list of trips</div>
@@ -29,11 +25,6 @@ function App(): JSX.Element {
       </div>
     </Router>
   );
-}
-
-function PlaceholderTrip(): JSX.Element {
-  const { id } = useParams();
-  return <div>Page for trip id {id}</div>;
 }
 
 export default App;

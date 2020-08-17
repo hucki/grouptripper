@@ -1,18 +1,21 @@
 import React from 'react';
 import MapContainer from './MapContainer';
+import { Trip } from '../types/Trip';
+import { useParams } from 'react-router-dom';
+import { client } from '../services/ApiClient';
+import { useQuery } from 'react-query';
 
-// TODO: move type to central types
-type Trip = {
-  name: string;
-  country: string;
-  startDate: Date;
-  endDate: Date;
-  stops: string[];
-};
+export default function TripView(): JSX.Element {
+  const { id } = useParams();
+  const { isLoading, error, data } = useQuery('trip', () =>
+    client<Trip>(`trips/${id}`)
+  );
 
-export default function Trip({ ...props }): JSX.Element {
-  const { trip } = props;
-  const stopCards = trip.stops.map((stop: string, index: number) => (
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error getting trips: {error}</div>;
+
+  const trip = data;
+  const stopCards = trip?.stops.map((stop: string, index: number) => (
     <div
       key={stop}
       className="self-center justify-center overflow-hidden rounded shadow-lg"
@@ -27,9 +30,7 @@ export default function Trip({ ...props }): JSX.Element {
           Day {index + 1}: {stop}
         </div>
         <p className="text-base text-gray-700">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
-          quia, nulla! Maiores et perferendis eaque, exercitationem praesentium
-          nihil.
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
         </p>
       </div>
     </div>
