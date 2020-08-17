@@ -23,9 +23,16 @@ export type Stop = {
   };
   properties: {
     name: string;
+    label: string;
     description: string;
-    upvotes: number;
-    downvotes: number;
+    upvotes: {
+      type: number;
+      default: 0;
+    };
+    downvotes: {
+      type: number;
+      default: 0;
+    };
   };
 };
 
@@ -50,6 +57,7 @@ const stopSchema = new mongoose.Schema({
   },
   properties: {
     name: String,
+    label: String,
     description: String,
     upvotes: Number,
     downvotes: Number,
