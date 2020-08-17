@@ -6,7 +6,9 @@
   "scripts": {
     "build:client": "cd client && npm run build",
     "build:server": "cd server && npm run build",
-    "test": "cd client && npm run test:coverage",
+    "test:client": "cd client && npm run test:coverage",
+    "test:server": "cd server && npm run test:coverage",
+    "test": "npm run test:client && npm run test:server",
     "postinstall": "(cd server && npm install); (cd client && npm install)"
   },
   "repository": {

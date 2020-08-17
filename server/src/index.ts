@@ -1,14 +1,11 @@
 import express from 'express';
-const cors = require('cors');
-const morgan = require('morgan');
-
-const dotenv = require('dotenv');
-
-const tripsRouter = require('./router.ts');
+import cors from 'cors';
+import morgan from 'morgan';
+import dotenv from 'dotenv';
+import tripsRouter from './router';
+dotenv.config();
 
 const port = process.env.PORT || 3001;
-
-dotenv.config();
 
 const app: express.Application = express();
 app.use(cors());
