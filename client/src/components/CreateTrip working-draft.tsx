@@ -12,21 +12,18 @@ import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
-import AutoComplete from './AutoComplete';
 
 type TripInput = {
   name: string;
   country: string;
   startDate: string;
   endDate: string;
-  currentStop: Stop;
-  stops: Stop[];
-};
-
-type Stop = {
-  name?: string;
-  coordinates?: number[];
-  label?: string;
+  stopDetails: {
+    currentStop: string;
+    stops: string[];
+  };
+  currentStop: string;
+  stops: string[];
 };
 
 function transformTrip(tripInput: TripInput): Trip {
@@ -35,8 +32,7 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
-    // TODO fix this
-    stops: ['needs filling out'],
+    stops: tripInput.stops,
     details: {
       type: 'FeatureCollection',
       features: tripInput.stops.map((stop) => {
@@ -66,14 +62,18 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
-  // stops: Yup.array().of(Yup.string()),
+  stopDetails: Yup.object({
+    currentStop: Yup.string(),
+    stops: Yup.array().of(Yup.string()),
+  }),
+  currentStop: Yup.string(),
+  stops: Yup.array().of(Yup.string()),
 });
 
 export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
-  const [autocomplateValue, setAutocompleteValue] = useState(null);
 
   const formPages = [FormFirstPage, FormSecondPage];
 
@@ -92,7 +92,11 @@ export default function CreateTrip(): JSX.Element {
           country: '',
           startDate: '',
           endDate: '',
-          currentStop: {},
+          stopDetails: {
+            currentStop: '',
+            stops: new Array(0),
+          },
+          currentStop: '',
           stops: new Array(0),
         }}
         validationSchema={validationSchema}
@@ -103,8 +107,7 @@ export default function CreateTrip(): JSX.Element {
           setServerError('');
           const newTrip = transformTrip(values);
           try {
-            console.log(values);
-            // await client('trips', { data: newTrip });
+            await client('trips', { data: newTrip });
             setSubmitting(false);
             setRedirect(true);
           } catch (error) {
@@ -167,6 +170,18 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
   );
 }
 
+function QueryInput({ label, ...props }: InputProps): JSX.Element {
+  const [field, meta] = useField(props);
+
+  return (
+    <div className="flex flex-row items-center my-3 space-x-2">
+      <label htmlFor={props.name}>{label}</label>
+      <Field {...field} {...props} className="p-3 border border-gray-500" />
+      {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
+    </div>
+  );
+}
+
 function FormFirstPage(): JSX.Element {
   return (
     <>
@@ -189,22 +204,32 @@ function FormSecondPage({
 }: FormikProps<TripInput>): JSX.Element {
   return (
     <>
-      <AutoComplete name="currentStop" />
-      <FieldArray name="stops">
+      <QueryInput
+        name="stopDetails.currentStop"
+        id="stopDetails.currentStop"
+        label="Find a stop"
+      />
+      <FieldArray name="stopDetails.stops">
         {({ push }): JSX.Element => (
           <>
+            <h3 className="text-2xl font-bold">Stops</h3>
             {values.stops.map(
               (stop, index): JSX.Element => (
-                <div id={`stops.${index}`} key={`stops.${index}`}>
-                  {stop.label}
-                </div>
+                <>
+                  <TextInput
+                    name={`stopDetails.stops.${index}`}
+                    id={`stopDetails.stops.${index}`}
+                    label={`Stop ${index + 1}`}
+                    key={`stopDetails.stops.${index}`}
+                  />
+                </>
               )
             )}
             <button
               type="button"
               onClick={(): void => {
-                push(values.currentStop);
-                setFieldValue('currentStop', {});
+                push(values.stopDetails.currentStop);
+                setFieldValue('stopDetails.currentStop', '');
               }}
               className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
             >

@@ -1,58 +1,7 @@
 import React, { useState } from 'react';
 import { useCombobox } from 'downshift';
-import { Formik, useField, useFormik, Field } from 'formik';
+import { useField } from 'formik';
 import { useQuery } from 'react-query';
-
-export default function StopFinder() {
-  const [selectedItem, setSelectedItem] = useState(null);
-  function handleSelectedItemChange({ selectedItem }) {
-    setSelectedItem(selectedItem);
-  }
-
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      stop: null,
-    },
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
-    },
-  });
-
-  return (
-    <>
-      <Formik
-        initialValues={{
-          name: '',
-          stop: null,
-        }}
-        onSubmit={(values) => {
-          console.log(JSON.stringify(values, null, 2));
-        }}
-      >
-        {(formik) => (
-          <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              name="name"
-              onChange={formik.handleChange}
-              value={formik.values.name}
-              type="text"
-            />
-            <ControlledAutocomplete
-              id="stop"
-              name="stop"
-              // setFieldValue={formik.setFieldValue}
-              // value={formik.values.stop}
-            />
-            <button type="submit">Submit</button>
-          </form>
-        )}
-      </Formik>
-    </>
-  );
-}
 
 function fetchAutocomplete(key, queryText) {
   const apiKey = process.env.REACT_APP_ROUTING_API_KEY;
@@ -74,13 +23,11 @@ function fetchAutocomplete(key, queryText) {
     });
 }
 
-function ControlledAutocomplete({ name }) {
+export default function ControlledAutocomplete({ name }) {
   const [field, meta, helpers] = useField(name);
   const { value } = meta;
   const { setValue } = helpers;
-
   const [queryText, setQueryText] = useState('');
-
   const { isLoading, data } = useQuery(
     ['findStop', queryText],
     fetchAutocomplete
@@ -93,6 +40,7 @@ function ControlledAutocomplete({ name }) {
   }
   function handleSelectedItemChange({ selectedItem }) {
     setValue(selectedItem);
+    setQueryText(selectedItem.label);
   }
   return (
     <>
