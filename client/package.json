@@ -18,6 +18,7 @@
     "dayjs": "^1.8.33",
     "downshift": "^6.0.5",
     "formik": "^2.1.5",
+    "geolib": "^3.3.1",
     "leaflet": "^1.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

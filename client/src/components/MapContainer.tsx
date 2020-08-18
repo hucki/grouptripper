@@ -1,11 +1,12 @@
 import React from 'react';
-import { Map, TileLayer, Marker, GeoJSON } from 'react-leaflet';
-import L, { LatLngTuple } from 'leaflet';
+import { Map, TileLayer, GeoJSON } from 'react-leaflet';
+import L, { LatLngTuple, LatLngBoundsLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useQuery } from 'react-query';
 import ApiClient from '../services/ApiClient';
 import gtmarker from '../assets/gtmarker.png';
-import { Trip } from '../types/Trip';
+import * as geolib from 'geolib';
+import { StopCollection } from '../types/Stop';
 
 const poiMarker = new L.Icon({
   iconUrl: gtmarker,
@@ -13,19 +14,28 @@ const poiMarker = new L.Icon({
   iconAnchor: [16, 45],
 });
 
-function getAllCoordinates(trip: Trip): number[][] {
-  // const allCoordinates = trip.details.features.map((feature) => {
-  //   if (feature.geometry) {
-  //     return feature.geometry.coordinates;
-  //   }
-  // });
-  return [
-    //lonLat coming from GeoJSON
-    [-74.0059731, 40.7143528], //New York
-    [-87.6297982, 41.8781136], //Chicago
-    [-84.3879824, 33.7489954], //Atlanta
-  ];
+type GeolibBounds = {
+  maxLat: number;
+  minLat: number;
+  maxLng: number;
+  minLng: number;
+};
+
+function getAllCoordinates(stops: StopCollection): LatLngTuple[] {
+  const allCoordinates: LatLngTuple[] = stops.features.map((feature) => {
+    return [feature.geometry.coordinates[0], feature.geometry.coordinates[1]];
+  });
+  return allCoordinates;
 }
+
+function getBounds(coordinates: LatLngTuple[]): LatLngBoundsLiteral {
+  const bounds: GeolibBounds = geolib.getBounds(coordinates);
+  const latLngBounds: LatLngBoundsLiteral = [];
+  latLngBounds[0] = [bounds.maxLat, bounds.maxLng];
+  latLngBounds[1] = [bounds.minLat, bounds.minLng];
+  return latLngBounds;
+}
+
 function centerOfGravity(coordinates: number[][]): LatLngTuple {
   const weight = new Array(coordinates.length).fill(1);
   const totalWeight = weight.reduce((acc, cur) => (acc = acc + cur));
@@ -81,47 +91,17 @@ export default function MapContainer({ ...props }): JSX.Element {
       />
     )
   );
-
-  const center = centerOfGravity(getAllCoordinates(trip));
-  // const zoom = () => {};
-
-  // const center: [number, number] = trip.details.features[0].geometry
-  //   ? [
-  //       trip.details.features[0].geometry.coordinates[1],
-  //       trip.details.features[0].geometry.coordinates[0],
-  //     ]
-  //   : [51.507113101069415, -0.10449886322021484];
-
-  interface PoiContainer {
-    [key: number]: GeoJSON.Feature;
-  }
-
-  const poiContainer: PoiContainer = {};
-  const pois = gotPois.data?.features.map((poi: GeoJSON.Feature) => {
-    if (poiContainer[poi.properties?.osm_id]) return null;
-    else {
-      poiContainer[poi.properties?.osm_id] = poi;
-      return (
-        <GeoJSON
-          data={poi}
-          key={poi.properties?.osm_id}
-          pointToLayer={(feature, latlng): L.Marker =>
-            L.marker(latlng, { icon: poiMarker })
-          }
-        />
-      );
-    }
-  });
-
-  const routeDirections = gotRoute.data?.features.map(
-    (feature: GeoJSON.Feature, index: number) => {
-      return <GeoJSON data={feature} key={index} />;
-    }
+  const bounds: LatLngBoundsLiteral = getBounds(
+    getAllCoordinates(trip.details)
   );
+  const center = centerOfGravity(getAllCoordinates(trip.details));
+
   return (
     <>
       <Map
         center={center}
+        useFlyTo={true}
+        bounds={bounds}
         zoom={13}
         className="container w-full h-full mx-auto"
       >
@@ -129,9 +109,7 @@ export default function MapContainer({ ...props }): JSX.Element {
           attribution='Map tiles by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
           url="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
         />
-        {routeDirections}
         {markers}
-        {pois}
       </Map>
     </>
   );
