@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCombobox } from 'downshift';
+import { useCombobox, UseComboboxStateChange } from 'downshift';
 import { useField } from 'formik';
 import { useQuery } from 'react-query';
 import { Stop } from './../types/Trip';
@@ -34,24 +34,26 @@ type ControlledAutocompleteProps = {
 
 export default function ControlledAutocomplete({
   name,
-}: ControlledAutocompleteProps) {
-  const [field, meta, helpers] = useField(name);
+}: ControlledAutocompleteProps): JSX.Element {
+  const [, meta, helpers] = useField(name);
   const { value } = meta;
   const { setValue } = helpers;
   const [queryText, setQueryText] = useState('');
-  const { isLoading, data } = useQuery(
-    ['findStop', queryText],
-    fetchAutocomplete
-  );
+  const { data } = useQuery(['findStop', queryText], fetchAutocomplete);
 
   const inputItems = data || [];
 
-  function handleInputValueChange({ inputValue }: { inputValue: string }) {
-    setQueryText(inputValue);
+  function handleInputValueChange({
+    inputValue,
+  }: UseComboboxStateChange<Stop>): void {
+    setQueryText(inputValue || '');
   }
-  function handleSelectedItemChange({ selectedItem }: { selectedItem: Stop }) {
+
+  function handleSelectedItemChange({
+    selectedItem,
+  }: UseComboboxStateChange<Stop>): void {
     setValue(selectedItem);
-    setQueryText(selectedItem.properties.label);
+    setQueryText(selectedItem ? selectedItem.properties.label : '');
   }
   return (
     <>
@@ -60,7 +62,7 @@ export default function ControlledAutocomplete({
         selectedItem={value}
         onSelectedItemChange={handleSelectedItemChange}
         inputValue={queryText}
-        handleInputValueChange={handleInputValueChange}
+        onInputValueChange={handleInputValueChange}
       />
     </>
   );
@@ -69,9 +71,9 @@ export default function ControlledAutocomplete({
 type DropdownComboboxProps = {
   items: Stop[];
   selectedItem: Stop;
-  onSelectedItemChange: (changeObject: any) => void;
+  onSelectedItemChange: (changes: UseComboboxStateChange<Stop>) => void;
   inputValue: string;
-  handleInputValueChange: (changeObject: any) => void;
+  onInputValueChange: (changeObject: UseComboboxStateChange<Stop>) => void;
 };
 
 function DropdownCombobox({
@@ -79,9 +81,9 @@ function DropdownCombobox({
   selectedItem,
   onSelectedItemChange,
   inputValue,
-  handleInputValueChange,
-}: DropdownComboboxProps) {
-  const itemToString = (item: Stop | null) =>
+  onInputValueChange,
+}: DropdownComboboxProps): JSX.Element {
+  const itemToString: (item: Stop | null) => string = (item: Stop | null) =>
     item ? item.properties.label : '' || '';
 
   const {
@@ -97,7 +99,7 @@ function DropdownCombobox({
     itemToString,
     selectedItem,
     onSelectedItemChange,
-    onInputValueChange: handleInputValueChange,
+    onInputValueChange: onInputValueChange,
     inputValue,
   });
 
