@@ -36,37 +36,6 @@ function getBounds(coordinates: LatLngTuple[]): LatLngBoundsLiteral {
   return latLngBounds;
 }
 
-function centerOfGravity(coordinates: number[][]): LatLngTuple {
-  const weight = new Array(coordinates.length).fill(1);
-  const totalWeight = weight.reduce((acc, cur) => (acc = acc + cur));
-
-  const combinedCartesianCoordinates = coordinates.reduce(
-    (acc, cur, index, arr) => {
-      const lat = (cur[1] * Math.PI) / 180; //convert to radians
-      const lon = (cur[0] * Math.PI) / 180; //convert to radians
-      const x = Math.cos(lat) * Math.cos(lon) * weight[index];
-      const y = Math.cos(lat) * Math.sin(lon) * weight[index];
-      const z = Math.sin(lat) * weight[index];
-      return [acc[0] + x, acc[1] + y, acc[2] + z];
-    },
-    [0, 0, 0]
-  );
-  const midpointX = combinedCartesianCoordinates[0] / totalWeight;
-  const midpointY = combinedCartesianCoordinates[1] / totalWeight;
-  const midpointZ = combinedCartesianCoordinates[2] / totalWeight;
-
-  const midpointLat = Math.atan2(midpointY, midpointX);
-  const midpointHyp = Math.sqrt(midpointX * midpointX + midpointY * midpointY);
-  const midpointLon = Math.atan2(midpointZ, midpointHyp);
-
-  // switching lat/lon again
-  const latLonDegrees: LatLngTuple = [
-    midpointLon * (180 / Math.PI),
-    midpointLat * (180 / Math.PI),
-  ];
-  return latLonDegrees;
-}
-
 export default function MapContainer({ ...props }): JSX.Element {
   const { trip } = props;
 
@@ -91,10 +60,13 @@ export default function MapContainer({ ...props }): JSX.Element {
       />
     )
   );
-  const bounds: LatLngBoundsLiteral = getBounds(
-    getAllCoordinates(trip.details)
-  );
-  const center = centerOfGravity(getAllCoordinates(trip.details));
+  const allCoordinates = getAllCoordinates(trip.details);
+  const bounds: LatLngBoundsLiteral = getBounds(allCoordinates);
+  const centerOfBounds = geolib.getCenterOfBounds(allCoordinates);
+  const center: LatLngTuple = [
+    centerOfBounds.longitude,
+    centerOfBounds.latitude,
+  ];
 
   return (
     <>

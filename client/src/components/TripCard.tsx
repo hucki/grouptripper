@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 
 export default function TripCard({ ...props }): JSX.Element {
   const { trip } = props;
+
   return (
     <div className="flex flex-row justify-center w-full mb-4 lg:max-w-full lg:flex">
       <div className="flex flex-col">
@@ -19,9 +20,12 @@ export default function TripCard({ ...props }): JSX.Element {
               <span>Planning finished</span>
             </p>
             <div className="flex flex-row justify-center">
-              <div className="flex flex-wrap flex-shrink-0 m-4">
+              <div
+                className="flex flex-wrap flex-shrink-0 m-4"
+                style={{ height: '100px', width: '100px' }}
+              >
                 <img
-                  src="https://source.unsplash.com/random/100x100"
+                  src={`https://source.unsplash.com/featured/100x100/?${trip?.details.features[0].properties.name}`}
                   alt="..."
                   className="h-auto max-w-full align-middle border-none rounded-full shadow-lg"
                 />
