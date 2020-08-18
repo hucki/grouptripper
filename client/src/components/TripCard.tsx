@@ -3,9 +3,8 @@ import dayjs from 'dayjs';
 
 export default function TripCard({ ...props }): JSX.Element {
   const { trip } = props;
-  console.log(trip);
   return (
-    <div className="flex flex-row justify-center w-full lg:max-w-full lg:flex">
+    <div className="flex flex-row justify-center w-full mb-4 lg:max-w-full lg:flex">
       <div className="flex flex-col">
         <div className="flex flex-col justify-between p-4 leading-normal bg-white border border-teal-400 rounded-b lg:rounded-b-none lg:rounded-r">
           <div>
@@ -17,7 +16,7 @@ export default function TripCard({ ...props }): JSX.Element {
               >
                 <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
               </svg>
-              Planning finished
+              <span>Planning finished</span>
             </p>
             <div className="flex flex-row justify-center">
               <div className="flex flex-wrap flex-shrink-0 m-4">
@@ -28,9 +27,9 @@ export default function TripCard({ ...props }): JSX.Element {
                 />
               </div>
               <div className="flex flex-col">
-                <div className="mb-2 text-4xl font-bold text-teal-900">
+                <h3 className="mb-2 text-4xl font-bold text-teal-900">
                   {trip.name}
-                </div>
+                </h3>
                 <div className="flex items-center">
                   <div className="text-sm">
                     <p className="font-bold leading-none text-teal-900">

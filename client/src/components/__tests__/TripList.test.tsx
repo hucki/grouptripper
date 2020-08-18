@@ -37,8 +37,9 @@ test('displays a list of trips', async () => {
   await waitForElementToBeRemoved(() => screen.getByText(/loading/i));
 
   trips.forEach((trip) => {
-    expect(screen.getByRole('link', { name: trip.name })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: trip.name })).toHaveAttribute(
+    const searchName = new RegExp(trip.name);
+    expect(screen.getByRole('link', { name: searchName })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: searchName })).toHaveAttribute(
       'href',
       `/trips/${trip._id}`
     );
