@@ -15,11 +15,22 @@ function fetchAutocomplete(key, queryText) {
     )
     .then(async (res) => {
       const data = await res.json();
-      return data.features.map((item) => ({
-        coordinates: item?.geometry?.coordinates,
-        name: item?.properties?.name,
-        label: item?.properties?.label,
-      }));
+      return data.features.map((item) => {
+        console.log('original format', item);
+        const {
+          type,
+          geometry,
+          properties: { name, label },
+        } = item;
+        const formatted = { type, geometry, properties: { name, label } };
+        console.log('new format', formatted);
+        return formatted;
+        return {
+          coordinates: item?.geometry?.coordinates,
+          name: item?.properties?.name,
+          label: item?.properties?.label,
+        };
+      });
     });
 }
 
@@ -62,7 +73,7 @@ function DropdownCombobox({
   inputValue,
   handleInputValueChange,
 }) {
-  const itemToString = (item) => (item ? item.label : '');
+  const itemToString = (item) => (item ? item?.properties?.label : '' || '');
 
   const {
     isOpen,

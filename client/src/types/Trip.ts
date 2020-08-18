@@ -4,6 +4,22 @@ export type Trip = {
   country: string;
   startDate: Date;
   endDate: Date;
-  stops: string[];
+  stops?: string[];
   details: GeoJSON.FeatureCollection;
+};
+
+export type TripNew = {
+  _id?: string;
+  name: string;
+  country: string;
+  startDate: Date;
+  endDate: Date;
+  stops?: Stop[];
+  stopsCollection: GeoJSON.FeatureCollection;
+};
+
+export type Stop = {
+  type: string;
+  geometry: { type: string; coordinates: number[] };
+  properties: { name: string; label: string };
 };

@@ -11,7 +11,7 @@ import {
 import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
-import { Trip } from './../types/Trip';
+import { Trip, TripNew, Stop } from './../types/Trip';
 import AutoComplete from './AutoComplete';
 
 type TripInput = {
@@ -19,14 +19,8 @@ type TripInput = {
   country: string;
   startDate: string;
   endDate: string;
-  currentStop: Stop;
+  currentStop: Stop | null;
   stops: Stop[];
-};
-
-type Stop = {
-  name?: string;
-  coordinates?: number[];
-  label?: string;
 };
 
 function transformTrip(tripInput: TripInput): Trip {
@@ -35,23 +29,21 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
-    // TODO fix this
-    stops: ['needs filling out'],
     details: {
       type: 'FeatureCollection',
       features: tripInput.stops.map((stop) => {
         return {
-          type: 'Feature',
+          type: 'Feature' as const,
           properties: {
-            name: stop,
-            label: stop,
+            name: stop.properties?.name,
+            label: stop.properties?.label,
             description: '',
             upvotes: 0,
             downvotes: 0,
           },
           geometry: {
-            type: 'Point',
-            coordinates: [-0.10449886322021484, 51.507113101069415],
+            type: 'Point' as const,
+            coordinates: stop.geometry.coordinates,
           },
         };
       }),
@@ -92,7 +84,7 @@ export default function CreateTrip(): JSX.Element {
           country: '',
           startDate: '',
           endDate: '',
-          currentStop: {},
+          currentStop: null,
           stops: new Array(0),
         }}
         validationSchema={validationSchema}
@@ -103,8 +95,8 @@ export default function CreateTrip(): JSX.Element {
           setServerError('');
           const newTrip = transformTrip(values);
           try {
-            console.log(values);
-            // await client('trips', { data: newTrip });
+            // console.log(values);
+            await client('trips', { data: newTrip });
             setSubmitting(false);
             setRedirect(true);
           } catch (error) {
@@ -196,15 +188,16 @@ function FormSecondPage({
             {values.stops.map(
               (stop, index): JSX.Element => (
                 <div id={`stops.${index}`} key={`stops.${index}`}>
-                  {stop.label}
+                  {stop?.properties?.label}
                 </div>
               )
             )}
             <button
               type="button"
               onClick={(): void => {
-                push(values.currentStop);
-                setFieldValue('currentStop', {});
+                if (values.currentStop) {
+                  push(values.currentStop);
+                }
               }}
               className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
             >
