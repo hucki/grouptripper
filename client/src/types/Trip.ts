@@ -8,16 +8,6 @@ export type Trip = {
   details: GeoJSON.FeatureCollection;
 };
 
-export type TripNew = {
-  _id?: string;
-  name: string;
-  country: string;
-  startDate: Date;
-  endDate: Date;
-  stops?: Stop[];
-  stopsCollection: GeoJSON.FeatureCollection;
-};
-
 export type Stop = {
   type: string;
   geometry: { type: string; coordinates: number[] };
