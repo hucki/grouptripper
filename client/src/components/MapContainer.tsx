@@ -14,6 +14,11 @@ const poiMarker = new L.Icon({
 });
 
 function getAllCoordinates(trip: Trip): number[][] {
+  // const allCoordinates = trip.details.features.map((feature) => {
+  //   if (feature.geometry) {
+  //     return feature.geometry.coordinates;
+  //   }
+  // });
   return [
     //lonLat coming from GeoJSON
     [-74.0059731, 40.7143528], //New York
@@ -22,21 +27,13 @@ function getAllCoordinates(trip: Trip): number[][] {
   ];
 }
 function centerOfGravity(coordinates: number[][]): LatLngTuple {
-  const weight = [1095.75, 730.5, 365.25];
+  const weight = new Array(coordinates.length).fill(1);
   const totalWeight = weight.reduce((acc, cur) => (acc = acc + cur));
-  // const cartesianCoordinates = coordinates.map((cur) => {
-  //   const lat = (cur[1] * Math.PI) / 180; //convert to radians
-  //   const lon = (cur[0] * Math.PI) / 180; //convert to radians;
-  //   const x = Math.cos(lat) * Math.cos(lon);
-  //   const y = Math.cos(lat) * Math.sin(lon);
-  //   const z = Math.sin(lat);
-  //   return [x, y, z];
-  // });
 
   const combinedCartesianCoordinates = coordinates.reduce(
     (acc, cur, index, arr) => {
       const lat = (cur[1] * Math.PI) / 180; //convert to radians
-      const lon = (cur[0] * Math.PI) / 180; //convert to radians;
+      const lon = (cur[0] * Math.PI) / 180; //convert to radians
       const x = Math.cos(lat) * Math.cos(lon) * weight[index];
       const y = Math.cos(lat) * Math.sin(lon) * weight[index];
       const z = Math.sin(lat) * weight[index];
@@ -51,6 +48,8 @@ function centerOfGravity(coordinates: number[][]): LatLngTuple {
   const midpointLat = Math.atan2(midpointY, midpointX);
   const midpointHyp = Math.sqrt(midpointX * midpointX + midpointY * midpointY);
   const midpointLon = Math.atan2(midpointZ, midpointHyp);
+
+  // switching lat/lon again
   const latLonDegrees: LatLngTuple = [
     midpointLon * (180 / Math.PI),
     midpointLat * (180 / Math.PI),
