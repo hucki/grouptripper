@@ -11,7 +11,8 @@ import {
 import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
-import { Trip, Stop } from './../types/Trip';
+import { Trip } from './../types/Trip';
+import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
 
 type TripInput = {

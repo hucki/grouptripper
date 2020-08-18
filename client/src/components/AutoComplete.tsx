@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCombobox, UseComboboxStateChange } from 'downshift';
 import { useField } from 'formik';
 import { useQuery } from 'react-query';
-import { Stop } from './../types/Trip';
+import { Stop } from './../types/Stop';
 
 function fetchAutocomplete(key: string, queryText: string): Promise<Stop[]> {
   const apiKey = process.env.REACT_APP_ROUTING_API_KEY;
