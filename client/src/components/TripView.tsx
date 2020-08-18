@@ -4,7 +4,7 @@ import { Trip } from '../types/Trip';
 import { useParams } from 'react-router-dom';
 import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
-import dayjs from 'dayjs';
+import TripCard from './TripCard';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -56,26 +56,7 @@ export default function TripView(): JSX.Element {
 
   return (
     <>
-      <div className="flex flex-row">
-        <div className="flex flex-wrap m-4">
-          <img
-            src="https://source.unsplash.com/random/100x100"
-            alt="..."
-            className="h-auto max-w-full align-middle border-none rounded-full shadow-lg"
-          />
-        </div>
-        <div className="flex flex-col justify-center">
-          <div>
-            <h3 className="mt-0 mb-2 text-4xl font-normal leading-normal text-teal-800">
-              {trip?.name}
-            </h3>
-          </div>
-          <div>
-            {dayjs(trip?.startDate).format('DD.MM.YYYY')} -{' '}
-            {dayjs(trip?.endDate).format('DD.MM.YYYY')}
-          </div>
-        </div>
-      </div>
+      <TripCard trip={trip} />
       <div className="grid content-center grid-cols-2 gap-4 m-4">
         <Timeline />
         <MapContainer trip={trip} />
