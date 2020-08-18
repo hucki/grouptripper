@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const Auth0 = () => {
+const Auth0 = () => { //eslint-disable-line
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   if (isAuthenticated)
@@ -9,7 +9,7 @@ const Auth0 = () => {
       <button
         className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
         style={{ transition: 'all .15s ease' }}
-        onClick={() => logout({ returnTo: window.location.origin })}
+        onClick={() => logout({ returnTo: window.location.origin })} //eslint-disable-line
       >
         Log Out
       </button>
@@ -19,7 +19,7 @@ const Auth0 = () => {
       <button
         className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
         style={{ transition: 'all .15s ease' }}
-        onClick={() => loginWithRedirect()}
+        onClick={() => loginWithRedirect()} //eslint-disable-line
       >
         Log In
       </button>
