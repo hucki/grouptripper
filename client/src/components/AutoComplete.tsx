@@ -30,10 +30,12 @@ function fetchAutocomplete(key: string, queryText: string): Promise<Stop[]> {
 
 type ControlledAutocompleteProps = {
   name: string;
+  onAddClick: () => void;
 };
 
 export default function ControlledAutocomplete({
   name,
+  onAddClick,
 }: ControlledAutocompleteProps): JSX.Element {
   const [, meta, helpers] = useField(name);
   const { value } = meta;
@@ -63,6 +65,7 @@ export default function ControlledAutocomplete({
         onSelectedItemChange={handleSelectedItemChange}
         inputValue={queryText}
         onInputValueChange={handleInputValueChange}
+        onAddClick={onAddClick}
       />
     </>
   );
@@ -74,6 +77,7 @@ type DropdownComboboxProps = {
   onSelectedItemChange: (changes: UseComboboxStateChange<Stop>) => void;
   inputValue: string;
   onInputValueChange: (changes: UseComboboxStateChange<Stop>) => void;
+  onAddClick: () => void;
 };
 
 function DropdownCombobox({
@@ -82,6 +86,7 @@ function DropdownCombobox({
   onSelectedItemChange,
   inputValue,
   onInputValueChange,
+  onAddClick,
 }: DropdownComboboxProps): JSX.Element {
   const itemToString: (item: Stop | null) => string = (item: Stop | null) =>
     item ? item.properties.label : '' || '';
@@ -104,12 +109,24 @@ function DropdownCombobox({
   });
 
   return (
-    <div>
+    <div className="flex flex-col w-full h-64 my-3 space-y-2">
       <label {...getLabelProps()}>Add a stop:</label>
-      <div {...getComboboxProps()}>
-        <input {...getInputProps()} className="p-1 border border-gray-700" />
+      <div {...getComboboxProps()} className="flex flex-row space-x-4">
+        <input
+          {...getInputProps()}
+          className="flex-grow p-3 border border-gray-500 rounded"
+        />
+        <button
+          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl bg-teal-500 rounded-full"
+          onClick={onAddClick}
+        >
+          +
+        </button>
       </div>
-      <ul {...getMenuProps()}>
+      <ul
+        {...getMenuProps()}
+        className="flex flex-col flex-grow overflow-y-auto"
+      >
         {isOpen &&
           items.map((item, index) => (
             <li
@@ -118,6 +135,7 @@ function DropdownCombobox({
               }
               key={`${item.properties.name}-${index}`}
               {...getItemProps({ item, index })}
+              className="p-2"
             >
               {itemToString(item)}
             </li>
