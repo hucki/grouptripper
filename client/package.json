@@ -15,6 +15,7 @@
     "@types/react-router-dom": "^5.1.5",
     "chokidar-cli": "^2.1.0",
     "dayjs": "^1.8.33",
+    "downshift": "^6.0.5",
     "formik": "^2.1.5",
     "leaflet": "^1.6.0",
     "react": "^16.13.1",
