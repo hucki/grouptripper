@@ -11,14 +11,16 @@ import {
 import * as Yup from 'yup';
 
 import { client } from './../services/ApiClient';
-import { Trip } from './../types/Trip';
+import { Trip, Stop } from './../types/Trip';
+import AutoComplete from './AutoComplete';
 
 type TripInput = {
   name: string;
   country: string;
   startDate: string;
   endDate: string;
-  stops: string[];
+  currentStop: Stop | null;
+  stops: Stop[];
 };
 
 function transformTrip(tripInput: TripInput): Trip {
@@ -27,22 +29,21 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
-    stops: tripInput.stops,
     details: {
       type: 'FeatureCollection',
       features: tripInput.stops.map((stop) => {
         return {
-          type: 'Feature',
+          type: 'Feature' as const,
           properties: {
-            name: stop,
-            label: stop,
+            name: stop.properties?.name,
+            label: stop.properties?.label,
             description: '',
             upvotes: 0,
             downvotes: 0,
           },
           geometry: {
-            type: 'Point',
-            coordinates: [-0.10449886322021484, 51.507113101069415],
+            type: 'Point' as const,
+            coordinates: stop.geometry.coordinates,
           },
         };
       }),
@@ -57,7 +58,7 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
-  stops: Yup.array().of(Yup.string()),
+  // stops: Yup.array().of(Yup.string()),
 });
 
 export default function CreateTrip(): JSX.Element {
@@ -82,7 +83,8 @@ export default function CreateTrip(): JSX.Element {
           country: '',
           startDate: '',
           endDate: '',
-          stops: [''],
+          currentStop: null,
+          stops: new Array(0),
         }}
         validationSchema={validationSchema}
         onSubmit={async (
@@ -92,6 +94,7 @@ export default function CreateTrip(): JSX.Element {
           setServerError('');
           const newTrip = transformTrip(values);
           try {
+            // console.log(values);
             await client('trips', { data: newTrip });
             setSubmitting(false);
             setRedirect(true);
@@ -174,22 +177,24 @@ function FormFirstPage(): JSX.Element {
 function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
   return (
     <>
+      <AutoComplete name="currentStop" />
       <FieldArray name="stops">
         {({ push }): JSX.Element => (
           <>
             {values.stops.map(
               (stop, index): JSX.Element => (
-                <TextInput
-                  name={`stops.${index}`}
-                  id={`stops.${index}`}
-                  label={`Stop ${index + 1}`}
-                  key={`stops.${index}`}
-                />
+                <div id={`stops.${index}`} key={`stops.${index}`}>
+                  {stop?.properties?.label}
+                </div>
               )
             )}
             <button
               type="button"
-              onClick={(): void => push('')}
+              onClick={(): void => {
+                if (values.currentStop) {
+                  push(values.currentStop);
+                }
+              }}
               className="flex flex-row items-center justify-center p-3 bg-blue-500 disabled:bg-gray-400"
             >
               Add stop

@@ -28,7 +28,6 @@ test('trip can be created', async () => {
       expect(req.body).toHaveProperty('country');
       expect(req.body).toHaveProperty('startDate');
       expect(req.body).toHaveProperty('endDate');
-      expect(req.body).toHaveProperty('stops');
       return res(ctx.status(200), ctx.json(fakeTrip));
     })
   );
@@ -48,13 +47,13 @@ test('trip can be created', async () => {
 
   await user.click(screen.getByRole('button', { name: /next page/i }));
 
-  const stopOneInput = await screen.findByLabelText(/stop 1/i);
-  await user.type(stopOneInput, fakeTrip.stops[0]);
+  // const stopOneInput = await screen.findByLabelText(/stop 1/i);
+  // await user.type(stopOneInput, fakeTrip.stops[0]);
 
-  await user.click(screen.getByRole('button', { name: /add stop/i }));
+  // await user.click(screen.getByRole('button', { name: /add stop/i }));
 
-  const stopTwoInput = await screen.findByLabelText(/stop 2/i);
-  await user.type(stopTwoInput, fakeTrip.stops[1]);
+  // const stopTwoInput = await screen.findByLabelText(/stop 2/i);
+  // await user.type(stopTwoInput, fakeTrip.stops[1]);
 
   const submitButton = screen.getByText(/create trip/i);
   await user.click(submitButton);

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Trip } from '../models/trip.model';
+import { Trip } from '../../models/trip.model';
 
 import faker from 'faker';
 import dayjs from 'dayjs';

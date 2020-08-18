@@ -11,6 +11,7 @@ export type Trip = {
   startDate: Date;
   endDate: Date;
   stops?: string[];
+  stopsCollection?: GeoJSON.FeatureCollection;
   details?: GeoJSON.FeatureCollection;
 };
 
