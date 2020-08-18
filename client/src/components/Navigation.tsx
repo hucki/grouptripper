@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Auth0 from './Auth0';
 
 export default function Navigation(): JSX.Element {
   return (
@@ -26,6 +27,9 @@ export default function Navigation(): JSX.Element {
                 Create Trip
               </div>
             </Link>
+          </li>
+          <li>
+            <Auth0 />
           </li>
         </ul>
       </nav>
