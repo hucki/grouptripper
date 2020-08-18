@@ -1,16 +1,62 @@
 import React from 'react';
 import { Map, TileLayer, Marker, GeoJSON } from 'react-leaflet';
-import L from 'leaflet';
+import L, { LatLngTuple } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useQuery } from 'react-query';
 import ApiClient from '../services/ApiClient';
 import gtmarker from '../assets/gtmarker.png';
+import { Trip } from '../types/Trip';
 
 const poiMarker = new L.Icon({
   iconUrl: gtmarker,
   iconSize: [36, 48],
   iconAnchor: [16, 45],
 });
+
+function getAllCoordinates(trip: Trip): number[][] {
+  return [
+    //lonLat coming from GeoJSON
+    [-74.0059731, 40.7143528], //New York
+    [-87.6297982, 41.8781136], //Chicago
+    [-84.3879824, 33.7489954], //Atlanta
+  ];
+}
+function centerOfGravity(coordinates: number[][]): LatLngTuple {
+  const weight = [1095.75, 730.5, 365.25];
+  const totalWeight = weight.reduce((acc, cur) => (acc = acc + cur));
+  // const cartesianCoordinates = coordinates.map((cur) => {
+  //   const lat = (cur[1] * Math.PI) / 180; //convert to radians
+  //   const lon = (cur[0] * Math.PI) / 180; //convert to radians;
+  //   const x = Math.cos(lat) * Math.cos(lon);
+  //   const y = Math.cos(lat) * Math.sin(lon);
+  //   const z = Math.sin(lat);
+  //   return [x, y, z];
+  // });
+
+  const combinedCartesianCoordinates = coordinates.reduce(
+    (acc, cur, index, arr) => {
+      const lat = (cur[1] * Math.PI) / 180; //convert to radians
+      const lon = (cur[0] * Math.PI) / 180; //convert to radians;
+      const x = Math.cos(lat) * Math.cos(lon) * weight[index];
+      const y = Math.cos(lat) * Math.sin(lon) * weight[index];
+      const z = Math.sin(lat) * weight[index];
+      return [acc[0] + x, acc[1] + y, acc[2] + z];
+    },
+    [0, 0, 0]
+  );
+  const midpointX = combinedCartesianCoordinates[0] / totalWeight;
+  const midpointY = combinedCartesianCoordinates[1] / totalWeight;
+  const midpointZ = combinedCartesianCoordinates[2] / totalWeight;
+
+  const midpointLat = Math.atan2(midpointY, midpointX);
+  const midpointHyp = Math.sqrt(midpointX * midpointX + midpointY * midpointY);
+  const midpointLon = Math.atan2(midpointZ, midpointHyp);
+  const latLonDegrees: LatLngTuple = [
+    midpointLon * (180 / Math.PI),
+    midpointLat * (180 / Math.PI),
+  ];
+  return latLonDegrees;
+}
 
 export default function MapContainer({ ...props }): JSX.Element {
   const { trip } = props;
@@ -37,12 +83,15 @@ export default function MapContainer({ ...props }): JSX.Element {
     )
   );
 
-  const center: [number, number] = trip.details.features[0].geometry
-    ? [
-        trip.details.features[0].geometry.coordinates[1],
-        trip.details.features[0].geometry.coordinates[0],
-      ]
-    : [51.507113101069415, -0.10449886322021484];
+  const center = centerOfGravity(getAllCoordinates(trip));
+  // const zoom = () => {};
+
+  // const center: [number, number] = trip.details.features[0].geometry
+  //   ? [
+  //       trip.details.features[0].geometry.coordinates[1],
+  //       trip.details.features[0].geometry.coordinates[0],
+  //     ]
+  //   : [51.507113101069415, -0.10449886322021484];
 
   interface PoiContainer {
     [key: number]: GeoJSON.Feature;
