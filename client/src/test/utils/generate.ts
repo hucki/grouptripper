@@ -15,10 +15,14 @@ function buildTrip(overrides: Partial<Trip> = {}): Trip {
       type: 'FeatureCollection',
       features: [faker.address.city(), faker.address.city()].map((stop) => {
         return {
+          _id: faker.random.uuid(),
           type: 'Feature',
           properties: {
-            stopId: faker.random.uuid(),
             name: stop,
+            description: '',
+            label: stop,
+            upvotes: 0,
+            downvotes: 0,
           },
           geometry: {
             type: 'Point',

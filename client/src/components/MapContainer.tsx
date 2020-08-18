@@ -37,10 +37,12 @@ export default function MapContainer({ ...props }): JSX.Element {
     )
   );
 
-  const center: [number, number] = [
-    trip.details.features[0].geometry.coordinates[1],
-    trip.details.features[0].geometry.coordinates[0],
-  ];
+  const center: [number, number] = trip.details.features[0].geometry
+    ? [
+        trip.details.features[0].geometry.coordinates[1],
+        trip.details.features[0].geometry.coordinates[0],
+      ]
+    : [51.507113101069415, -0.10449886322021484];
 
   interface PoiContainer {
     [key: number]: GeoJSON.Feature;
@@ -73,7 +75,7 @@ export default function MapContainer({ ...props }): JSX.Element {
       <Map
         center={center}
         zoom={13}
-        className="container h-64 max-w-screen-lg mx-auto"
+        className="container w-full h-full mx-auto"
       >
         <TileLayer
           attribution='Map tiles by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'

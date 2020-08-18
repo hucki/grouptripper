@@ -35,6 +35,10 @@ function transformTrip(tripInput: TripInput): Trip {
           type: 'Feature',
           properties: {
             name: stop,
+            label: stop,
+            description: '',
+            upvotes: 0,
+            downvotes: 0,
           },
           geometry: {
             type: 'Point',

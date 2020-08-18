@@ -15,34 +15,51 @@ export default function TripView(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
 
   const trip = data;
-  const stopCards = trip?.stops.map((stop: string, index: number) => (
-    <div
-      key={stop}
-      className="self-center justify-center overflow-hidden rounded shadow-lg"
-    >
-      <img
-        className="max-w-full"
-        src="https://source.unsplash.com/random/500x200"
-        alt="Random unsplash"
-      />
-      <div className="px-6 py-4">
-        <div className="mb-2 text-xl font-bold">
-          Day {index + 1}: {stop}
+
+  const TimelineItem = ({ ...stop }): JSX.Element => {
+    return (
+      <li className="mb-2">
+        <div className="flex items-center flex-shrink-0 mb-1">
+          <div className="w-8 h-8 bg-gray-500 rounded-full"></div>
+          <div className="flex-1 ml-4 font-medium">
+            {stop.stop.properties.name}
+          </div>
         </div>
-        <p className="text-base text-gray-700">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
+        <div className="ml-12">
+          <p className="text-base text-gray-700">
+            {stop.stop.geometry.coordinates[0].toFixed(4)}
+          </p>
+          <p className="text-base text-gray-700">
+            {stop.stop.geometry.coordinates[1].toFixed(4)}
+          </p>
+        </div>
+      </li>
+    );
+  };
+
+  const Timeline = (): JSX.Element => {
+    return (
+      <div className="relative m-8">
+        <div
+          className="absolute top-0 h-full border-r-2 border-gray-500"
+          style={{ left: '15px' }}
+        ></div>
+        <ul className="p-0 m-0 list-none">
+          {trip?.details.features.map((stop, index) => (
+            <TimelineItem key={index} stop={stop} />
+          ))}
+        </ul>
       </div>
-    </div>
-  ));
+    );
+  };
 
   return (
     <>
       <h2 className="self-center">This is your Trip</h2>
-      <div className="grid content-center grid-cols-3 gap-4 m-4">
-        {stopCards}
+      <div className="grid content-center grid-cols-2 gap-4 m-4">
+        <Timeline />
+        <MapContainer trip={trip} />
       </div>
-      <MapContainer trip={trip} />
     </>
   );
 }
