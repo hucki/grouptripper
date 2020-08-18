@@ -174,10 +174,7 @@ function FormFirstPage(): JSX.Element {
   );
 }
 
-function FormSecondPage({
-  values,
-  setFieldValue,
-}: FormikProps<TripInput>): JSX.Element {
+function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
   return (
     <>
       <AutoComplete name="currentStop" />

@@ -73,7 +73,7 @@ type DropdownComboboxProps = {
   selectedItem: Stop;
   onSelectedItemChange: (changes: UseComboboxStateChange<Stop>) => void;
   inputValue: string;
-  onInputValueChange: (changeObject: UseComboboxStateChange<Stop>) => void;
+  onInputValueChange: (changes: UseComboboxStateChange<Stop>) => void;
 };
 
 function DropdownCombobox({
