@@ -4,7 +4,6 @@ import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
 import TripList from './components/TripList';
 import TripView from './components/TripView';
-import StopFinder from './components/StopFinder';
 
 function App(): JSX.Element {
   return (
@@ -17,9 +16,6 @@ function App(): JSX.Element {
           </Route>
           <Route path="/trips/:id">
             <TripView />
-          </Route>
-          <Route path="/autocomplete">
-            <StopFinder />
           </Route>
           <Route path="/">
             <div>Here's a list of trips</div>

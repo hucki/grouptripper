@@ -65,7 +65,6 @@ export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
-  const [autocomplateValue, setAutocompleteValue] = useState(null);
 
   const formPages = [FormFirstPage, FormSecondPage];
 

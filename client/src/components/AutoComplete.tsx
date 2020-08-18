@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useCombobox } from 'downshift';
 import { useField } from 'formik';
 import { useQuery } from 'react-query';
+import { Stop } from './../types/Trip';
 
-function fetchAutocomplete(key, queryText) {
+function fetchAutocomplete(key: string, queryText: string): Promise<Stop[]> {
   const apiKey = process.env.REACT_APP_ROUTING_API_KEY;
   if (!queryText) {
-    console.log('no query');
     return Promise.resolve([]);
   }
   return window
@@ -15,26 +15,26 @@ function fetchAutocomplete(key, queryText) {
     )
     .then(async (res) => {
       const data = await res.json();
-      return data.features.map((item) => {
-        console.log('original format', item);
+      const stops = data.features as Stop[];
+      return stops.map((item) => {
         const {
           type,
           geometry,
           properties: { name, label },
         } = item;
         const formatted = { type, geometry, properties: { name, label } };
-        console.log('new format', formatted);
         return formatted;
-        return {
-          coordinates: item?.geometry?.coordinates,
-          name: item?.properties?.name,
-          label: item?.properties?.label,
-        };
       });
     });
 }
 
-export default function ControlledAutocomplete({ name }) {
+type ControlledAutocompleteProps = {
+  name: string;
+};
+
+export default function ControlledAutocomplete({
+  name,
+}: ControlledAutocompleteProps) {
   const [field, meta, helpers] = useField(name);
   const { value } = meta;
   const { setValue } = helpers;
@@ -46,19 +46,19 @@ export default function ControlledAutocomplete({ name }) {
 
   const inputItems = data || [];
 
-  function handleInputValueChange({ inputValue }) {
+  function handleInputValueChange({ inputValue }: { inputValue: string }) {
     setQueryText(inputValue);
   }
-  function handleSelectedItemChange({ selectedItem }) {
+  function handleSelectedItemChange({ selectedItem }: { selectedItem: Stop }) {
     setValue(selectedItem);
-    setQueryText(selectedItem.label);
+    setQueryText(selectedItem.properties.label);
   }
   return (
     <>
       <DropdownCombobox
         items={inputItems}
         selectedItem={value}
-        handleSelectedItemChange={handleSelectedItemChange}
+        onSelectedItemChange={handleSelectedItemChange}
         inputValue={queryText}
         handleInputValueChange={handleInputValueChange}
       />
@@ -66,14 +66,23 @@ export default function ControlledAutocomplete({ name }) {
   );
 }
 
+type DropdownComboboxProps = {
+  items: Stop[];
+  selectedItem: Stop;
+  onSelectedItemChange: (changeObject: any) => void;
+  inputValue: string;
+  handleInputValueChange: (changeObject: any) => void;
+};
+
 function DropdownCombobox({
   items,
   selectedItem,
-  handleSelectedItemChange,
+  onSelectedItemChange,
   inputValue,
   handleInputValueChange,
-}) {
-  const itemToString = (item) => (item ? item?.properties?.label : '' || '');
+}: DropdownComboboxProps) {
+  const itemToString = (item: Stop | null) =>
+    item ? item.properties.label : '' || '';
 
   const {
     isOpen,
@@ -87,7 +96,7 @@ function DropdownCombobox({
     items,
     itemToString,
     selectedItem,
-    onSelectedItemChange: handleSelectedItemChange,
+    onSelectedItemChange,
     onInputValueChange: handleInputValueChange,
     inputValue,
   });
@@ -105,7 +114,7 @@ function DropdownCombobox({
               style={
                 highlightedIndex === index ? { backgroundColor: '#bde4ff' } : {}
               }
-              key={`${item.primary}-${index}`}
+              key={`${item.properties.name}-${index}`}
               {...getItemProps({ item, index })}
             >
               {itemToString(item)}
