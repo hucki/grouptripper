@@ -202,18 +202,35 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
             />
 
             <div>
-              <h3 className="text-xl">Your stops</h3>
-              {values.stops.map(
-                (stop, index): JSX.Element => (
-                  <div id={`stops.${index}`} key={`stops.${index}`}>
-                    {stop?.properties?.label}
-                  </div>
-                )
-              )}
+              <h3 className="mb-4 text-xl">Your stops</h3>
+              <ul className="space-y-3">
+                {values.stops.map(
+                  (stop, index): JSX.Element => (
+                    <StopCard key={`stops.${index}`} stop={stop} />
+                  )
+                )}
+              </ul>
             </div>
           </div>
         )}
       </FieldArray>
     </>
+  );
+}
+type StopCardPropTypes = {
+  stop: Stop;
+};
+
+function StopCard({ stop }: StopCardPropTypes): JSX.Element {
+  return (
+    <li className="flex flex-row w-full space-x-4 overflow-hidden border rounded shadow broder-gray-100">
+      <div style={{ height: '100px', width: '100px' }} className="bg-gray-500">
+        <img
+          src={`https://source.unsplash.com/featured/100x100/?${stop.properties.name}`}
+          alt="..."
+        />
+      </div>
+      <h3 className="m-2 text-xl">{stop.properties.name}</h3>
+    </li>
   );
 }
