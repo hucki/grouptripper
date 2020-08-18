@@ -4,6 +4,9 @@ import './tailwind.output.css';
 import App from './App';
 import { Auth0Provider } from '@auth0/auth0-react';
 
+const domain: string | any = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId: string | any = process.env.REACT_APP_AUTH0_CLIENT_ID;
+
 if (process.env.NODE_ENV === 'development') {
   const { worker } = require('./test/server/dev-server'); // eslint-disable-line
   worker.start();
@@ -11,8 +14,8 @@ if (process.env.NODE_ENV === 'development') {
 
 ReactDOM.render(
   <Auth0Provider
-    domain="dev-g7dchufc.eu.auth0.com"
-    clientId="0uVmfvzmb1DC3v4dkvFyVWeIQpdRptWS"
+    domain={domain}
+    clientId={clientId}
     redirectUri={window.location.origin}
   >
     <React.StrictMode>
