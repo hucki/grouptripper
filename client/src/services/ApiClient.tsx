@@ -1,6 +1,5 @@
 const routingApiUrl =
   process.env.REACT_APP_ROUTING_API_URL || 'https://api.openrouteservice.org';
-// TODO: get API_KEY securly
 const routingApiKey =
   process.env.REACT_APP_ROUTING_API_KEY || 'yourSecretKeyShouldNotBeHere';
 
@@ -11,6 +10,14 @@ const reqRoute = {
   ],
   profile: 'driving-car',
   format: 'geojson',
+};
+
+// Geocode options
+const reqGeocode = {
+  focusPointLon: 51.504703,
+  focusPointLat: -0.106718,
+  boundaryCountry: 'GBR',
+  size: 1,
 };
 // request POIs
 const reqBodyPoi =
@@ -38,6 +45,14 @@ const ApiClient = {
           Authorization: routingApiKey,
         },
         body: reqBodyRoute,
+      }
+    ).then((res) => res.json());
+  },
+  getGeocode: (searchString: string): Promise<GeoJSON.FeatureCollection> => {
+    return fetch(
+      `${routingApiUrl}/geocode/search?api_key=${routingApiKey}&text=${searchString}&focus.point.lon=${reqGeocode.focusPointLon}&focus.point.lat=${reqGeocode.focusPointLat}&boundary.country=${reqGeocode.boundaryCountry}&size=${reqGeocode.size}`,
+      {
+        method: 'GET',
       }
     ).then((res) => res.json());
   },

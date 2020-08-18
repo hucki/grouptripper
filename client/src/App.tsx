@@ -9,7 +9,7 @@ import StopFinder from './components/StopFinder';
 function App(): JSX.Element {
   return (
     <Router>
-      <div className="container mx-auto">
+      <div className="container w-screen h-screen mx-auto">
         <Navigation />
         <Switch>
           <Route path="/create-trip">
