@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { client } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
+import TripCard from './TripCard';
 
 export default function TripList(): JSX.Element {
   const { isLoading, error, data } = useQuery('trips', () =>
@@ -15,8 +16,11 @@ export default function TripList(): JSX.Element {
     <ul>
       {data?.map((trip) => (
         <li key={trip._id}>
-          <Link to={`/trips/${trip._id}`} className="text-blue-800 underline">
-            {trip.name}
+          <Link
+            to={`/trips/${trip._id}`}
+            className="text-blue-800 no-underline"
+          >
+            <TripCard trip={trip} />
           </Link>
         </li>
       ))}
