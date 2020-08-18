@@ -10,7 +10,6 @@ function buildTrip(overrides: Partial<Trip> = {}): Trip {
     country: faker.address.country(),
     startDate: transformTimestampToDate(faker.date.future()),
     endDate: transformTimestampToDate(faker.date.future()),
-    stops: [faker.address.city(), faker.address.city()],
     details: {
       type: 'FeatureCollection',
       features: [faker.address.city(), faker.address.city()].map((stop) => {

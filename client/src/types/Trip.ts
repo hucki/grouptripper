@@ -4,7 +4,6 @@ export type Trip = {
   country: string;
   startDate: Date;
   endDate: Date;
-  stops?: string[];
   details: GeoJSON.FeatureCollection;
 };
 
