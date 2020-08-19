@@ -32,7 +32,7 @@ export default function TripEdit(): JSX.Element {
   const TimelineItem = ({ stop }: StopCardPropTypes): JSX.Element => {
     return (
       <li className="flex flex-row mb-2 border-gray-400">
-        <div className="flex items-center flex-1 p-4 transition duration-500 ease-in-out transform bg-gray-200 rounded-md cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
+        <div className="flex items-center flex-1 p-2 transition duration-500 ease-in-out transform bg-gray-200 rounded-md cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
           <div className="flex flex-col items-center justify-center w-10 h-10 mr-4 bg-gray-300 rounded-md">
             <span className="text-green-300 hover:text-green-500">
               <FontAwesomeIcon icon={faChevronCircleUp} />
@@ -51,7 +51,7 @@ export default function TripEdit(): JSX.Element {
               {stop.properties.description}
             </div>
           </div>
-          <div className="text-xs text-gray-300 hover:text-gray-600">
+          <div className="text-xs text-gray-400 hover:text-gray-600">
             <FontAwesomeIcon icon={faEdit} />
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function TripEdit(): JSX.Element {
   const Timeline = (): JSX.Element => {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
-        <ul className="flex flex-col p-4 ">
+        <ul className="flex flex-col w-full p-4">
           {trip?.details.features.map((stop: Stop, index) => (
             <TimelineItem key={index} stop={stop} />
           ))}
