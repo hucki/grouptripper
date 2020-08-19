@@ -5,6 +5,11 @@ import { useParams, Link } from 'react-router-dom';
 import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faChevronCircleUp,
+  faChevronCircleDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function TripEdit(): JSX.Element {
   const { id } = useParams();
@@ -17,21 +22,34 @@ export default function TripEdit(): JSX.Element {
 
   const trip = data;
 
+  // const upVote = (e: Event): void => {
+  //   e.preventDefault();
+  //   alert('upvote');
+  // };
   const TimelineItem = ({ ...stop }): JSX.Element => {
+    console.log(stop.stop);
     return (
       <li className="mb-2">
         <div className="flex items-center flex-shrink-0 mb-1">
           <div className="w-8 h-8 bg-teal-500 rounded-full"></div>
           <div className="flex-1 ml-4 font-medium text-teal-800">
             {stop.stop.properties.name}
+            <span className="self-end text-green-500">
+              <FontAwesomeIcon icon={faChevronCircleUp} />
+              {stop.stop.properties.upvotes}{' '}
+            </span>
+            <span className="text-red-500">
+              <FontAwesomeIcon icon={faChevronCircleDown} />
+              {stop.stop.properties.downvotes}
+            </span>
           </div>
         </div>
         <div className="ml-12">
           <p className="text-base text-teal-800">
-            {stop.stop.geometry.coordinates[0].toFixed(4)}
+            {stop.stop.properties.label}
           </p>
           <p className="text-base text-teal-800">
-            {stop.stop.geometry.coordinates[1].toFixed(4)}
+            {stop.stop.properties.description}
           </p>
         </div>
       </li>
@@ -42,7 +60,7 @@ export default function TripEdit(): JSX.Element {
     return (
       <div className="relative m-8">
         <div
-          className="absolute top-0 h-full border-r-2 border-teal-500"
+          className="absolute top-0 h-full border-r-2 border-teal-500 border-dotted"
           style={{ left: '15px' }}
         ></div>
         <ul className="p-0 m-0 list-none">
