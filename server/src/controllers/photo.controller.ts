@@ -7,7 +7,7 @@ export async function getPhoto(req: Request, res: Response): Promise<void> {
   const apikey = process.env.UNSPLASH_API_ACCESS_KEY;
   const { queryText } = req.params;
   const unsplashPhoto = await fetch(
-    `https://api.unsplash.com/photos/random?featured=true&query=${queryText}&featured=true`,
+    `https://api.unsplash.com/photos/random?featured=true&query=${queryText}`,
     { headers: { Authorization: `Client-ID ${apikey}` } }
   ).then((result) => result.json());
 
