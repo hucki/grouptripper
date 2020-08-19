@@ -4,14 +4,26 @@ import { useField } from 'formik';
 import { useQuery } from 'react-query';
 import { Stop } from './../types/Stop';
 
-function fetchAutocomplete(key: string, queryText: string): Promise<Stop[]> {
-  const apiKey = process.env.REACT_APP_ROUTING_API_KEY;
+function fetchAutocomplete(
+  key: string,
+  queryText: string,
+  countryCode?: string
+): Promise<Stop[]> {
+  const apiKey = process.env.REACT_APP_ROUTING_API_KEY || '';
   if (!queryText) {
     return Promise.resolve([]);
   }
+
+  const params = new URLSearchParams();
+  params.append('api_key', apiKey);
+  params.append('text', queryText);
+  if (countryCode) {
+    params.append('boundary.country', countryCode);
+  }
+
   return window
     .fetch(
-      `https://api.openrouteservice.org/geocode/autocomplete?api_key=${apiKey}&text=${queryText}`
+      `https://api.openrouteservice.org/geocode/autocomplete?${params.toString()}`
     )
     .then(async (res) => {
       const data = await res.json();
@@ -31,17 +43,22 @@ function fetchAutocomplete(key: string, queryText: string): Promise<Stop[]> {
 type ControlledAutocompleteProps = {
   name: string;
   onAddClick: () => void;
+  countryCode?: string;
 };
 
 export default function ControlledAutocomplete({
   name,
   onAddClick,
+  countryCode,
 }: ControlledAutocompleteProps): JSX.Element {
   const [, meta, helpers] = useField(name);
   const { value } = meta;
   const { setValue } = helpers;
   const [queryText, setQueryText] = useState('');
-  const { data } = useQuery(['findStop', queryText], fetchAutocomplete);
+  const { data } = useQuery(
+    ['findStop', queryText, countryCode],
+    fetchAutocomplete
+  );
 
   const inputItems = data || [];
 
@@ -119,6 +136,7 @@ function DropdownCombobox({
         <button
           className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl bg-teal-500 rounded-full"
           onClick={onAddClick}
+          type="button"
         >
           +
         </button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import {
   Formik,
   Form,
@@ -9,6 +9,7 @@ import {
   FormikProps,
 } from 'formik';
 import * as Yup from 'yup';
+import * as countries from 'country-list';
 
 import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
@@ -82,6 +83,7 @@ export default function CreateTrip(): JSX.Element {
           initialValues={{
             name: '',
             country: '',
+            countryObj: null,
             startDate: '',
             endDate: '',
             currentStop: null,
@@ -95,7 +97,6 @@ export default function CreateTrip(): JSX.Element {
             setServerError('');
             const newTrip = transformTrip(values);
             try {
-              // console.log(values);
               await client('trips', { data: newTrip });
               setSubmitting(false);
               setRedirect(true);
@@ -166,12 +167,40 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
   );
 }
 
+const SelectInput: FunctionComponent<InputProps> = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+
+  return (
+    <div className="flex flex-col my-3 space-y-2">
+      <label htmlFor={props.name}>{label}</label>
+      <select
+        {...field}
+        {...props}
+        className="p-3 border border-gray-500 rounded"
+      >
+        {props.children}
+      </select>
+      {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
+    </div>
+  );
+};
+
 function FormFirstPage(): JSX.Element {
   return (
     <>
       <h2 className="text-2xl">Start planning your trip</h2>
       <TextInput name="name" id="name" label="Trip Name" />
-      <TextInput name="country" id="country" label="Country" />
+      {/* <TextInput name="country" id="country" label="Country" /> */}
+      <SelectInput name="country" id="country" label="Country">
+        <option key="empty" value="">
+          {' '}
+        </option>
+        {countries.getData().map((country) => (
+          <option key={country.code} value={country.code}>
+            {country.name}
+          </option>
+        ))}
+      </SelectInput>
       <div className="flex flex-row justify-start space-x-4">
         <TextInput
           name="startDate"
@@ -194,6 +223,7 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
           <div className="grid grid-cols-2 col-gap-8">
             <AutoComplete
               name="currentStop"
+              countryCode={values.country}
               onAddClick={(): void => {
                 if (values.currentStop) {
                   push(values.currentStop);
