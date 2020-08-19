@@ -21,7 +21,7 @@ const emptyPhoto = {
   altDescription: '',
 };
 
-export function usePhoto({ queryText, dimensions }: usePhotoProps) {
+export function usePhoto({ queryText, dimensions }: usePhotoProps): Photo {
   const sizeModifier = dimensions
     ? `&fit=crop&h=${dimensions.height}&w=${dimensions.width}`
     : '';

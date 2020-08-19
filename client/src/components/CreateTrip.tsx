@@ -15,7 +15,6 @@ import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
-import { useQuery } from 'react-query';
 import { usePhoto } from '../hooks/usePhoto';
 
 type TripInput = {
@@ -62,7 +61,6 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
-  // stops: Yup.array().of(Yup.string()),
 });
 
 export default function CreateTrip(): JSX.Element {
