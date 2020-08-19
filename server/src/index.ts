@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import tripsRouter from './router';
+import tripsRouter from './routerAuthenticated';
 dotenv.config();
 
 const port = process.env.PORT || 3001;
