@@ -6,7 +6,7 @@ import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
 
-export default function TripView(): JSX.Element {
+export default function TripEdit(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, data } = useQuery('trip', () =>
     client<Trip>(`trips/${id}`)
@@ -57,6 +57,7 @@ export default function TripView(): JSX.Element {
   return (
     <>
       <TripCard trip={trip} />
+      Edit Me!
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
         <MapContainer trip={trip} />
