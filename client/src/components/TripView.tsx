@@ -5,6 +5,8 @@ import { useParams, Link } from 'react-router-dom';
 import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -66,9 +68,7 @@ export default function TripView(): JSX.Element {
           className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
           style={{ transition: 'all .15s ease' }}
         >
-          <span role="img" aria-label="edit">
-            ✏️
-          </span>
+          <FontAwesomeIcon icon={faEdit} />
           &nbsp; Edit this Trip
         </div>
       </Link>
