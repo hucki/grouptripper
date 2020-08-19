@@ -15,6 +15,7 @@ import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
+import { useQuery } from 'react-query';
 
 type TripInput = {
   name: string;
@@ -251,14 +252,29 @@ type StopCardPropTypes = {
   stop: Stop;
 };
 
+type Photo = {
+  id: string;
+  imgUrl: string;
+  alt_description: string;
+};
+
 function StopCard({ stop }: StopCardPropTypes): JSX.Element {
+  const { data: photo } = useQuery(
+    ['photos', stop.properties.name],
+    (key, name) => {
+      return client<Photo>(`${key}/${name}`);
+    }
+  );
+
   return (
     <li className="flex flex-row w-full space-x-4 overflow-hidden border rounded shadow broder-gray-100">
       <div style={{ height: '100px', width: '100px' }} className="bg-gray-500">
-        <img
-          src={`https://source.unsplash.com/featured/100x100/?${stop.properties.name}`}
-          alt="..."
-        />
+        {photo ? (
+          <img
+            src={`${photo.imgUrl}&fit=crop&w=100&h=100`}
+            alt={photo.alt_description}
+          />
+        ) : null}
       </div>
       <h3 className="m-2 text-xl">{stop.properties.name}</h3>
     </li>
