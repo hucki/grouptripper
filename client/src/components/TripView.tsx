@@ -1,10 +1,12 @@
 import React from 'react';
 import MapContainer from './MapContainer';
 import { Trip } from '../types/Trip';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -57,10 +59,19 @@ export default function TripView(): JSX.Element {
   return (
     <>
       <TripCard trip={trip} />
-      <div className="grid content-center grid-cols-2 gap-4 m-4">
+      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
         <MapContainer trip={trip} />
       </div>
+      <Link to={`/trips/edit/${id}`}>
+        <div
+          className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+          style={{ transition: 'all .15s ease' }}
+        >
+          <FontAwesomeIcon icon={faEdit} />
+          &nbsp; Edit this Trip
+        </div>
+      </Link>
     </>
   );
 }

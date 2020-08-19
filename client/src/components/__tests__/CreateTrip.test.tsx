@@ -35,7 +35,12 @@ xtest('trip can be created', async () => {
   render(<CreateTrip />);
 
   await user.type(screen.getByLabelText(/trip name/i), fakeTrip.name);
-  await user.type(screen.getByLabelText(/country/i), fakeTrip.country);
+
+  await fireEvent.change(screen.getByLabelText(/country/i), {
+    target: { value: fakeTrip.country },
+  });
+
+  // await user.type(screen.getByLabelText(/country/i), fakeTrip.country);
   await user.type(
     screen.getByLabelText(/start date/i),
     formatDateForInput(fakeTrip.startDate)
@@ -75,7 +80,9 @@ xtest('form displays error and can be resubmitted on server error', async () => 
   render(<CreateTrip />);
 
   await user.type(screen.getByLabelText(/trip name/i), fakeTrip.name);
-  await user.type(screen.getByLabelText(/country/i), fakeTrip.country);
+  await fireEvent.change(screen.getByLabelText(/country/i), {
+    target: { value: fakeTrip.country },
+  });
   await user.type(
     screen.getByLabelText(/start date/i),
     formatDateForInput(fakeTrip.startDate)

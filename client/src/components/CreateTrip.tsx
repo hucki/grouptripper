@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React, { useState, FunctionComponent } from 'react';
 import {
   Formik,
   Form,
@@ -10,12 +9,14 @@ import {
   FormikProps,
 } from 'formik';
 import * as Yup from 'yup';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';        
+import * as countries from 'country-list';
 
 import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
+import { usePhoto } from '../hooks/usePhoto';
 
 type TripInput = {
   name: string;
@@ -61,7 +62,6 @@ const validationSchema = Yup.object({
   endDate: Yup.date()
     .required('Required')
     .min(Yup.ref('startDate'), 'End date must be after start date'),
-  // stops: Yup.array().of(Yup.string()),
 });
 
 export default function CreateTrip(): JSX.Element {
@@ -85,6 +85,7 @@ export default function CreateTrip(): JSX.Element {
           initialValues={{
             name: '',
             country: '',
+            countryObj: null,
             startDate: '',
             endDate: '',
             currentStop: null,
@@ -170,12 +171,40 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
   );
 }
 
+const SelectInput: FunctionComponent<InputProps> = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+
+  return (
+    <div className="flex flex-col my-3 space-y-2">
+      <label htmlFor={props.name}>{label}</label>
+      <select
+        {...field}
+        {...props}
+        className="p-3 border border-gray-500 rounded"
+      >
+        {props.children}
+      </select>
+      {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
+    </div>
+  );
+};
+
 function FormFirstPage(): JSX.Element {
   return (
     <>
       <h2 className="text-2xl">Start planning your trip</h2>
       <TextInput name="name" id="name" label="Trip Name" />
-      <TextInput name="country" id="country" label="Country" />
+      {/* <TextInput name="country" id="country" label="Country" /> */}
+      <SelectInput name="country" id="country" label="Country">
+        <option key="empty" value="">
+          {' '}
+        </option>
+        {countries.getData().map((country) => (
+          <option key={country.code} value={country.code}>
+            {country.name}
+          </option>
+        ))}
+      </SelectInput>
       <div className="flex flex-row justify-start space-x-4">
         <TextInput
           name="startDate"
@@ -198,6 +227,7 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
           <div className="grid grid-cols-2 col-gap-8">
             <AutoComplete
               name="currentStop"
+              countryCode={values.country}
               onAddClick={(): void => {
                 if (values.currentStop) {
                   push(values.currentStop);
@@ -225,14 +255,22 @@ type StopCardPropTypes = {
   stop: Stop;
 };
 
+type Photo = {
+  id: string;
+  imgUrl: string;
+  alt_description: string;
+};
+
 function StopCard({ stop }: StopCardPropTypes): JSX.Element {
+  const photo = usePhoto({
+    queryText: stop.properties.name,
+    dimensions: { width: 100, height: 100 },
+  });
+
   return (
     <li className="flex flex-row w-full space-x-4 overflow-hidden border rounded shadow broder-gray-100">
       <div style={{ height: '100px', width: '100px' }} className="bg-gray-500">
-        <img
-          src={`https://source.unsplash.com/featured/100x100/?${stop.properties.name}`}
-          alt="..."
-        />
+        {photo ? <img src={photo.imgUrl} alt={photo.altDescription} /> : null}
       </div>
       <h3 className="m-2 text-xl">{stop.properties.name}</h3>
     </li>

@@ -7,7 +7,7 @@ function buildTrip(overrides: Partial<Trip> = {}): Trip {
   return {
     _id: faker.random.uuid(),
     name: faker.lorem.words(),
-    country: faker.address.country(),
+    country: faker.address.countryCode(),
     startDate: transformTimestampToDate(faker.date.future()),
     endDate: transformTimestampToDate(faker.date.future()),
     details: {
