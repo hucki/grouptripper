@@ -26,7 +26,6 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@types/country-list": "^2.1.0",
     "husky": "^4.2.5",
     "lerna": "^3.22.1",
     "prettier": "^2.0.5"
@@ -41,7 +40,5 @@
       "post-commit": "cd client && npm run postcommit"
     }
   },
-  "dependencies": {
-    "country-list": "^2.2.0"
-  }
+  "dependencies": {}
 }
