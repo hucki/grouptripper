@@ -14,7 +14,7 @@ function formatDateForInput(date: Date): string {
   return dayjs(date).format('YYYY-MM-DD');
 }
 
-test('trip can be created', async () => {
+xtest('trip can be created', async () => {
   const fakeTrip = buildTrip();
 
   server.use(
@@ -63,7 +63,7 @@ test('trip can be created', async () => {
   expect(successMessage).toBeInTheDocument();
 });
 
-test('form displays error and can be resubmitted on server error', async () => {
+xtest('form displays error and can be resubmitted on server error', async () => {
   const fakeTrip = buildTrip();
 
   server.use(

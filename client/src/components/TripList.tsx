@@ -2,11 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { client } from '../services/ApiClient';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Trip } from '../types/Trip';
 import TripCard from './TripCard';
 
 export default function TripList(): JSX.Element {
-  const { isLoading, error, data } = useQuery('trips', () =>
+  const { getAccessTokenSilently } = useAuth0();
+
+  const { isLoading, error, data } = useQuery('trips', async () =>
     client<Trip[]>('trips')
   );
 

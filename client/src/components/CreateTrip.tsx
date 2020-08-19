@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   Formik,
   Form,
@@ -9,6 +10,7 @@ import {
   FormikProps,
 } from 'formik';
 import * as Yup from 'yup';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
@@ -66,6 +68,7 @@ export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
+  const { getAccessTokenSilently } = useAuth0();
 
   const formPages = [FormFirstPage, FormSecondPage];
 
@@ -96,7 +99,8 @@ export default function CreateTrip(): JSX.Element {
             const newTrip = transformTrip(values);
             try {
               // console.log(values);
-              await client('trips', { data: newTrip });
+              const accessToken = await getAccessTokenSilently();
+              await client('trips', accessToken, { data: newTrip });
               setSubmitting(false);
               setRedirect(true);
             } catch (error) {
