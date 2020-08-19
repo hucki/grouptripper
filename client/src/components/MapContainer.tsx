@@ -78,8 +78,8 @@ export default function MapContainer({ ...props }): JSX.Element {
         className="container w-full h-full mx-auto"
       >
         <TileLayer
-          attribution='Map tiles by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
-          url="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {markers}
       </Map>
