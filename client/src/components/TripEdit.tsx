@@ -1,7 +1,7 @@
 import React from 'react';
 import MapContainer from './MapContainer';
 import { Trip } from '../types/Trip';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
@@ -62,6 +62,17 @@ export default function TripEdit(): JSX.Element {
         <Timeline />
         <MapContainer trip={trip} />
       </div>
+      <Link to={`/trips/${id}`}>
+        <div
+          className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+          style={{ transition: 'all .15s ease' }}
+        >
+          <span role="img" aria-label="save">
+            💾
+          </span>
+          &nbsp; Save &amp; Go Back
+        </div>
+      </Link>
     </>
   );
 }
