@@ -35,10 +35,6 @@ function buildTrip(): Trip {
       type: 'FeatureCollection',
       features: [buildStop(), buildStop()],
     },
-    details: {
-      type: 'FeatureCollection',
-      features: [buildStop(), buildStop()],
-    },
   };
 }
 
