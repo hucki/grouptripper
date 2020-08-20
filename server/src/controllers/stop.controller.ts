@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import TripModel from '../models/trip.model';
-import StopModel from '../models/stop.model';
-
+import { StopCollection } from '../models/stop.model';
 export const getOneStop = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const singleStop = await StopModel.findById(req.params.id);
+    const currentTrip = await TripModel.findById(req.params.tripId);
+    const singleStop = currentTrip?.stopsCollection?.features?.filter(
+      (stop) => stop._id.toString() === req.params.stopId.toString()
+    );
     if (singleStop) {
       res.json(singleStop);
       res.status(200);
@@ -21,39 +23,70 @@ export const getOneStop = async (
   }
 };
 
-export const addStopToTrip = async (
+export const updateStopArray = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const currentTrip = await TripModel.findById(req.params.parentId);
-    const addedToTrip = await currentTrip?.stopsCollection?.features.push(
-      req.body
-    );
-    const doc = currentTrip?.save();
-    res.status(201);
-    res.json(doc);
-  } catch (e) {
-    console.log(e);
-    if (/validation failed/i.test(e._message)) {
-      res.status(400);
-      res.json({ message: 'Invalid data' });
-    }
-    next(e);
-  }
-};
+    console.log(req.body);
+    const currentTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
+      stopsCollection: {
+        type: 'FeatureCollection',
+        features: req.body,
+      },
+      details: {
+        type: 'FeatureCollection',
+        features: req.body,
+      },
+    });
+    console.log(currentTrip);
+    const currentStops = currentTrip?.stopsCollection?.features;
 
-export const deleteStop = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    await StopModel.findByIdAndDelete(req.params.id);
-    res.json('Stop deleted');
-    res.status(200);
+    if (currentStops) {
+      res.json(currentStops);
+      res.status(201);
+    } else {
+      res.status(400);
+      res.json({ message: 'Stops not updated' });
+    }
   } catch (e) {
     next(e);
   }
 };
+// export const addStopToTrip = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ): Promise<void> => {
+//   try {
+//     const currentTrip = await TripModel.findById(req.params.parentId);
+//     const addedToTrip = await currentTrip?.stopsCollection?.features.push(
+//       req.body
+//     );
+//     const doc = currentTrip?.save();
+//     res.status(201);
+//     res.json(doc);
+//   } catch (e) {
+//     console.log(e);
+//     if (/validation failed/i.test(e._message)) {
+//       res.status(400);
+//       res.json({ message: 'Invalid data' });
+//     }
+//     next(e);
+//   }
+// };
+
+// export const deleteStop = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ): Promise<void> => {
+//   try {
+//     await StopModel.findByIdAndDelete(req.params.id);
+//     res.json('Stop deleted');
+//     res.status(200);
+//   } catch (e) {
+//     next(e);
+//   }
+// };
