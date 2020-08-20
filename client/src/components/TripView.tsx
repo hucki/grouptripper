@@ -17,8 +17,6 @@ export default function TripView(): JSX.Element {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
 
-  const trip = data;
-
   const TimelineItem = ({ ...stop }): JSX.Element => {
     return (
       <li className="mb-2">
@@ -48,7 +46,7 @@ export default function TripView(): JSX.Element {
           style={{ left: '15px' }}
         ></div>
         <ul className="p-0 m-0 list-none">
-          {trip?.details.features.map((stop, index) => (
+          {data?.details.features.map((stop, index) => (
             <TimelineItem key={index} stop={stop} />
           ))}
         </ul>
@@ -58,10 +56,10 @@ export default function TripView(): JSX.Element {
 
   return (
     <>
-      <TripCard trip={trip} />
+      {data && <TripCard trip={data} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
-        <MapContainer trip={trip} />
+        <MapContainer trip={data} />
       </div>
       <Link to={`/trips/edit/${id}`}>
         <div
