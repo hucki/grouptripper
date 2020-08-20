@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import TripModel from '../models/trip.model';
-import { StopCollection, Stop } from '../models/stop.model';
+import stopModel, { StopCollection, Stop } from '../models/stop.model';
 
 export const getOneStop = async (
   req: Request,
@@ -141,25 +141,56 @@ export const deleteOneStop = async (
   }
 };
 
-// export const addStopToTrip = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ): Promise<void> => {
-//   try {
-//     const currentTrip = await TripModel.findById(req.params.parentId);
-//     const addedToTrip = await currentTrip?.stopsCollection?.features.push(
-//       req.body
-//     );
-//     const doc = currentTrip?.save();
-//     res.status(201);
-//     res.json(doc);
-//   } catch (e) {
-//     console.log(e);
-//     if (/validation failed/i.test(e._message)) {
-//       res.status(400);
-//       res.json({ message: 'Invalid data' });
-//     }
-//     next(e);
-//   }
-// };
+export const addStopToTrip = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const currentTrip = await TripModel.findById(req.params.tripId);
+    const updateStopsCollection: Stop[] = [];
+    const newStopData = req.body[0];
+    const newStop = await new stopModel({
+      geometry: {
+        coordinates: newStopData.geometry.coordinates,
+        type: newStopData.geometry.type,
+      },
+      properties: {
+        name: newStopData.properties.name,
+        label: newStopData.properties.label,
+        description: newStopData.properties.description,
+        upvotes: newStopData.properties.upvotes,
+        downvotes: newStopData.properties.downvotes,
+      },
+      type: newStopData.type,
+    });
+
+    const resultingStops = await currentTrip?.stopsCollection?.features.map(
+      (stop) => {
+        updateStopsCollection.push(stop);
+        return stop;
+      }
+    );
+    updateStopsCollection.push(newStop);
+    const updatedTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
+      stopsCollection: {
+        type: 'FeatureCollection',
+        features: updateStopsCollection,
+      },
+      details: {
+        type: 'FeatureCollection',
+        features: updateStopsCollection,
+      },
+    });
+    const currentStops = await TripModel.findById(req.params.tripId);
+    res.status(201);
+    res.json(newStop);
+  } catch (e) {
+    console.log(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+    }
+    next(e);
+  }
+};

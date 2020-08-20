@@ -2,7 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import tripsRouter from './routerAuthenticated';
+import tripsRouter from './router';
+import tripsAuthRouter from './routerAuthenticated';
 dotenv.config();
 
 const port = process.env.PORT || 3001;
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 app.use('/', tripsRouter);
+app.use('/', tripsAuthRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err: Error, req: Request, res: Response) => {
