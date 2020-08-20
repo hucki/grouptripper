@@ -4,11 +4,11 @@ import dayjs from 'dayjs';
 // import { Stop } from './../types/Stop';
 import { Trip } from './../types/Trip';
 
-type InputProps = {
+type TripCardProps = {
   trip: Trip;
 };
 
-export default function TripCard({ trip }: InputProps): JSX.Element {
+export default function TripCard({ trip }: TripCardProps): JSX.Element {
   // const { trip } = props;
 
   // const photo = usePhoto({

@@ -58,7 +58,7 @@ export default function TripEdit(): JSX.Element {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
-
+  if (!trip) return <div>No trip found</div>;
   type StopCardPropTypes = {
     stop: Stop;
   };

@@ -10,7 +10,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
-  const { isLoading, error, data } = useQuery('trip', () =>
+  const { isLoading, error, data: trip } = useQuery('trip', () =>
     client<Trip>(`trips/${id}`)
   );
 
@@ -46,7 +46,7 @@ export default function TripView(): JSX.Element {
           style={{ left: '15px' }}
         ></div>
         <ul className="p-0 m-0 list-none">
-          {data?.details.features.map((stop, index) => (
+          {trip?.details.features.map((stop, index) => (
             <TimelineItem key={index} stop={stop} />
           ))}
         </ul>
@@ -56,10 +56,10 @@ export default function TripView(): JSX.Element {
 
   return (
     <>
-      {data && <TripCard trip={data} />}
+      {trip && <TripCard trip={trip} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
-        <MapContainer trip={data} />
+        <MapContainer trip={trip} />
       </div>
       <Link to={`/trips/edit/${id}`}>
         <div
