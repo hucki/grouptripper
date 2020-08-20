@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import {
@@ -28,8 +27,6 @@ export function DraggableTimeline({
   trip,
 }: DraggableTimelineProps): JSX.Element {
   const [localTrip, setLocalTrip] = useState(trip);
-  const tripDays =
-    dayjs(localTrip.endDate).diff(localTrip.startDate, 'day') + 1;
   const unallocatedStops = localTrip.details.features;
 
   function onDragEnd(result: DropResult): void {
@@ -75,7 +72,7 @@ function Day({ stops }: { stops: Stop[] }): JSX.Element {
     <div className="m-4 border border-gray-500 rounded">
       <h3 className="p-2 text-lg">Unallocated Stops</h3>
       <Droppable droppableId="0">
-        {(provided) => (
+        {(provided): JSX.Element => (
           <StopList
             ref={provided.innerRef}
             className="p-2"
@@ -97,7 +94,7 @@ const Container = styled.div``;
 function StopCard({ stop, index }: { stop: Stop; index: number }): JSX.Element {
   return (
     <Draggable draggableId={stop.properties.name} index={index}>
-      {(provided) => (
+      {(provided): JSX.Element => (
         <Container
           className="p-4 mb-4 bg-gray-100 border border-gray-500 rounded"
           {...provided.draggableProps}
