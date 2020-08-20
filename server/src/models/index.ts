@@ -8,6 +8,7 @@ mongoose.connect(`${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 const connection = mongoose.connection;
