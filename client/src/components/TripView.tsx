@@ -9,7 +9,9 @@ import { useTrip } from '../hooks/trip';
 export default function TripView(): JSX.Element {
   const { id } = useParams();
 
-  const { isLoading, error, trip } = useTrip(id);
+  const { isLoading, error, data: trip } = useQuery('trip', () =>
+    client<Trip>(`trips/${id}`)
+  );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
