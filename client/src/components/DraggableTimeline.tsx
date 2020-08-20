@@ -17,30 +17,39 @@ export default function TripContainer(): JSX.Element | null {
   const { id } = useParams();
   const { data: trip } = useQuery('trip', () => client<Trip>(`trips/${id}`));
 
-  return trip ? <DraggableTimeline trip={trip} /> : null;
-}
+  if (!trip) return null;
 
-type DraggableTimelineProps = {
-  trip: Trip;
-};
-
-export function DraggableTimeline({
-  trip,
-}: DraggableTimelineProps): JSX.Element {
-  const [localTrip, setLocalTrip] = useState(trip);
-  const tripDays =
-    dayjs(localTrip.endDate).diff(localTrip.startDate, 'day') + 1;
+  const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
   const daysArray = Array(tripDays).fill([]);
-  localTrip.details.features.forEach((stop) => {
+  trip.details.features.forEach((stop) => {
     if (stop.properties.tripDay === undefined) return;
     if (stop.properties.tripDay > -1) {
       daysArray[stop.properties.tripDay].push(stop);
     }
   });
-  const unallocatedStops = localTrip.details.features.filter(
+  const unallocatedStops = trip.details.features.filter(
     (stop) =>
       stop.properties.tripDay === undefined || stop.properties.tripDay === -1
   );
+
+  return (
+    <DraggableTimeline unallocatedStops={unallocatedStops} days={daysArray} />
+  );
+}
+
+type DraggableTimelineProps = {
+  unallocatedStops: Stop[];
+  days: Stop[][];
+};
+
+export function DraggableTimeline({
+  unallocatedStops,
+  days,
+}: DraggableTimelineProps): JSX.Element {
+  const [localUnallocatedStops, setLocalUnallocatedStops] = useState(
+    unallocatedStops
+  );
+  const [localDays, setLocalDays] = useState(days);
 
   function onDragEnd(result: DropResult): void {
     const { destination, source, draggableId } = result;
@@ -56,24 +65,23 @@ export function DraggableTimeline({
       (stop) => stop.properties.name === draggableId
     );
     if (!movedStop) return;
-    const newStopsArray = [...unallocatedStops];
-    newStopsArray.splice(source.index, 1);
-    newStopsArray.splice(destination.index, 0, movedStop);
+    const newUnallocatedStops = [...unallocatedStops];
+    newUnallocatedStops.splice(source.index, 1);
+    newUnallocatedStops.splice(destination.index, 0, movedStop);
 
-    setLocalTrip((oldTrip) => ({
-      ...oldTrip,
-      details: {
-        ...oldTrip.details,
-        features: newStopsArray,
-      },
-    }));
+    setLocalUnallocatedStops((oldUnallocatedStops) => {
+      const newUnallocatedStops = [...oldUnallocatedStops];
+      newUnallocatedStops.splice(source.index, 1);
+      newUnallocatedStops.splice(destination.index, 0, movedStop);
+      return newUnallocatedStops;
+    });
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div id="days">
         <Day dayId={-1} stops={unallocatedStops} key="day--1" />
-        {daysArray.map((stops, index) => (
+        {days.map((stops, index) => (
           <Day dayId={index} stops={stops} key={`day-${index}`} />
         ))}
       </div>
