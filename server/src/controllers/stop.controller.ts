@@ -12,8 +12,8 @@ export const getOneStop = async (
       (stop) => stop._id.toString() === req.params.stopId.toString()
     );
     if (singleStop) {
-      res.json(singleStop);
       res.status(200);
+      res.json(singleStop);
     } else {
       res.status(404);
       res.json({ message: 'Stop not found' });
@@ -29,7 +29,6 @@ export const updateStopArray = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    console.log(req.body);
     const currentTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
       stopsCollection: {
         type: 'FeatureCollection',
@@ -40,12 +39,10 @@ export const updateStopArray = async (
         features: req.body,
       },
     });
-    console.log(currentTrip);
     const currentStops = currentTrip?.stopsCollection?.features;
-
     if (currentStops) {
-      res.json(currentStops);
       res.status(201);
+      res.json(currentStops);
     } else {
       res.status(400);
       res.json({ message: 'Stops not updated' });
@@ -54,6 +51,7 @@ export const updateStopArray = async (
     next(e);
   }
 };
+
 // export const addStopToTrip = async (
 //   req: Request,
 //   res: Response,
