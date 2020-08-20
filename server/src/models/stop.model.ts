@@ -1,5 +1,6 @@
 import mongoose from './index';
 import 'mongoose-geojson-schema';
+import { Point } from 'geojson';
 
 import { Document } from 'mongoose';
 
@@ -8,21 +9,28 @@ export type Stop = {
   type: string;
   geometry: {
     type: string;
-    coordinates: [number];
+    coordinates: [number, number];
   };
-  properties: {
-    name: string;
-    label: string;
-    description: string;
-    upvotes: {
-      type: number;
-      default: 0;
-    };
-    downvotes: {
-      type: number;
-      default: 0;
-    };
+  properties: StopProperties;
+} & GeoJSON.Feature<Point>;
+
+type StopProperties = {
+  name: string;
+  label?: string;
+  description?: string;
+  upvotes?: {
+    type: number;
+    default: 0;
   };
+  downvotes?: {
+    type: number;
+    default: 0;
+  };
+};
+
+export type StopCollection = {
+  type: 'FeatureCollection';
+  features: Stop[];
 };
 
 export type StopDocument = Stop & Document;
@@ -40,7 +48,7 @@ export const stopSchema = new mongoose.Schema({
       required: true,
     },
     coordinates: {
-      type: [Number],
+      type: [Number, Number],
       required: true,
     },
   },
