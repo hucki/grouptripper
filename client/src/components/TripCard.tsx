@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { usePhoto } from '../hooks/usePhoto';
-import { Stop } from './../types/Stop';
+// import { usePhoto } from '../hooks/usePhoto';
+// import { Stop } from './../types/Stop';
 import { Trip } from './../types/Trip';
 
 type InputProps = {
