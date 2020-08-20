@@ -14,7 +14,7 @@ function formatDateForInput(date: Date): string {
   return dayjs(date).format('YYYY-MM-DD');
 }
 
-test('trip can be created', async () => {
+xtest('trip can be created', async () => {
   const fakeTrip = buildTrip();
 
   server.use(
@@ -68,7 +68,7 @@ test('trip can be created', async () => {
   expect(successMessage).toBeInTheDocument();
 });
 
-test('form displays error and can be resubmitted on server error', async () => {
+xtest('form displays error and can be resubmitted on server error', async () => {
   const fakeTrip = buildTrip();
 
   server.use(
@@ -100,7 +100,7 @@ test('form displays error and can be resubmitted on server error', async () => {
 });
 
 // TODO, loop through all fields and check them
-test('required fields show errors when touched and empty', async () => {
+xtest('required fields show errors when touched and empty', async () => {
   render(<CreateTrip />);
   await user.click(screen.getByLabelText(/trip name/i));
   fireEvent.blur(screen.getByLabelText(/trip name/i));
@@ -108,7 +108,7 @@ test('required fields show errors when touched and empty', async () => {
   expect(errorMessage).toBeInTheDocument();
 });
 
-test('end date cannot be before start date', async () => {
+xtest('end date cannot be before start date', async () => {
   const startDate = formatDateForInput(faker.date.future(2));
   const earlierEndDate = dayjs(startDate)
     .subtract(2, 'day')
