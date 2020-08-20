@@ -1,9 +1,12 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { Trip } from '../types/Trip';
 
-export default function TripCard({ ...props }): JSX.Element {
-  const { trip } = props;
+type TripCardProps = {
+  trip: Trip;
+};
 
+export default function TripCard({ trip }: TripCardProps): JSX.Element {
   return (
     <div className="flex flex-row justify-center w-full mb-4 lg:max-w-full lg:flex">
       <div className="flex flex-col">
@@ -25,7 +28,7 @@ export default function TripCard({ ...props }): JSX.Element {
                 style={{ height: '100px', width: '100px' }}
               >
                 <img
-                  src={`https://source.unsplash.com/featured/100x100/?${trip?.details.features[0].properties.name}`}
+                  src={`https://source.unsplash.com/featured/100x100/?${trip?.stopsCollection.features[0]?.properties.name}`}
                   alt="..."
                   className="h-auto max-w-full align-middle border-none rounded-full shadow-lg"
                 />

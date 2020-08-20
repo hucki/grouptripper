@@ -16,11 +16,11 @@ import dayjs from 'dayjs';
 function transformToDnDData(trip: Trip): DnDStructure {
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
   const dataStructure: DnDStructure = {
-    stops: trip.details.features,
+    stops: trip.stopsCollection.features,
     days: {},
     daysOrder: [],
   };
-  dataStructure.stops = trip.details.features;
+  dataStructure.stops = trip.stopsCollection.features;
   for (let i = -1; i < tripDays; i++) {
     dataStructure.daysOrder.push(i.toString());
     if (i === -1) {

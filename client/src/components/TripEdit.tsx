@@ -19,14 +19,13 @@ import {
 export default function TripEdit(): JSX.Element {
   const [editStop, setEditStop] = useState('');
   const { id } = useParams();
-  const { isLoading, error, data } = useQuery('trip', () =>
+  const { isLoading, error, data: trip } = useQuery('trip', () =>
     client<Trip>(`trips/${id}`)
   );
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
-
-  const trip = data;
+  if (!trip) return <div>No trip found</div>;
 
   type StopCardPropTypes = {
     stop: Stop;
@@ -97,7 +96,7 @@ export default function TripEdit(): JSX.Element {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
         <ul className="flex flex-col w-full p-4">
-          {trip?.details.features.map((stop: Stop, index) => (
+          {trip?.stopsCollection.features.map((stop: Stop, index) => (
             <StopListItem key={index} stop={stop} />
           ))}
         </ul>
@@ -107,7 +106,7 @@ export default function TripEdit(): JSX.Element {
 
   return (
     <>
-      <TripCard trip={trip} />
+      {trip && <TripCard trip={trip} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
         <MapContainer trip={trip} />

@@ -44,25 +44,7 @@ function transformTrip(tripInput: TripInput): Trip {
             description: '',
             upvotes: 0,
             downvotes: 0,
-          },
-          geometry: {
-            type: 'Point' as const,
-            coordinates: stop.geometry.coordinates,
-          },
-        };
-      }),
-    },
-    details: {
-      type: 'FeatureCollection',
-      features: tripInput.stops.map((stop) => {
-        return {
-          type: 'Feature' as const,
-          properties: {
-            name: stop.properties.name,
-            label: stop.properties.label,
-            description: '',
-            upvotes: 0,
-            downvotes: 0,
+            tripDay: -1,
           },
           geometry: {
             type: 'Point' as const,
