@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { client } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
+import dayjs from 'dayjs';
 
 export default function TripContainer(): JSX.Element | null {
   const { id } = useParams();
@@ -27,7 +28,19 @@ export function DraggableTimeline({
   trip,
 }: DraggableTimelineProps): JSX.Element {
   const [localTrip, setLocalTrip] = useState(trip);
-  const unallocatedStops = localTrip.details.features;
+  const tripDays =
+    dayjs(localTrip.endDate).diff(localTrip.startDate, 'day') + 1;
+  const daysArray = Array(tripDays).fill([]);
+  localTrip.details.features.forEach((stop) => {
+    if (stop.properties.tripDay === undefined) return;
+    if (stop.properties.tripDay > -1) {
+      daysArray[stop.properties.tripDay].push(stop);
+    }
+  });
+  const unallocatedStops = localTrip.details.features.filter(
+    (stop) =>
+      stop.properties.tripDay === undefined || stop.properties.tripDay === -1
+  );
 
   function onDragEnd(result: DropResult): void {
     const { destination, source, draggableId } = result;
@@ -59,7 +72,10 @@ export function DraggableTimeline({
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div id="days">
-        <Day stops={unallocatedStops} />;
+        <Day dayId={-1} stops={unallocatedStops} key="day--1" />
+        {daysArray.map((stops, index) => (
+          <Day dayId={index} stops={stops} key={`day-${index}`} />
+        ))}
       </div>
     </DragDropContext>
   );
@@ -67,11 +83,13 @@ export function DraggableTimeline({
 
 const StopList = styled.div``;
 
-function Day({ stops }: { stops: Stop[] }): JSX.Element {
+function Day({ dayId, stops }: { dayId: number; stops: Stop[] }): JSX.Element {
   return (
     <div className="m-4 border border-gray-500 rounded">
-      <h3 className="p-2 text-lg">Unallocated Stops</h3>
-      <Droppable droppableId="0">
+      <h3 className="p-2 text-lg">
+        {dayId === -1 ? 'Unallocated Stops' : `Day ${dayId + 1}`}
+      </h3>
+      <Droppable droppableId={`day-${dayId}`}>
         {(provided): JSX.Element => (
           <StopList
             ref={provided.innerRef}
