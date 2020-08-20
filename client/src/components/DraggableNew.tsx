@@ -71,20 +71,38 @@ function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
     ) {
       return;
     }
-    const dayId = source.droppableId;
-    const newStopIds = [...localData.days[dayId]];
-    newStopIds.splice(source.index, 1);
-    newStopIds.splice(destination.index, 0, draggableId);
+    const startDayId = source.droppableId;
+    const finishDayId = destination.droppableId;
+
+    if (startDayId === finishDayId) {
+      const newStopIds = [...localData.days[startDayId]];
+      newStopIds.splice(source.index, 1);
+      newStopIds.splice(destination.index, 0, draggableId);
+
+      setLocalData((oldData) => ({
+        ...oldData,
+        days: {
+          ...oldData.days,
+          [startDayId]: newStopIds,
+        },
+      }));
+      return;
+    }
+
+    const startStopIds = [...localData.days[startDayId]];
+    startStopIds.splice(source.index, 1);
+    const finishStopIds = [...localData.days[finishDayId]];
+    finishStopIds.splice(destination.index, 0, draggableId);
 
     setLocalData((oldData) => ({
       ...oldData,
       days: {
         ...oldData.days,
-        [dayId]: newStopIds,
+        [startDayId]: startStopIds,
+        [finishDayId]: finishStopIds,
       },
     }));
   }
-  console.log(localData);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

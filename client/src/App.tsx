@@ -5,7 +5,6 @@ import CreateTrip from './components/CreateTrip';
 import TripList from './components/TripList';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
-import DraggableTimeline from './components/DraggableTimeline';
 import DraggableNew from './components/DraggableNew';
 
 function App(): JSX.Element {
@@ -24,7 +23,6 @@ function App(): JSX.Element {
             <TripEdit />
           </Route>
           <Route path="/timeline/:id">
-            {/* <DraggableTimeline /> */}
             <DraggableNew />
           </Route>
           <Route path="/">
