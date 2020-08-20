@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -27,9 +27,10 @@ type DraggableTimelineProps = {
 export function DraggableTimeline({
   trip,
 }: DraggableTimelineProps): JSX.Element {
-  const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
-  const unallocatedStops = trip.details.features;
-  console.log(unallocatedStops);
+  const [localTrip, setLocalTrip] = useState(trip);
+  const tripDays =
+    dayjs(localTrip.endDate).diff(localTrip.startDate, 'day') + 1;
+  const unallocatedStops = localTrip.details.features;
 
   function onDragEnd(result: DropResult): void {
     const { destination, source, draggableId } = result;
@@ -48,6 +49,14 @@ export function DraggableTimeline({
     const newStopsArray = [...unallocatedStops];
     newStopsArray.splice(source.index, 1);
     newStopsArray.splice(destination.index, 0, movedStop);
+
+    setLocalTrip((oldTrip) => ({
+      ...oldTrip,
+      details: {
+        ...oldTrip.details,
+        features: newStopsArray,
+      },
+    }));
   }
 
   return (
