@@ -64,14 +64,14 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 type clientOptions<T> = {
   data?: T;
+  accessToken?: string;
+  method?: string;
 };
 
 export function client<T>(
   endpoint: string,
-  accessToken?: string,
-  { data }: clientOptions<T> = {}
+  { data, accessToken, ...options }: clientOptions<T> = {}
 ): Promise<T> {
-  console.log(accessToken);
   const headers = new Headers();
   if (data) headers.append('Content-Type', 'application/json');
   if (accessToken) headers.append('Authorization', `Bearer ${accessToken}`);
@@ -80,6 +80,7 @@ export function client<T>(
     method: data ? 'POST' : 'GET',
     body: data ? JSON.stringify(data) : undefined,
     headers,
+    ...options,
   };
 
   const request = new Request(`${apiUrl}/${endpoint}`, config);

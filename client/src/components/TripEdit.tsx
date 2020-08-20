@@ -59,6 +59,7 @@ export default function TripEdit(): JSX.Element {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
   if (!trip) return <div>No trip found</div>;
+
   type StopCardPropTypes = {
     stop: Stop;
   };
@@ -155,7 +156,7 @@ export default function TripEdit(): JSX.Element {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
         <ul className="flex flex-col w-full p-4">
-          {trip?.details.features.map((stop: Stop, index) => (
+          {trip?.stopsCollection.features.map((stop: Stop, index) => (
             <StopListItem key={index} stop={stop} />
           ))}
         </ul>

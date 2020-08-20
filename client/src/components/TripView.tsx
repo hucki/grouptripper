@@ -46,7 +46,7 @@ export default function TripView(): JSX.Element {
           style={{ left: '15px' }}
         ></div>
         <ul className="p-0 m-0 list-none">
-          {trip?.details.features.map((stop, index) => (
+          {trip?.stopsCollection.features.map((stop, index) => (
             <TimelineItem key={index} stop={stop} />
           ))}
         </ul>

@@ -1,12 +1,15 @@
 import React from 'react';
 import dayjs from 'dayjs';
+
 // import { usePhoto } from '../hooks/usePhoto';
 // import { Stop } from './../types/Stop';
 import { Trip } from './../types/Trip';
 
+
 type TripCardProps = {
   trip: Trip;
 };
+
 
 export default function TripCard({ trip }: TripCardProps): JSX.Element {
   // const { trip } = props;
@@ -16,7 +19,10 @@ export default function TripCard({ trip }: TripCardProps): JSX.Element {
   //   dimensions: { width: 100, height: 100 },
   // });
 
+
+export default function TripCard({ trip }: TripCardProps): JSX.Element {
   return (
+
     <div className="flex flex-col items-center justify-center max-w-sm mx-auto my-8">
       <div
         // style={photo ? { backgroundImage: `url(${photo.imgUrl})` } : {}}

@@ -13,14 +13,14 @@ import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
 
-function transformToDnDData(trip: Trip): DnDStrucutre {
+function transformToDnDData(trip: Trip): DnDStructure {
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
-  const dataStructure: DnDStrucutre = {
-    stops: trip.details.features,
+  const dataStructure: DnDStructure = {
+    stops: trip.stopsCollection.features,
     days: {},
     daysOrder: [],
   };
-  dataStructure.stops = trip.details.features;
+  dataStructure.stops = trip.stopsCollection.features;
   for (let i = -1; i < tripDays; i++) {
     dataStructure.daysOrder.push(i.toString());
     if (i === -1) {
@@ -41,7 +41,19 @@ function transformToDnDData(trip: Trip): DnDStrucutre {
   return dataStructure;
 }
 
-type DnDStrucutre = {
+function transformFromDnDStructure(dndStructure: DnDStructure): Stop[] {
+  return dndStructure.daysOrder.flatMap((dayId) =>
+    dndStructure.days[dayId].map((stopId) => {
+      const stop = dndStructure.stops.find(
+        (stop) => stop.properties.name === stopId
+      );
+      if (stop) stop.properties.tripDay = parseInt(dayId);
+      return stop;
+    })
+  ) as Stop[];
+}
+
+type DnDStructure = {
   stops: Stop[];
   days: {
     [key: string]: string[];
@@ -57,10 +69,22 @@ export default function DraggableNew(): JSX.Element | null {
 
   const dndData = transformToDnDData(trip);
 
-  return <DraggableTimeline data={dndData} />;
+  function saveToServer(latestDnDData: DnDStructure): void {
+    const stops = transformFromDnDStructure(latestDnDData);
+    console.log('about to save', stops);
+    client<Stop[]>(`tripstops/${id}/stops`, { data: stops, method: 'PUT' });
+  }
+
+  return <DraggableTimeline data={dndData} saveToServer={saveToServer} />;
 }
 
-function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
+function DraggableTimeline({
+  data,
+  saveToServer,
+}: {
+  data: DnDStructure;
+  saveToServer: (latestDndData: DnDStructure) => void;
+}): JSX.Element {
   const [localData, setLocalData] = useState(data);
 
   function onDragEnd({ destination, source, draggableId }: DropResult): void {
@@ -79,6 +103,13 @@ function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
       newStopIds.splice(source.index, 1);
       newStopIds.splice(destination.index, 0, draggableId);
 
+      const newStops = {
+        ...localData,
+        days: {
+          ...localData.days,
+          [startDayId]: newStopIds,
+        },
+      };
       setLocalData((oldData) => ({
         ...oldData,
         days: {
@@ -86,6 +117,7 @@ function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
           [startDayId]: newStopIds,
         },
       }));
+      saveToServer(newStops);
       return;
     }
 
@@ -93,6 +125,15 @@ function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
     startStopIds.splice(source.index, 1);
     const finishStopIds = [...localData.days[finishDayId]];
     finishStopIds.splice(destination.index, 0, draggableId);
+
+    const newStops = {
+      ...localData,
+      days: {
+        ...localData.days,
+        [startDayId]: startStopIds,
+        [finishDayId]: finishStopIds,
+      },
+    };
 
     setLocalData((oldData) => ({
       ...oldData,
@@ -102,6 +143,8 @@ function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
         [finishDayId]: finishStopIds,
       },
     }));
+
+    saveToServer(newStops);
   }
 
   return (

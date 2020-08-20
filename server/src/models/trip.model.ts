@@ -12,7 +12,6 @@ export type Trip = {
   endDate: Date;
   stops?: string[];
   stopsCollection?: StopCollection;
-  details?: StopCollection;
 };
 
 export type TripDocument = Trip & Document;
@@ -39,14 +38,6 @@ const tripSchema = new mongoose.Schema({
     required: false,
   },
   stopsCollection: {
-    type: {
-      type: String,
-      enum: ['FeatureCollection'],
-      required: true,
-    },
-    features: [stopSchema],
-  },
-  details: {
     type: {
       type: String,
       enum: ['FeatureCollection'],
