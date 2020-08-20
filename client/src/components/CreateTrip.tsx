@@ -119,7 +119,7 @@ export default function CreateTrip(): JSX.Element {
             const newTrip = transformTrip(values);
             try {
               const accessToken = await getAccessTokenSilently();
-              await client('trips', accessToken, { data: newTrip });
+              await client('trips', { data: newTrip, accessToken });
               setSubmitting(false);
               setRedirect(true);
             } catch (error) {

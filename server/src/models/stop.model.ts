@@ -26,6 +26,10 @@ type StopProperties = {
     type: number;
     default: 0;
   };
+  tripDay?: {
+    type: number;
+    default: -1;
+  };
 };
 
 export type StopCollection = {
@@ -58,6 +62,7 @@ export const stopSchema = new mongoose.Schema({
     description: String,
     upvotes: Number,
     downvotes: Number,
+    tripDay: Number,
   },
 });
 
