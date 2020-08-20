@@ -18,8 +18,9 @@ export default function TripContainer(): JSX.Element | null {
   const { data: trip } = useQuery('trip', () => client<Trip>(`trips/${id}`));
 
   if (!trip) return null;
-
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
+  const stopsData = {};
+
   const daysArray = Array(tripDays).fill([]);
   trip.details.features.forEach((stop) => {
     if (stop.properties.tripDay === undefined) return;
@@ -80,8 +81,8 @@ export function DraggableTimeline({
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div id="days">
-        <Day dayId={-1} stops={unallocatedStops} key="day--1" />
-        {days.map((stops, index) => (
+        <Day dayId={-1} stops={localUnallocatedStops} key="day--1" />
+        {localDays.map((stops, index) => (
           <Day dayId={index} stops={stops} key={`day-${index}`} />
         ))}
       </div>

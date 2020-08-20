@@ -6,6 +6,7 @@ import TripList from './components/TripList';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import DraggableTimeline from './components/DraggableTimeline';
+import DraggableNew from './components/DraggableNew';
 
 function App(): JSX.Element {
   return (
@@ -23,7 +24,8 @@ function App(): JSX.Element {
             <TripEdit />
           </Route>
           <Route path="/timeline/:id">
-            <DraggableTimeline />
+            {/* <DraggableTimeline /> */}
+            <DraggableNew />
           </Route>
           <Route path="/">
             <div>Here's a list of trips</div>
