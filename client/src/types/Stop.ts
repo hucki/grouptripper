@@ -10,4 +10,5 @@ type StopProperties = {
   description?: string;
   upvotes?: number;
   downvotes?: number;
+  tripDay?: number;
 };
