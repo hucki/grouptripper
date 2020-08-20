@@ -1,23 +1,18 @@
 import React from 'react';
 import MapContainer from './MapContainer';
-import { Trip } from '../types/Trip';
 import { useParams, Link } from 'react-router-dom';
-import { client } from '../services/ApiClient';
-import { useQuery } from 'react-query';
 import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { useTrip } from '../hooks/trip';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
-  const { isLoading, error, data } = useQuery('trip', () =>
-    client<Trip>(`trips/${id}`)
-  );
+
+  const { isLoading, error, trip } = useTrip(id);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
-
-  const trip = data;
 
   const TimelineItem = ({ ...stop }): JSX.Element => {
     return (

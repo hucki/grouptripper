@@ -21,3 +21,24 @@ export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
     ...tripsQuery,
   };
 }
+
+export function useTrip(
+  id: string
+): QueryResult<Trip> & { trip: Trip | undefined } {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  const tripsQuery = useQuery(['trip', id], async () => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Trip>(`trips/${id}`, { accessToken });
+  });
+
+  const trip = tripsQuery.data;
+
+  return {
+    trip,
+    ...tripsQuery,
+  };
+}
