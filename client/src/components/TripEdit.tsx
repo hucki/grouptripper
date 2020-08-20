@@ -7,14 +7,14 @@ import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Formik, Form, Field } from 'formik';
+// import { Formik, Form, Field } from 'formik';
 import {
   faChevronCircleUp,
   faChevronCircleDown,
   faSave,
   faEdit,
 } from '@fortawesome/free-solid-svg-icons';
-import { string } from 'yup';
+// import { string } from 'yup';
 
 export default function TripEdit(): JSX.Element {
   const [editStop, setEditStop] = useState('');
