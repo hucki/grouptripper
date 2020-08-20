@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import TripModel from '../models/trip.model';
-
+import { StopCollection } from '../models/stop.model';
 export const getOneStop = async (
   req: Request,
   res: Response,
@@ -23,6 +23,37 @@ export const getOneStop = async (
   }
 };
 
+export const updateStopArray = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    console.log(req.body);
+    const currentTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
+      stopsCollection: {
+        type: 'FeatureCollection',
+        features: req.body,
+      },
+      details: {
+        type: 'FeatureCollection',
+        features: req.body,
+      },
+    });
+    console.log(currentTrip);
+    const currentStops = currentTrip?.stopsCollection?.features;
+
+    if (currentStops) {
+      res.json(currentStops);
+      res.status(201);
+    } else {
+      res.status(400);
+      res.json({ message: 'Stops not updated' });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
 // export const addStopToTrip = async (
 //   req: Request,
 //   res: Response,
