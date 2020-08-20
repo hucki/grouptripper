@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import TripModel from '../models/trip.model';
-import { StopCollection } from '../models/stop.model';
+import { StopCollection, Stop } from '../models/stop.model';
 export const getOneStop = async (
   req: Request,
   res: Response,
@@ -39,10 +39,54 @@ export const updateStopArray = async (
         features: req.body,
       },
     });
-    const currentStops = currentTrip?.stopsCollection?.features;
-    if (currentStops) {
+    const currentStops = await TripModel.findById(req.params.tripId);
+    if (currentStops?.stopsCollection?.features) {
       res.status(201);
-      res.json(currentStops);
+      res.json(currentStops?.stopsCollection?.features);
+    } else {
+      res.status(400);
+      res.json({ message: 'Stops not updated' });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const updateOneStop = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const reqBody: Stop = req.body[0];
+    const currentTrip = await TripModel.findById(req.params.tripId);
+    const updateStopsCollection: Stop[] = [];
+    const resultingStops = await currentTrip?.stopsCollection?.features.map(
+      (stop) => {
+        if (stop._id.toString() === req.params.stopId.toString()) {
+          updateStopsCollection.push(reqBody);
+          return reqBody;
+        } else {
+          updateStopsCollection.push(stop);
+          return stop;
+        }
+      }
+    );
+    console.log(updateStopsCollection);
+    const updatedTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
+      stopsCollection: {
+        type: 'FeatureCollection',
+        features: updateStopsCollection,
+      },
+      details: {
+        type: 'FeatureCollection',
+        features: updateStopsCollection,
+      },
+    });
+    const currentStops = await TripModel.findById(req.params.tripId);
+    if (currentStops?.stopsCollection?.features) {
+      res.status(201);
+      res.json(currentStops?.stopsCollection?.features);
     } else {
       res.status(400);
       res.json({ message: 'Stops not updated' });
