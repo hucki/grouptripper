@@ -17,6 +17,8 @@ ReactDOM.render(
     domain="dev-g7dchufc.eu.auth0.com"
     clientId="0uVmfvzmb1DC3v4dkvFyVWeIQpdRptWS"
     redirectUri={window.location.origin}
+    audience="https://grouptripper/api"
+    useRefreshTokens={true}
   >
     <React.StrictMode>
       <App />

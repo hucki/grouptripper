@@ -16,6 +16,7 @@ import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
 import { usePhoto } from '../hooks/usePhoto';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type TripInput = {
   name: string;
@@ -86,6 +87,7 @@ export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
+  const { getAccessTokenSilently } = useAuth0();
 
   const formPages = [FormFirstPage, FormSecondPage];
 
@@ -116,7 +118,8 @@ export default function CreateTrip(): JSX.Element {
             setServerError('');
             const newTrip = transformTrip(values);
             try {
-              await client('trips', { data: newTrip });
+              const accessToken = await getAccessTokenSilently();
+              await client('trips', accessToken, { data: newTrip });
               setSubmitting(false);
               setRedirect(true);
             } catch (error) {
