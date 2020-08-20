@@ -1,7 +1,6 @@
 import mongoose from './index';
 import 'mongoose-geojson-schema';
-import GeoJSON from 'geojson';
-import { stopSchema } from './stop.model';
+import { stopSchema, StopCollection } from './stop.model';
 
 import { Document } from 'mongoose';
 
@@ -12,8 +11,8 @@ export type Trip = {
   startDate: Date;
   endDate: Date;
   stops?: string[];
-  stopsCollection?: GeoJSON.FeatureCollection;
-  details?: GeoJSON.FeatureCollection;
+  stopsCollection?: StopCollection;
+  details?: StopCollection;
 };
 
 export type TripDocument = Trip & Document;

@@ -3,6 +3,25 @@ import { Trip } from '../../models/trip.model';
 
 import faker from 'faker';
 import dayjs from 'dayjs';
+import { Stop } from '../../models/stop.model';
+
+function buildStop(): Stop {
+  return {
+    _id: mongoose.Types.ObjectId(),
+    type: 'Feature',
+    properties: {
+      name: faker.address.city(),
+      label: faker.address.city(),
+    },
+    geometry: {
+      type: 'Point',
+      coordinates: [
+        parseFloat(faker.address.latitude()),
+        parseFloat(faker.address.longitude()),
+      ],
+    },
+  };
+}
 
 function buildTrip(): Trip {
   return {
@@ -14,41 +33,11 @@ function buildTrip(): Trip {
     stops: [faker.address.city(), faker.address.city()],
     stopsCollection: {
       type: 'FeatureCollection',
-      features: [faker.address.city(), faker.address.city()].map((stop) => {
-        return {
-          _id: mongoose.Types.ObjectId(),
-          type: 'Feature',
-          properties: {
-            name: stop,
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              parseFloat(faker.address.latitude()),
-              parseFloat(faker.address.longitude()),
-            ],
-          },
-        };
-      }),
+      features: [buildStop(), buildStop()],
     },
     details: {
       type: 'FeatureCollection',
-      features: [faker.address.city(), faker.address.city()].map((stop) => {
-        return {
-          _id: mongoose.Types.ObjectId(),
-          type: 'Feature',
-          properties: {
-            name: stop,
-          },
-          geometry: {
-            type: 'Point',
-            coordinates: [
-              parseFloat(faker.address.latitude()),
-              parseFloat(faker.address.longitude()),
-            ],
-          },
-        };
-      }),
+      features: [buildStop(), buildStop()],
     },
   };
 }
