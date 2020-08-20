@@ -63,17 +63,36 @@ export default function DraggableNew(): JSX.Element | null {
 function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
   const [localData, setLocalData] = useState(data);
 
-  function onDragEnd(result: DropResult): void {
-    console.log(result);
+  function onDragEnd({ destination, source, draggableId }: DropResult): void {
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    const dayId = source.droppableId;
+    const newStopIds = [...localData.days[dayId]];
+    newStopIds.splice(source.index, 1);
+    newStopIds.splice(destination.index, 0, draggableId);
+
+    setLocalData((oldData) => ({
+      ...oldData,
+      days: {
+        ...oldData.days,
+        [dayId]: newStopIds,
+      },
+    }));
   }
+  console.log(localData);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div id="days">
         {localData.daysOrder.map((dayId) => {
           const stopIds = localData.days[dayId];
-          const stops = localData.stops.filter((stop) =>
-            stopIds.includes(stop.properties.name)
+          const stops = stopIds.map((stopId) =>
+            localData.stops.find((stop) => stop.properties.name === stopId)
           );
           return <Day dayId={dayId} stops={stops} key={dayId} />;
         })}
@@ -84,7 +103,13 @@ function DraggableTimeline({ data }: { data: DnDStrucutre }): JSX.Element {
 
 const StopList = styled.div``;
 
-function Day({ dayId, stops }: { dayId: string; stops: Stop[] }): JSX.Element {
+function Day({
+  dayId,
+  stops,
+}: {
+  dayId: string;
+  stops: Array<Stop | undefined>;
+}): JSX.Element {
   return (
     <div className="m-4 border border-gray-500 rounded">
       <h3 className="p-2 text-lg">
@@ -97,9 +122,16 @@ function Day({ dayId, stops }: { dayId: string; stops: Stop[] }): JSX.Element {
             className="p-2"
             {...provided.droppableProps}
           >
-            {stops.map((stop, index) => (
-              <StopCard key={stop.properties.name} stop={stop} index={index} />
-            ))}
+            {stops.map(
+              (stop, index) =>
+                stop && (
+                  <StopCard
+                    key={stop.properties.name}
+                    stop={stop}
+                    index={index}
+                  />
+                )
+            )}
             {provided.placeholder}
           </StopList>
         )}
