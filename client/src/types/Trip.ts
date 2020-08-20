@@ -6,5 +6,6 @@ export type Trip = {
   country: string;
   startDate: Date;
   endDate: Date;
+  stopsCollection: StopCollection;
   details: StopCollection;
 };
