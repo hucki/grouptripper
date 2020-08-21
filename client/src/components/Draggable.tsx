@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Droppable,
@@ -8,10 +7,11 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { client } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
+import { useTrip } from '../hooks/trips';
+import { useUpdateAllStops } from '../hooks/stops';
 
 function transformToDnDData(trip: Trip): DnDStructure {
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
@@ -63,7 +63,8 @@ type DnDStructure = {
 
 export default function DraggableNew(): JSX.Element | null {
   const { id } = useParams();
-  const { data: trip } = useQuery('trip', () => client<Trip>(`trips/${id}`));
+  const { trip } = useTrip(id);
+  const updateStops = useUpdateAllStops(id);
 
   if (!trip) return null;
 
@@ -71,22 +72,21 @@ export default function DraggableNew(): JSX.Element | null {
 
   function saveToServer(latestDnDData: DnDStructure): void {
     const stops = transformFromDnDStructure(latestDnDData);
-    console.log('about to save', stops);
-    client<Stop[]>(`tripstops/${id}/stops`, { data: stops, method: 'PUT' });
+    updateStops({ stops });
   }
 
-  return <DraggableTimeline data={dndData} saveToServer={saveToServer} />;
+  return (
+    <DraggableTimeline draggableStops={dndData} saveToServer={saveToServer} />
+  );
 }
 
 function DraggableTimeline({
-  data,
+  draggableStops,
   saveToServer,
 }: {
-  data: DnDStructure;
+  draggableStops: DnDStructure;
   saveToServer: (latestDndData: DnDStructure) => void;
 }): JSX.Element {
-  const [localData, setLocalData] = useState(data);
-
   function onDragEnd({ destination, source, draggableId }: DropResult): void {
     if (!destination) return;
     if (
@@ -99,50 +99,34 @@ function DraggableTimeline({
     const finishDayId = destination.droppableId;
 
     if (startDayId === finishDayId) {
-      const newStopIds = [...localData.days[startDayId]];
+      const newStopIds = [...draggableStops.days[startDayId]];
       newStopIds.splice(source.index, 1);
       newStopIds.splice(destination.index, 0, draggableId);
 
       const newStops = {
-        ...localData,
+        ...draggableStops,
         days: {
-          ...localData.days,
+          ...draggableStops.days,
           [startDayId]: newStopIds,
         },
       };
-      setLocalData((oldData) => ({
-        ...oldData,
-        days: {
-          ...oldData.days,
-          [startDayId]: newStopIds,
-        },
-      }));
       saveToServer(newStops);
       return;
     }
 
-    const startStopIds = [...localData.days[startDayId]];
+    const startStopIds = [...draggableStops.days[startDayId]];
     startStopIds.splice(source.index, 1);
-    const finishStopIds = [...localData.days[finishDayId]];
+    const finishStopIds = [...draggableStops.days[finishDayId]];
     finishStopIds.splice(destination.index, 0, draggableId);
 
     const newStops = {
-      ...localData,
+      ...draggableStops,
       days: {
-        ...localData.days,
+        ...draggableStops.days,
         [startDayId]: startStopIds,
         [finishDayId]: finishStopIds,
       },
     };
-
-    setLocalData((oldData) => ({
-      ...oldData,
-      days: {
-        ...oldData.days,
-        [startDayId]: startStopIds,
-        [finishDayId]: finishStopIds,
-      },
-    }));
 
     saveToServer(newStops);
   }
@@ -150,10 +134,10 @@ function DraggableTimeline({
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div id="days">
-        {localData.daysOrder.map((dayId) => {
-          const stopIds = localData.days[dayId];
+        {draggableStops.daysOrder.map((dayId) => {
+          const stopIds = draggableStops.days[dayId];
           const stops = stopIds.map((stopId) =>
-            localData.stops.find((stop) => stop.properties.name === stopId)
+            draggableStops.stops.find((stop) => stop.properties.name === stopId)
           );
           return <Day dayId={dayId} stops={stops} key={dayId} />;
         })}
