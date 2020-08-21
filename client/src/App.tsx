@@ -6,6 +6,7 @@ import TripList from './components/TripList';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import DraggableNew from './components/DraggableNew';
+import UserProfile from './components/UserProfile.js';
 
 function App(): JSX.Element {
   return (
@@ -25,9 +26,12 @@ function App(): JSX.Element {
           <Route path="/timeline/:id">
             <DraggableNew />
           </Route>
-          <Route path="/">
+          <Route exact={true} path="/">
             <div>Here's a list of trips</div>
             <TripList />
+          </Route>
+          <Route path="/user-profile">
+            <UserProfile />
           </Route>
         </Switch>
       </div>
