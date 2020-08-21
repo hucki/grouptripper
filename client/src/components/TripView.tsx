@@ -23,15 +23,17 @@ export default function TripView(): JSX.Element {
   };
   const TimelineItem = ({ stop }: TimelineItemInputProps): JSX.Element => {
     return (
-      <div className="mb-2 ml-8">
-        <div className="text-sm font-semibold uppercase">
-          <span className="-ml-4">
-            <FontAwesomeIcon className="text-teal-500" icon={faHotel} />{' '}
-          </span>
-          {stop.properties.name}
+      <div className="flex flex-row mb-1 ml-8 border rounded even:bg-gray-100">
+        <div className="-ml-8">
+          <FontAwesomeIcon className="text-teal-500" icon={faHotel} />{' '}
         </div>
-        <div className="">{stop.properties.label}</div>
-        <div className="">{stop.properties.description}</div>
+        <div className="ml-5">
+          <div className="text-sm font-semibold uppercase">
+            {stop.properties.name}
+          </div>
+          <div className="text-xs">{stop.properties.label}</div>
+          <div className="text-xs">{stop.properties.description}</div>
+        </div>
       </div>
     );
   };
@@ -52,10 +54,10 @@ export default function TripView(): JSX.Element {
             daysOfTrip.map((day: Dayjs, index) => (
               <div key={day.format('YYYYMMDD')} className="uppercase ">
                 {day.format('dddd D')}
-                {stopsOfAllDays[index] ? (
+                {stopsOfAllDays[index].length ? (
                   stopsOfAllDays[index]
                 ) : (
-                  <div className="text-sm italic text-gray-400 lowercase">
+                  <div className="ml-8 text-sm italic text-gray-400 lowercase">
                     {' '}
                     no stops on this day
                   </div>
@@ -75,8 +77,9 @@ export default function TripView(): JSX.Element {
     }
   });
   for (let i = 0; i < numberOfDays; i++) {
+    stopsOfAllDays.push([]);
     trip?.stopsCollection.features.map((stop: Stop, index) => {
-      if (index === stop.properties.tripDay) {
+      if (i === stop.properties.tripDay) {
         stopsOfAllDays[i].push(<TimelineItem key={stop._id} stop={stop} />);
       } else {
         return null;
@@ -93,7 +96,6 @@ export default function TripView(): JSX.Element {
   }
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
-  console.log(trip);
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} />}
