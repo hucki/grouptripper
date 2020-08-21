@@ -55,7 +55,7 @@ export default function TripView(): JSX.Element {
       {trip && <TripCard trip={trip} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
-        <MapContainer trip={trip} />
+        {trip && <MapContainer trip={trip} />}
       </div>
       <Link to={`/trips/edit/${id}`}>
         <div

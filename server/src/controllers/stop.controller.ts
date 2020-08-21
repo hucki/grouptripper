@@ -39,10 +39,6 @@ export const updateStopArray = async (
         type: 'FeatureCollection',
         features: req.body,
       },
-      details: {
-        type: 'FeatureCollection',
-        features: req.body,
-      },
     });
     const currentStops = await TripModel.findById(req.params.tripId);
     if (currentStops?.stopsCollection?.features) {
@@ -82,10 +78,6 @@ export const updateOneStop = async (
         type: 'FeatureCollection',
         features: updateStopsCollection,
       },
-      details: {
-        type: 'FeatureCollection',
-        features: updateStopsCollection,
-      },
     });
     const currentStops = await TripModel.findById(req.params.tripId);
     if (currentStops?.stopsCollection?.features) {
@@ -120,10 +112,6 @@ export const deleteOneStop = async (
     );
     const updatedTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
       stopsCollection: {
-        type: 'FeatureCollection',
-        features: updateStopsCollection,
-      },
-      details: {
         type: 'FeatureCollection',
         features: updateStopsCollection,
       },
@@ -174,10 +162,6 @@ export const addStopToTrip = async (
     updateStopsCollection.push(newStop);
     const updatedTrip = await TripModel.findByIdAndUpdate(req.params.tripId, {
       stopsCollection: {
-        type: 'FeatureCollection',
-        features: updateStopsCollection,
-      },
-      details: {
         type: 'FeatureCollection',
         features: updateStopsCollection,
       },
