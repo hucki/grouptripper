@@ -10,15 +10,12 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import * as countries from 'country-list';
-
-import { client } from './../services/ApiClient';
 import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
 import { usePhoto } from '../hooks/usePhoto';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useCreateTrip } from '../hooks/trips';
-import { create } from 'domain';
 
 type TripInput = {
   name: string;
