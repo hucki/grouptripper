@@ -2,6 +2,8 @@ import React from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import TripCard from './TripCard';
+import StopCard from './StopCard';
+import { Stop } from '../types/Stop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useTrip } from '../hooks/trips';
@@ -13,39 +15,21 @@ export default function TripView(): JSX.Element {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
 
-  const TimelineItem = ({ ...stop }): JSX.Element => {
-    return (
-      <li className="mb-2">
-        <div className="flex items-center flex-shrink-0 mb-1">
-          <div className="w-8 h-8 bg-teal-500 rounded-full"></div>
-          <div className="flex-1 ml-4 font-medium text-teal-800">
-            {stop.stop.properties.name}
-          </div>
-        </div>
-        <div className="ml-12">
-          <p className="text-base text-teal-800">
-            {stop.stop.geometry.coordinates[0].toFixed(4)}
-          </p>
-          <p className="text-base text-teal-800">
-            {stop.stop.geometry.coordinates[1].toFixed(4)}
-          </p>
-        </div>
-      </li>
-    );
-  };
-
   const Timeline = (): JSX.Element => {
     return (
-      <div className="relative m-8">
-        <div
-          className="absolute top-0 h-full border-r-2 border-teal-500"
-          style={{ left: '15px' }}
-        ></div>
-        <ul className="p-0 m-0 list-none">
-          {trip?.stopsCollection.features.map((stop, index) => (
-            <TimelineItem key={index} stop={stop} />
+      <div className="container flex items-center justify-center w-full mx-auto">
+        <div className="flex flex-col w-full p-4">
+          {trip?.stopsCollection.features.map((stop: Stop, index) => (
+            // <StopListItem key={index} stop={stop} />
+            <StopCard
+              key={index}
+              stop={stop}
+              setEditStop={(): void => console.log('clicked', index)}
+              editStop={''}
+              tripEdit={false}
+            />
           ))}
-        </ul>
+        </div>
       </div>
     );
   };
