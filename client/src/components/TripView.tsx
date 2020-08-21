@@ -2,38 +2,98 @@ import React from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import TripCard from './TripCard';
-import StopCard from './StopCard';
-import { Stop } from '../types/Stop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faHotel } from '@fortawesome/free-solid-svg-icons';
 import { useTrip } from '../hooks/trips';
+import dayjs, { Dayjs } from 'dayjs';
+import { Stop } from '../types/Stop';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
+  const numberOfDays =
+    dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error getting trips: {error}</div>;
+  const daysOfTrip: Dayjs[] = [];
+  const stopsOfAllDays: JSX.Element[][] = [];
+  const notScheduled: JSX.Element[] = [];
+
+  type TimelineItemInputProps = {
+    stop: Stop;
+  };
+  const TimelineItem = ({ stop }: TimelineItemInputProps): JSX.Element => {
+    return (
+      <div className="mb-2 ml-8">
+        <div className="text-sm font-semibold uppercase">
+          <span className="-ml-4">
+            <FontAwesomeIcon className="text-teal-500" icon={faHotel} />{' '}
+          </span>
+          {stop.properties.name}
+        </div>
+        <div className="">{stop.properties.label}</div>
+        <div className="">{stop.properties.description}</div>
+      </div>
+    );
+  };
 
   const Timeline = (): JSX.Element => {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
-        <div className="flex flex-col w-full p-4">
-          {trip?.stopsCollection.features.map((stop: Stop, index) => (
-            // <StopListItem key={index} stop={stop} />
-            <StopCard
-              key={index}
-              stop={stop}
-              setEditStop={(): void => console.log('clicked', index)}
-              editStop={''}
-              tripEdit={false}
-            />
-          ))}
+        <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+          {notScheduled.length ? (
+            <div>
+              <span className="text-sm italic text-gray-400 lowercase">
+                not yet scheduled:
+              </span>
+              {notScheduled}
+            </div>
+          ) : null}
+          {daysOfTrip &&
+            daysOfTrip.map((day: Dayjs, index) => (
+              <div key={day.format('YYYYMMDD')} className="uppercase ">
+                {day.format('dddd D')}
+                {stopsOfAllDays[index] ? (
+                  stopsOfAllDays[index]
+                ) : (
+                  <div className="text-sm italic text-gray-400 lowercase">
+                    {' '}
+                    no stops on this day
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
       </div>
     );
   };
 
+  trip?.stopsCollection.features.map((stop: Stop) => {
+    if (stop.properties.tripDay === -1) {
+      notScheduled.push(<TimelineItem key={stop._id} stop={stop} />);
+    } else {
+      return null;
+    }
+  });
+  for (let i = 0; i < numberOfDays; i++) {
+    trip?.stopsCollection.features.map((stop: Stop, index) => {
+      if (index === stop.properties.tripDay) {
+        stopsOfAllDays[i].push(<TimelineItem key={stop._id} stop={stop} />);
+      } else {
+        return null;
+      }
+    });
+
+    daysOfTrip.push(
+      dayjs(trip?.startDate)
+        .add(i, 'd')
+        .set('second', 0)
+        .set('minute', 1)
+        .set('hour', 0)
+    );
+  }
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error getting trips: {error}</div>;
+  console.log(trip);
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} />}

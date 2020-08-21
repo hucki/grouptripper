@@ -1,6 +1,9 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { Stop } from '../types/Stop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTrip } from '../hooks/trips';
+import { useUpdateAllStops } from '../hooks/stops';
 import {
   faGripLines,
   faEdit,
@@ -19,56 +22,6 @@ import {
   // yupToFormErrors,
 } from 'formik';
 
-type StopInput = {
-  name: string;
-  label: string;
-  description?: string;
-  currentStop: Stop;
-};
-
-type InputProps = {
-  name: string;
-  id: string;
-  label: string;
-  type?: string;
-};
-
-function TextInput({ label, ...props }: InputProps): JSX.Element {
-  const [field, meta] = useField(props);
-
-  return (
-    <div className="flex flex-col mb-2">
-      <label htmlFor={props.name}>{label}</label>
-      <Field
-        {...field}
-        {...props}
-        className="p-3 border border-gray-500 rounded"
-      />
-      {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
-    </div>
-  );
-}
-
-function transformStop(stopInput: StopInput): Stop {
-  return {
-    type: 'Feature' as const,
-    properties: {
-      name: stopInput.name,
-      label: stopInput.currentStop?.properties.label,
-      description: stopInput.currentStop?.properties.description,
-      upvotes: stopInput.currentStop?.properties.upvotes || 0,
-      downvotes: stopInput.currentStop?.properties.upvotes || 0,
-    },
-    geometry: {
-      type: 'Point' as const,
-      coordinates: [
-        stopInput.currentStop?.geometry.coordinates[0] || 0,
-        stopInput.currentStop?.geometry.coordinates[1] || 0,
-      ],
-    },
-  };
-}
-
 type StopCardPropTypes = {
   stop: Stop;
   setEditStop: (id: string) => void;
@@ -82,6 +35,71 @@ export default function StopCard({
   setEditStop,
   tripEdit,
 }: StopCardPropTypes): JSX.Element {
+  const { id } = useParams();
+  const { trip } = useTrip(id);
+  const updateStops = useUpdateAllStops(id);
+
+  type StopInput = {
+    name: string;
+    label: string;
+    description?: string;
+    currentStop: Stop;
+  };
+
+  type InputProps = {
+    name: string;
+    id: string;
+    label: string;
+    type?: string;
+  };
+
+  function TextInput({ label, ...props }: InputProps): JSX.Element {
+    const [field, meta] = useField(props);
+
+    return (
+      <div className="flex flex-col mb-2">
+        <label htmlFor={props.name}>{label}</label>
+        <Field
+          {...field}
+          {...props}
+          className="p-3 border border-gray-500 rounded"
+        />
+        {meta.touched && meta.error ? (
+          <div role="alert">{meta.error}</div>
+        ) : null}
+      </div>
+    );
+  }
+
+  function transformStop(stopInput: StopInput): Stop[] {
+    const newStops = trip?.stopsCollection.features.map((stop: Stop) => {
+      if (stop._id === stopInput.currentStop._id) {
+        return {
+          geometry: {
+            type: 'Point' as const,
+            coordinates: [
+              stopInput.currentStop?.geometry.coordinates[0] || 0,
+              stopInput.currentStop?.geometry.coordinates[1] || 0,
+            ],
+          },
+          properties: {
+            name: stopInput.name,
+            label: stopInput.label,
+            description: stopInput.description,
+            upvotes: stopInput.currentStop?.properties.upvotes || 0,
+            downvotes: stopInput.currentStop?.properties.upvotes || 0,
+            tripDay: stopInput.currentStop.properties.tripDay,
+          },
+          type: 'Feature' as const,
+          _id: stopInput.currentStop._id,
+        };
+      } else {
+        return stop;
+      }
+    });
+    return newStops as Stop[];
+  }
+
   return (
     <>
       <div className="z-10 flex flex-row mb-1 border-gray-400">
@@ -142,7 +160,8 @@ export default function StopCard({
                   currentStop: stop,
                 }}
                 onSubmit={(values, { setSubmitting, resetForm }): void => {
-                  transformStop(values);
+                  const stops = transformStop(values);
+                  updateStops({ stops });
                   setSubmitting(false);
                   setEditStop('');
                 }}

@@ -61,7 +61,10 @@ export default function TripCard({
                 </p>
                 <p className="mt-4">
                   {trip?.stopsCollection.features.map((stop, index: number) => (
-                    <span className="p-1 m-1 text-sm leading-none text-teal-900 bg-teal-200 rounded">
+                    <span
+                      key={stop.properties.name}
+                      className="p-1 m-2 text-sm leading-none text-teal-900 bg-teal-200 rounded-md"
+                    >
                       {stop.properties.name}
                     </span>
                   ))}
