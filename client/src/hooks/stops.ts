@@ -21,7 +21,9 @@ export function useUpdateAllStops(
   };
 
   const [mutate] = useMutation(createTrip, {
-    onSuccess: (updatedStops) => {
+    onMutate: ({ stops: newStops }) => {
+      queryCache.cancelQueries(['trip', tripId]);
+
       const oldTrip = queryCache.getQueryData<Trip>(['trip', tripId]);
       if (!oldTrip) return;
 
@@ -29,10 +31,19 @@ export function useUpdateAllStops(
         ...oldTrip,
         stopsCollection: {
           ...oldTrip.stopsCollection,
-          features: updatedStops,
+          features: newStops,
         },
       };
       queryCache.setQueryData<Trip>(['trip', tripId], updatedTrip);
+
+      return (): void =>
+        queryCache.setQueryData<Trip>(['trip', tripId], oldTrip);
+    },
+    onError: (err, newStops, rollback) => {
+      (rollback as () => void)();
+    },
+    onSuccess: (updatedStops) => {
+      queryCache.invalidateQueries(['trip', tripId]);
     },
   });
 
