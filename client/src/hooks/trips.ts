@@ -2,7 +2,7 @@ import {
   useQuery,
   useMutation,
   QueryResult,
-  MutateFunction,
+  MutationResultPair,
 } from 'react-query';
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -48,7 +48,13 @@ export function useTrip(
   };
 }
 
-export function useCreateTrip(): MutateFunction<Trip, { trip: Trip }> {
+export function useCreateTrip(): MutationResultPair<
+  Trip,
+  {
+    trip: Trip;
+  },
+  Error
+> {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const createTrip = async ({ trip }: { trip: Trip }): Promise<Trip> => {
     let accessToken;
@@ -58,7 +64,5 @@ export function useCreateTrip(): MutateFunction<Trip, { trip: Trip }> {
     return client<Trip>('trips', { data: trip, accessToken });
   };
 
-  const [mutate] = useMutation(createTrip);
-
-  return mutate;
+  return useMutation(createTrip);
 }
