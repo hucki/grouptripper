@@ -1,6 +1,6 @@
 /* eslint no-use-before-define: 0 */ // --> OFF
 import React from 'react';
-
+//eslint-disable-next-line
 export default function LandingPage() {
   return (
     <>
