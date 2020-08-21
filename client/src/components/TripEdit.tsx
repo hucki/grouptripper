@@ -170,7 +170,7 @@ export default function TripEdit(): JSX.Element {
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
         {/* <DraggableNew /> */}
-        <MapContainer trip={trip} />
+        {trip && <MapContainer trip={trip} />}
       </div>
       <Link to={`/trips/${id}`}>
         <div

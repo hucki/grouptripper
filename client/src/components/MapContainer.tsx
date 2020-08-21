@@ -7,6 +7,7 @@ import ApiClient from '../services/ApiClient';
 import gtmarker from '../assets/gtmarker.png';
 import * as geolib from 'geolib';
 import { StopCollection } from '../types/Stop';
+import { Trip } from '../types/Trip';
 
 const poiMarker = new L.Icon({
   iconUrl: gtmarker,
@@ -36,9 +37,7 @@ function getBounds(coordinates: LatLngTuple[]): LatLngBoundsLiteral {
   return latLngBounds;
 }
 
-export default function MapContainer({ ...props }): JSX.Element {
-  const { trip } = props;
-
+export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
   const gotPois = useQuery('pois', ApiClient.getPois);
   const gotRoute = useQuery('route', ApiClient.getRoute);
 
@@ -47,9 +46,7 @@ export default function MapContainer({ ...props }): JSX.Element {
   if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
   if (gotPois.error) return <div>error: {gotPois.error}</div>;
 
-  if (!trip.details) return <div> old trip format. No map Data available </div>;
-
-  const markers = trip.details.features.map(
+  const markers = trip.stopsCollection.features.map(
     (feature: GeoJSON.Feature, index: number) => (
       <GeoJSON
         data={feature}
@@ -60,7 +57,7 @@ export default function MapContainer({ ...props }): JSX.Element {
       />
     )
   );
-  const allCoordinates = getAllCoordinates(trip.details);
+  const allCoordinates = getAllCoordinates(trip.stopsCollection);
   const bounds: LatLngBoundsLiteral = getBounds(allCoordinates);
   const centerOfBounds = geolib.getCenterOfBounds(allCoordinates);
   const center: LatLngTuple = [
