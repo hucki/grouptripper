@@ -7,7 +7,6 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { client } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
