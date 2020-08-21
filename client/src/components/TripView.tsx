@@ -120,7 +120,7 @@ export default function TripView(): JSX.Element {
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} />}
-      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
+      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
         {trip && <MapContainer trip={trip} />}
       </div>

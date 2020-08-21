@@ -18,7 +18,7 @@ export default function TripCard({
   });
 
   return (
-    <div className="flex items-center flex-1 p-1 transition duration-500 ease-in-out transform bg-gray-100 rounded-md cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
+    <div className="flex items-center flex-1 p-1 transition duration-500 ease-in-out transform rounded-lg shadow cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="flex flex-col">
         <div className="flex flex-col justify-between leading-normal rounded-b lg:rounded-b-none lg:rounded-r">
           <div>
