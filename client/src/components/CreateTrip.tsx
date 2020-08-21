@@ -65,9 +65,8 @@ const validationSchema = Yup.object({
 
 export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
-  const [serverError, setServerError] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
-  const createTrip = useCreateTrip();
+  const [createTrip, { error: savingError }] = useCreateTrip();
 
   const formPages = [FormFirstPage, FormSecondPage];
 
@@ -75,7 +74,7 @@ export default function CreateTrip(): JSX.Element {
     return formPages[currentPage](formikProps);
   }
 
-  if (redirect) return <div>Success</div>;
+  if (redirect && !savingError) return <div>Success</div>;
 
   return (
     <>
@@ -95,15 +94,11 @@ export default function CreateTrip(): JSX.Element {
             values: TripInput,
             { setSubmitting }: FormikHelpers<TripInput>
           ): Promise<void> => {
-            setServerError('');
+            setRedirect(false);
             const newTrip = transformTrip(values);
-            try {
-              createTrip({ trip: newTrip });
-              setSubmitting(false);
-              setRedirect(true);
-            } catch (error) {
-              setServerError(error.message);
-            }
+            await createTrip({ trip: newTrip });
+            setSubmitting(false);
+            setRedirect(true);
           }}
         >
           {(formikProps): JSX.Element => (
@@ -136,7 +131,9 @@ export default function CreateTrip(): JSX.Element {
               >
                 Create Trip
               </button>
-              {serverError ? <div>{serverError} - Please retry</div> : null}
+              {savingError ? (
+                <div>{savingError.message} - Please retry</div>
+              ) : null}
             </Form>
           )}
         </Formik>
@@ -250,12 +247,6 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
 }
 type StopCardPropTypes = {
   stop: Stop;
-};
-
-type Photo = {
-  id: string;
-  imgUrl: string;
-  alt_description: string;
 };
 
 function StopCard({ stop }: StopCardPropTypes): JSX.Element {

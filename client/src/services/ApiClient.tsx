@@ -86,11 +86,16 @@ export function client<T>(
   const request = new Request(`${apiUrl}/${endpoint}`, config);
 
   return window.fetch(request).then(async (response) => {
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      return Promise.reject(data);
+    try {
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        console.log('something wrong', data);
+        return Promise.reject(data);
+      }
+    } catch (e) {
+      return Promise.reject(e);
     }
   });
 }

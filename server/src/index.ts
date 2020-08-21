@@ -16,9 +16,12 @@ app.use(morgan('tiny'));
 app.use('/', tripsRouter);
 app.use('/', tripsAuthRouter);
 
-// eslint-disable-next-line no-unused-vars
-app.use((err: Error, req: Request, res: Response) => {
-  console.error(err.message, err);
+// eslint-disable-next-line
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({ message: 'invalid token...' });
+  }
+
   return res.status(500).json({
     message: err.message,
     // we only add a `stack` property in non-production environments
