@@ -25,8 +25,10 @@ export function usePhoto({ queryText, dimensions }: usePhotoProps): Photo {
   const sizeModifier = dimensions
     ? `&fit=crop&h=${dimensions.height}&w=${dimensions.width}`
     : '';
-  const { data: returnedPhoto } = useQuery(['photos', queryText], () =>
-    client<Photo>(`photos/${queryText}`)
+  const { data: returnedPhoto } = useQuery(
+    ['photos', queryText],
+    () => client<Photo>(`photos/${queryText}`),
+    { staleTime: 1000 * 60 * 60 }
   );
 
   return returnedPhoto
