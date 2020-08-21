@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
-import TripList from './components/TripList';
+import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile.js';
@@ -27,8 +27,7 @@ function App(): JSX.Element {
             <DraggableStops />
           </Route>
           <Route exact={true} path="/">
-            <div>Here's a list of trips</div>
-            <TripList />
+            <LandingPage />
           </Route>
           <Route path="/user-profile">
             <UserProfile />
