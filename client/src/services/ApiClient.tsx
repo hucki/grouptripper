@@ -91,7 +91,6 @@ export function client<T>(
       if (response.ok) {
         return data;
       } else {
-        console.log('something wrong', data);
         return Promise.reject(data);
       }
     } catch (e) {
