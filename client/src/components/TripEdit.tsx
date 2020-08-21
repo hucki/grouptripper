@@ -7,7 +7,16 @@ import { client } from '../services/ApiClient';
 import { useQuery } from 'react-query';
 import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { Formik, FormikHelpers, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import {
+  Formik,
+  // FormikHelpers,
+  Form,
+  Field,
+  // FormikProps,
+  useField,
+  // yupToFormErrors,
+} from 'formik';
 // import { useAuth0 } from '@auth0/auth0-react';
 import {
   faChevronUp,
@@ -18,33 +27,55 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 // import DraggableNew from './DraggableNew';
 
-// type StopInput = {
-//   name: string;
-//   label: string;
-//   description?: string;
-//   currentStop: Stop | null;
-//   stops: Stop[];
-// };
+type StopInput = {
+  name: string;
+  label: string;
+  description?: string;
+  currentStop: Stop;
+};
 
-// function transformStop(stopInput: StopInput): Stop[] {
-//   const newStops = stopInput.stops.map((stop) => {
-//     return {
-//       type: 'Feature' as const,
-//       properties: {
-//         name: stop.properties.name,
-//         label: stop.properties.label,
-//         description: '',
-//         upvotes: 0,
-//         downvotes: 0,
-//       },
-//       geometry: {
-//         type: 'Point' as const,
-//         coordinates: stop.geometry.coordinates,
-//       },
-//     };
-//   });
-//   return newStops;
-// }
+type InputProps = {
+  name: string;
+  id: string;
+  label: string;
+  type?: string;
+};
+
+function TextInput({ label, ...props }: InputProps): JSX.Element {
+  const [field, meta] = useField(props);
+
+  return (
+    <div className="flex flex-col mb-2">
+      <label htmlFor={props.name}>{label}</label>
+      <Field
+        {...field}
+        {...props}
+        className="p-3 border border-gray-500 rounded"
+      />
+      {meta.touched && meta.error ? <div role="alert">{meta.error}</div> : null}
+    </div>
+  );
+}
+
+function transformStop(stopInput: StopInput): Stop {
+  return {
+    type: 'Feature' as const,
+    properties: {
+      name: stopInput.name,
+      label: stopInput.currentStop?.properties.label,
+      description: stopInput.currentStop?.properties.description,
+      upvotes: stopInput.currentStop?.properties.upvotes || 0,
+      downvotes: stopInput.currentStop?.properties.upvotes || 0,
+    },
+    geometry: {
+      type: 'Point' as const,
+      coordinates: [
+        stopInput.currentStop?.geometry.coordinates[0] || 0,
+        stopInput.currentStop?.geometry.coordinates[1] || 0,
+      ],
+    },
+  };
+}
 
 export default function TripEdit(): JSX.Element {
   const [editStop, setEditStop] = useState('');
@@ -112,38 +143,57 @@ export default function TripEdit(): JSX.Element {
             <div className="flex items-center flex-1 p-2 transition duration-500 ease-in-out transform bg-gray-100 rounded-md cursor-pointer select-none">
               <div className="flex flex-col items-center justify-center w-10 h-10 mr-4 bg-gray-100 rounded-md"></div>
               <div className="flex-1 pl-1 mr-16">
-                {/* <Formik
+                <Formik
                   initialValues={{
                     name: stop.properties.name,
                     label: stop.properties.label,
                     description: stop.properties.description,
                     currentStop: stop,
-                    stops: data?.stopsCollection,
                   }}
-                  onSubmit={async (
-                    values: StopInput,
-                    { setSubmitting }: FormikHelpers<StopInput>
-                  ): Promise<void> => {
-                    setServerError('');
-                    const newStops = transformStop(values);
-                    try {
-                      const accessToken = await getAccessTokenSilently();
-                      await client('tripstopsstops', accessToken, { data: newStops, method: 'PUT' });
-                      setSubmitting(false);
-                      setRedirect(true);
-                    } catch (error) {
-                      setServerError(error.message);
-                    }
-                  }}
-                /> */}
-              </div>
-              <div className="text-xs text-teal-600 ">
-                <FontAwesomeIcon
-                  icon={faSave}
-                  onClick={(e): void => {
+                  onSubmit={(values, { setSubmitting, resetForm }): void => {
+                    transformStop(values);
+                    setSubmitting(false);
                     setEditStop('');
                   }}
-                />
+                  validationSchema={Yup.object({
+                    name: Yup.string().required(),
+                    label: Yup.string().required(),
+                    description: Yup.string(),
+                  })}
+                >
+                  {(props): JSX.Element => (
+                    <Form>
+                      <TextInput
+                        label="Name"
+                        name="name"
+                        id="name"
+                        type="text"
+                      />
+                      <TextInput
+                        label="Label"
+                        name="label"
+                        id="label"
+                        type="text"
+                      />
+                      <TextInput
+                        label="Description"
+                        name="description"
+                        id="description"
+                        type="text"
+                      />
+                      <button
+                        type="submit"
+                        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none disabled:bg-gray-600 active:bg-teal-600 hover:shadow-md focus:outline-none"
+                      >
+                        {props.isSubmitting ? (
+                          'Loading ...'
+                        ) : (
+                          <FontAwesomeIcon icon={faSave} />
+                        )}
+                      </button>
+                    </Form>
+                  )}
+                </Formik>
               </div>
             </div>
           </li>
