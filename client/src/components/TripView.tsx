@@ -93,7 +93,6 @@ export default function TripView(): JSX.Element {
   }
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
-  console.log(trip);
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} />}
