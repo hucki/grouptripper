@@ -20,7 +20,7 @@ export default function TripCard({
   return (
     <div className="flex items-center flex-1 p-1 transition duration-500 ease-in-out transform bg-gray-100 rounded-md cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="flex flex-col">
-        <div className="flex flex-col justify-between leading-normal bg-white rounded-b lg:rounded-b-none lg:rounded-r">
+        <div className="flex flex-col justify-between leading-normal rounded-b lg:rounded-b-none lg:rounded-r">
           <div>
             <div
               className={
@@ -54,10 +54,15 @@ export default function TripCard({
                   </div>
                 </div>
                 <p className="text-base text-teal-700">
-                  Yeah! We are going to:
+                  Yeah! We are having a trip. Prepare to be happy!{' '}
+                  <span role="img" aria-label="Party Popper">
+                    🎉
+                  </span>
+                </p>
+                <p className="mt-4">
                   {trip?.stopsCollection.features.map((stop, index: number) => (
-                    <span className="font-bold leading-none text-teal-900">
-                      &nbsp;{stop.properties.name}
+                    <span className="p-1 m-1 text-sm leading-none text-teal-900 bg-teal-200 rounded">
+                      {stop.properties.name}
                     </span>
                   ))}
                 </p>
