@@ -72,7 +72,6 @@ export default function StopCard({
   }
 
   function transformStop(stopInput: StopInput): Stop[] {
-    // console.log(trip);
     const newStops = trip?.stopsCollection.features.map((stop: Stop) => {
       if (stop._id === stopInput.currentStop._id) {
         return {
@@ -89,6 +88,7 @@ export default function StopCard({
             description: stopInput.description,
             upvotes: stopInput.currentStop?.properties.upvotes || 0,
             downvotes: stopInput.currentStop?.properties.upvotes || 0,
+            tripDay: stopInput.currentStop.properties.tripDay,
           },
           type: 'Feature' as const,
           _id: stopInput.currentStop._id,
