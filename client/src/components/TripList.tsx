@@ -16,7 +16,7 @@ export default function TripList(): JSX.Element {
             to={`/trips/${trip._id}`}
             className="text-blue-800 no-underline"
           >
-            <TripCard trip={trip} />
+            <TripCard trip={trip} listView={true} />
           </Link>
         </div>
       ))}

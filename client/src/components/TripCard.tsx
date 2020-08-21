@@ -5,9 +5,13 @@ import { Trip } from './../types/Trip';
 
 type TripCardProps = {
   trip: Trip;
+  listView: boolean;
 };
 
-export default function TripCard({ trip }: TripCardProps): JSX.Element {
+export default function TripCard({
+  trip,
+  listView,
+}: TripCardProps): JSX.Element {
   // const photo = usePhoto({
   //   queryText: trip.country,
   //   dimensions: { width: 100, height: 100 },
@@ -41,10 +45,16 @@ export default function TripCard({ trip }: TripCardProps): JSX.Element {
       <div className="flex flex-col">
         <div className="flex flex-col justify-between leading-normal bg-white rounded-b lg:rounded-b-none lg:rounded-r">
           <div>
-            <div className="flex flex-col justify-center">
+            <div
+              className={
+                listView
+                  ? 'flex flex-col justify-center'
+                  : 'flex flex-row justify-center'
+              }
+            >
               <div
                 className="flex flex-wrap flex-shrink-0 m-4"
-                // style={{ height: '100px', width: '100px' }}
+                style={listView ? {} : { height: '100px', width: '100px' }}
               >
                 <img
                   src={`https://source.unsplash.com/featured/500x500/?${trip?.country}`}
