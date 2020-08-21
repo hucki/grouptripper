@@ -1,7 +1,8 @@
-import { useMutation, MutateFunction } from 'react-query';
+import { useMutation, MutateFunction, queryCache } from 'react-query';
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Stop } from '../types/Stop';
+import { Trip } from '../types/Trip';
 
 export function useUpdateAllStops(
   tripId: string
@@ -19,7 +20,21 @@ export function useUpdateAllStops(
     });
   };
 
-  const [mutate] = useMutation(createTrip);
+  const [mutate] = useMutation(createTrip, {
+    onSuccess: (updatedStops) => {
+      const oldTrip = queryCache.getQueryData<Trip>(['trip', tripId]);
+      if (!oldTrip) return;
+
+      const updatedTrip = {
+        ...oldTrip,
+        stopsCollection: {
+          ...oldTrip.stopsCollection,
+          features: updatedStops,
+        },
+      };
+      queryCache.setQueryData<Trip>(['trip', tripId], updatedTrip);
+    },
+  });
 
   return mutate;
 }
