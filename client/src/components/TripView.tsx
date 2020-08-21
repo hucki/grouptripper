@@ -2,24 +2,42 @@ import React from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import TripCard from './TripCard';
-import StopCard from './StopCard';
-import { Stop } from '../types/Stop';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useTrip } from '../hooks/trips';
+import dayjs, { Dayjs } from 'dayjs';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
+  const numberOfDays =
+    dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
 
+  const daysOfTrip: Dayjs[] = [];
+  for (let i = 0; i < numberOfDays; i++) {
+    daysOfTrip.push(
+      dayjs(trip?.startDate)
+        .add(i, 'd')
+        .set('second', 0)
+        .set('minute', 1)
+        .set('hour', 0)
+    );
+  }
+  console.log(daysOfTrip);
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
 
   const Timeline = (): JSX.Element => {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
-        <div className="flex flex-col w-full p-4">
-          {trip?.stopsCollection.features.map((stop: Stop, index) => (
+        <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+          {daysOfTrip &&
+            daysOfTrip.map((day: Dayjs) => (
+              <div key={day.format('YYYYMMDD')} className="">
+                {day.format('YYYYMMDD')}
+              </div>
+            ))}
+          {/* {trip?.stopsCollection.features.map((stop: Stop, index) => (
             // <StopListItem key={index} stop={stop} />
             <StopCard
               key={index}
@@ -28,7 +46,7 @@ export default function TripView(): JSX.Element {
               editStop={''}
               tripEdit={false}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     );

@@ -72,11 +72,11 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
         useFlyTo={true}
         bounds={bounds}
         zoom={13}
-        className="container w-full h-full mx-auto"
+        className="container w-full h-full mx-auto rounded-lg shadow"
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
         {markers}
       </Map>

@@ -10,7 +10,7 @@ import StopCard from './StopCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { useAuth0 } from '@auth0/auth0-react';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
-// import DraggableNew from './DraggableNew';
+// import Draggable from './Draggable';
 
 export default function TripEdit(): JSX.Element {
   const [editStop, setEditStop] = useState('');
@@ -47,7 +47,7 @@ export default function TripEdit(): JSX.Element {
 
   return (
     <>
-      {trip && <TripCard trip={trip} listView={false} />}
+      {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 m-4 md:grid-rows-1 md:grid-cols-2">
         <Timeline />
         {/* <DraggableNew /> */}
