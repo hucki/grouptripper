@@ -1,8 +1,8 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
+//eslint-disable-next-line
 const Auth0 = () => {
-  //eslint-disable-line
   const {
     loginWithRedirect,
     logout,
