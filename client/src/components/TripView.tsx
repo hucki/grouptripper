@@ -3,7 +3,7 @@ import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faHotel } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faHotel, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { useTrip } from '../hooks/trips';
 import dayjs, { Dayjs } from 'dayjs';
 import { Stop } from '../types/Stop';
@@ -23,15 +23,30 @@ export default function TripView(): JSX.Element {
   };
   const TimelineItem = ({ stop }: TimelineItemInputProps): JSX.Element => {
     return (
-      <div className="flex flex-row mb-1 ml-8 border rounded even:bg-gray-100">
+      <div className="flex flex-row mb-1 ml-8 text-teal-900 border rounded even:bg-gray-100">
         <div className="-ml-8">
-          <FontAwesomeIcon className="text-teal-500" icon={faHotel} />{' '}
+          <FontAwesomeIcon
+            className="text-teal-500 opacity-75"
+            icon={faHotel}
+          />{' '}
         </div>
-        <div className="ml-5">
-          <div className="text-sm font-semibold uppercase">
-            {stop.properties.name}
+        <div className="w-full ml-5 mr-2">
+          <div className="flex flex-row justify-between">
+            <div className="text-sm font-semibold uppercase">
+              {stop.properties.name}
+            </div>
+            <div>
+              {stop.properties.description ? (
+                <FontAwesomeIcon
+                  className="text-teal-500 opacity-50 hover:opacity-100"
+                  icon={faInfo}
+                />
+              ) : null}
+            </div>
           </div>
-          <div className="text-xs">{stop.properties.label}</div>
+          <div className="text-xs italic opacity-75">
+            {stop.properties.label}
+          </div>
           <div className="text-xs">{stop.properties.description}</div>
         </div>
       </div>
@@ -52,8 +67,14 @@ export default function TripView(): JSX.Element {
           ) : null}
           {daysOfTrip &&
             daysOfTrip.map((day: Dayjs, index) => (
-              <div key={day.format('YYYYMMDD')} className="uppercase ">
-                {day.format('dddd D')}
+              <div key={day.format('YYYYMMDD')}>
+                <span className="font-semibold text-teal-700 uppercase opacity-50">
+                  {day.format('ddd')} |
+                </span>
+
+                <span className="font-extrabold text-teal-700 uppercase">
+                  &nbsp;{day.format('D')}
+                </span>
                 {stopsOfAllDays[index].length ? (
                   stopsOfAllDays[index]
                 ) : (
