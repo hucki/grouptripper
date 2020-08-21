@@ -26,7 +26,6 @@ function App(): JSX.Element {
             <DraggableStops />
           </Route>
           <Route path="/">
-            <div>Here's a list of trips</div>
             <TripList />
           </Route>
         </Switch>
