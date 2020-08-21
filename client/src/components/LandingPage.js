@@ -124,28 +124,19 @@ export default function LandingPage() {
               <h5 class="uppercase mb-6 font-bold">Links</h5>
               <ul class="mb-4">
                 <li class="mt-2">
-                  <a
-                    href="#"
-                    class="hover:underline text-gray-600 hover:text-orange-500"
-                  >
+                  <button class="hover:underline text-gray-600 hover:text-orange-500">
                     FAQ
-                  </a>
+                  </button>
                 </li>
                 <li class="mt-2">
-                  <a
-                    href="#"
-                    class="hover:underline text-gray-600 hover:text-orange-500"
-                  >
+                  <button class="hover:underline text-gray-600 hover:text-orange-500">
                     Help
-                  </a>
+                  </button>
                 </li>
                 <li class="mt-2">
-                  <a
-                    href="#"
-                    class="hover:underline text-gray-600 hover:text-orange-500"
-                  >
+                  <button class="hover:underline text-gray-600 hover:text-orange-500">
                     Support
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -153,28 +144,19 @@ export default function LandingPage() {
               <h5 class="uppercase mb-6 font-bold">Social</h5>
               <ul class="mb-4">
                 <li class="mt-2">
-                  <a
-                    href="#"
-                    class="hover:underline text-gray-600 hover:text-orange-500"
-                  >
+                  <button class="hover:underline text-gray-600 hover:text-orange-500">
                     Facebook
-                  </a>
+                  </button>
                 </li>
                 <li class="mt-2">
-                  <a
-                    href="#"
-                    class="hover:underline text-gray-600 hover:text-orange-500"
-                  >
+                  <button class="hover:underline text-gray-600 hover:text-orange-500">
                     Linkedin
-                  </a>
+                  </button>
                 </li>
                 <li class="mt-2">
-                  <a
-                    href="#"
-                    class="hover:underline text-gray-600 hover:text-orange-500"
-                  >
+                  <button class="hover:underline text-gray-600 hover:text-orange-500">
                     Twitter
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
