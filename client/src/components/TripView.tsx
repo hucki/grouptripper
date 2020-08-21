@@ -23,7 +23,7 @@ export default function TripView(): JSX.Element {
   };
   const TimelineItem = ({ stop }: TimelineItemInputProps): JSX.Element => {
     return (
-      <div className="flex flex-row mb-2 ml-8 border rounded even:even:bg-gray-100">
+      <div className="flex flex-row mb-1 ml-8 border rounded even:bg-gray-100">
         <div className="-ml-8">
           <FontAwesomeIcon className="text-teal-500" icon={faHotel} />{' '}
         </div>
@@ -54,10 +54,10 @@ export default function TripView(): JSX.Element {
             daysOfTrip.map((day: Dayjs, index) => (
               <div key={day.format('YYYYMMDD')} className="uppercase ">
                 {day.format('dddd D')}
-                {stopsOfAllDays[index] ? (
+                {stopsOfAllDays[index].length ? (
                   stopsOfAllDays[index]
                 ) : (
-                  <div className="text-sm italic text-gray-400 lowercase">
+                  <div className="ml-8 text-sm italic text-gray-400 lowercase">
                     {' '}
                     no stops on this day
                   </div>
