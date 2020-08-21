@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import {
   Droppable,
@@ -8,10 +7,11 @@ import {
   DropResult,
 } from 'react-beautiful-dnd';
 import styled from 'styled-components';
-import { client } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
+import { useTrip } from '../hooks/trips';
+import { useUpdateAllStops } from '../hooks/stops';
 
 function transformToDnDData(trip: Trip): DnDStructure {
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
@@ -63,7 +63,8 @@ type DnDStructure = {
 
 export default function DraggableNew(): JSX.Element | null {
   const { id } = useParams();
-  const { data: trip } = useQuery('trip', () => client<Trip>(`trips/${id}`));
+  const { trip } = useTrip(id);
+  const updateStops = useUpdateAllStops(id);
 
   if (!trip) return null;
 
@@ -72,7 +73,7 @@ export default function DraggableNew(): JSX.Element | null {
   function saveToServer(latestDnDData: DnDStructure): void {
     const stops = transformFromDnDStructure(latestDnDData);
     console.log('about to save', stops);
-    client<Stop[]>(`tripstops/${id}/stops`, { data: stops, method: 'PUT' });
+    updateStops({ stops });
   }
 
   return <DraggableTimeline data={dndData} saveToServer={saveToServer} />;
