@@ -1,4 +1,4 @@
-import { useQuery, QueryResult } from 'react-query';
+import { useQuery, useMutation, QueryResult } from 'react-query';
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Trip } from '../types/Trip';
@@ -41,4 +41,19 @@ export function useTrip(
     trip,
     ...tripsQuery,
   };
+}
+
+export function useCreateTrip() {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const createTrip = async ({ trip }: { trip: Trip }): Promise<Trip> => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Trip>('trips', { data: trip, accessToken });
+  };
+
+  const [mutate] = useMutation(createTrip);
+
+  return mutate;
 }
