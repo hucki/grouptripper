@@ -68,10 +68,10 @@ type clientOptions<T> = {
   method?: string;
 };
 
-export function client<T>(
+export function client<T, P = T>(
   endpoint: string,
   { data, accessToken, ...options }: clientOptions<T> = {}
-): Promise<T> {
+): Promise<P> {
   const headers = new Headers();
   if (data) headers.append('Content-Type', 'application/json');
   if (accessToken) headers.append('Authorization', `Bearer ${accessToken}`);

@@ -80,7 +80,8 @@ export const inviteParticipant = async (
     return;
   }
   try {
-    const singleTrip = await TripModel.findById(req.params.id);
+    const singleTrip = await TripModel.findById(req.params.tripId);
+    console.log('found trip', singleTrip);
     if (singleTrip && singleTrip.ownerId !== userId) {
       res
         .status(403)

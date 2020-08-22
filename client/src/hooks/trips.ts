@@ -66,3 +66,28 @@ export function useCreateTrip(): MutationResultPair<
 
   return useMutation(createTrip);
 }
+
+export function useInviteToTrip(
+  tripId: string
+): MutationResultPair<
+  Trip,
+  {
+    email: string;
+  },
+  Error
+> {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const inviteToTrip = async ({ email }: { email: string }): Promise<Trip> => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<{ email: string }, Trip>(`trips/${tripId}/invite`, {
+      data: { email },
+      accessToken,
+      method: 'PUT',
+    });
+  };
+
+  return useMutation(inviteToTrip);
+}

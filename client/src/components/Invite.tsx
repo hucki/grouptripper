@@ -2,18 +2,22 @@ import React from 'react';
 import { Trip } from '../types/Trip';
 import * as Yup from 'yup';
 import { Formik, FormikHelpers, Form, Field } from 'formik';
+import { useInviteToTrip } from '../hooks/trips';
 
 export default function Invite({ trip }: { trip: Trip }): JSX.Element {
+  const [inviteToTrip] = useInviteToTrip(trip._id as string);
+
   return (
     <div>
       <Formik
         initialValues={{ email: '' }}
         validationSchema={validationSchema}
         onSubmit={async (
-          values: EmailInput,
+          { email }: EmailInput,
           { setSubmitting }: FormikHelpers<EmailInput>
         ): Promise<void> => {
-          console.log(values);
+          console.log('about to submit', email);
+          await inviteToTrip({ email });
         }}
       >
         <Form>
