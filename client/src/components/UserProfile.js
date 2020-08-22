@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import TripList from './TripList';
 
 //eslint-disable-next-line
 const UserProfile = () => {
-  const { logout, user, isAuthenticated } = useAuth0();
+  const { logout, user } = useAuth0();
   return (
     <div className="px-4 py-2 mb-4 mr-1 ">
       <div className="bg-white shadow p-4 rounded">

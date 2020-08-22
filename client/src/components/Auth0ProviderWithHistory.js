@@ -2,13 +2,11 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 
-const Auth0ProviderWithHistory = ({ children }) => {
-  // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-  // const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const Auth0ProviderWithHistory = ({ children }) => {// eslint-disable-line
 
   const history = useHistory();
 
-  const onRedirectCallback = (appState) => {
+  const onRedirectCallback = (appState) => {// eslint-disable-line
     history.push(appState?.returnTo || window.location.pathname);
   };
 

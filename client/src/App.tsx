@@ -7,7 +7,7 @@ import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
 import DraggableStops from './components/Draggable';
-import { withAuthenticationRequired, useAuth0 } from '@auth0/auth0-react';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 
 interface Prprops {
@@ -21,12 +21,6 @@ const ProtectedRoute = ({ componenent, ...props }: Prprops) => (
 );
 //eslint-disable-next-line
 function App(): JSX.Element {
-  const { isLoading } = useAuth0();
-
-  // if (isLoading) {
-  //   return <p>Loading..</p>;
-  // }
-
   return (
     <Router>
       <Auth0ProviderWithHistory>
