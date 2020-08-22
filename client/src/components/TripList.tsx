@@ -13,7 +13,7 @@ export default function TripList(): JSX.Element {
       <h3 className="mb-2 text-2xl font-bold text-teal-900">
         Here are your Trips:
       </h3>
-      <div className="grid content-center grid-flow-row grid-cols-1 gap-4 m-4 sm:grid-cols-2 md:grid-cols-3">
+      <div className="grid content-center grid-flow-row grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {trips.map((trip) => (
           <div key={trip._id}>
             <Link
