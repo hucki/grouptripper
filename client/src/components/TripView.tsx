@@ -7,6 +7,7 @@ import { faEdit, faHotel, faInfo } from '@fortawesome/free-solid-svg-icons';
 import { useTrip } from '../hooks/trips';
 import dayjs, { Dayjs } from 'dayjs';
 import { Stop } from '../types/Stop';
+import TripViewDayHeader from './TripViewDayHeader';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -59,6 +60,7 @@ export default function TripView(): JSX.Element {
         <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
           {notScheduled.length ? (
             <div>
+              <TripViewDayHeader dayId={'-1'} />
               <span className="text-sm italic text-gray-400 lowercase">
                 not yet scheduled:
               </span>
@@ -67,14 +69,11 @@ export default function TripView(): JSX.Element {
           ) : null}
           {daysOfTrip &&
             daysOfTrip.map((day: Dayjs, index) => (
-              <div key={day.format('YYYYMMDD')}>
-                <span className="font-semibold text-teal-700 uppercase opacity-50">
-                  {day.format('ddd')}
-                </span>
-
-                <span className="font-extrabold text-teal-700 uppercase">
-                  &nbsp;{day.format('D')}
-                </span>
+              <>
+                <TripViewDayHeader
+                  key={day.format('YYYYMMDD')}
+                  dayId={index.toString()}
+                />
                 {stopsOfAllDays[index].length ? (
                   stopsOfAllDays[index]
                 ) : (
@@ -83,7 +82,7 @@ export default function TripView(): JSX.Element {
                     no stops on this day
                   </div>
                 )}
-              </div>
+              </>
             ))}
         </div>
       </div>

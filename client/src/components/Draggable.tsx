@@ -12,6 +12,7 @@ import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
 import { useTrip } from '../hooks/trips';
 import { useUpdateAllStops } from '../hooks/stops';
+import TripViewDayHeader from './TripViewDayHeader';
 
 function transformToDnDData(trip: Trip): DnDStructure {
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
@@ -157,9 +158,10 @@ function Day({
 }): JSX.Element {
   return (
     <div className="m-4 border border-gray-500 rounded">
-      <h3 className="p-2 text-lg">
+      <TripViewDayHeader key={dayId} dayId={dayId} />
+      {/* <h3 className="p-2 text-lg">
         {dayId === '-1' ? 'Unallocated Stops' : `Day ${parseInt(dayId) + 1}`}
-      </h3>
+      </h3> */}
       <Droppable droppableId={dayId}>
         {(provided): JSX.Element => (
           <StopList
