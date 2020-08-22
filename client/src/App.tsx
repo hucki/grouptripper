@@ -5,8 +5,19 @@ import CreateTrip from './components/CreateTrip';
 import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
-import UserProfile from './components/UserProfile.js';
+import UserProfile from './components/UserProfile';
 import DraggableStops from './components/Draggable';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
+
+interface Prprops {
+  componenent: React.FC;
+  path: string;
+}
+//eslint-disable-next-line
+const ProtectedRoute = ({ componenent, ...props }: Prprops) => (
+  //eslint-disable-next-line
+  <Route component={withAuthenticationRequired(componenent)} {...props} />
+);
 
 function App(): JSX.Element {
   return (
@@ -14,9 +25,7 @@ function App(): JSX.Element {
       <div className="container w-screen h-screen mx-auto">
         <Navigation />
         <Switch>
-          <Route path="/create-trip">
-            <CreateTrip />
-          </Route>
+          <ProtectedRoute path="/create-trip" componenent={CreateTrip} />
           <Route exact={true} path="/trips/:id">
             <TripView />
           </Route>

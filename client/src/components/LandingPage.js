@@ -71,25 +71,27 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section class="bg-gray-100">
-        <div class="container mx-auto px-6 py-20">
-          <h2 class="text-4xl font-bold text-center text-gray-800 mb-8">
+      <section className="bg-gray-100">
+        <div className="container mx-auto px-6 py-20">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">
             Testimonials
           </h2>
-          <div class="flex flex-wrap">
-            <div class="w-full md:w-1/3 px-2 mb-4">
-              <div class="bg-white rounded shadow py-2">
-                <p class="text-gray-800 text-base px-6 mb-5">
+          <div className="flex flex-wrap">
+            <div className="w-full md:w-1/3 px-2 mb-4">
+              <div className="bg-white rounded shadow py-2">
+                <p className="text-gray-800 text-base px-6 mb-5">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto
                   sed, cupiditate debitis quibusdam eum quaerat. Corporis
                   sapiente quod amet ducimus.
                 </p>
-                <p class="text-gray-500 text-xs md:text-sm px-6">John Doe</p>
+                <p className="text-gray-500 text-xs md:text-sm px-6">
+                  John Doe
+                </p>
               </div>
             </div>
-            <div class="w-full md:w-1/3 px-2 mb-4">
-              <div class="bg-white rounded shadow py-2">
-                <p class="text-gray-800 text-base px-6 mb-5">
+            <div className="w-full md:w-1/3 px-2 mb-4">
+              <div className="bg-white rounded shadow py-2">
+                <p className="text-gray-800 text-base px-6 mb-5">
                   I downloaded this app a while back. It was nothing bad at
                   first until I began to enjoy it too much. I became obsessed.
                   My wife, Karen, hated my obsession. She said I yelled too much
@@ -102,59 +104,61 @@ export default function LandingPage() {
                   app, but Karen, if you see this, please come back, and at
                   least let me see my kids on Christmas.
                 </p>
-                <p class="text-gray-500 text-xs md:text-sm px-6">Joe Doe</p>
+                <p className="text-gray-500 text-xs md:text-sm px-6">Joe Doe</p>
               </div>
             </div>
-            <div class="w-full md:w-1/3 px-2 mb-4">
-              <div class="bg-white rounded shadow py-2">
-                <p class="text-gray-800 text-base px-6 mb-5">
+            <div className="w-full md:w-1/3 px-2 mb-4">
+              <div className="bg-white rounded shadow py-2">
+                <p className="text-gray-800 text-base px-6 mb-5">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Expedita iusto debitis labore numquam praesentium.
                 </p>
-                <p class="text-gray-500 text-xs md:text-sm px-6">James Doe</p>
+                <p className="text-gray-500 text-xs md:text-sm px-6">
+                  James Doe
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <footer class="bg-gray-100">
-        <div class="container mx-auto px-6 pt-10 pb-6">
-          <div class="flex flex-wrap">
-            <div class="w-full md:w-1/2 text-center md:text-center">
-              <h5 class="uppercase mb-6 font-bold">Links</h5>
-              <ul class="mb-4">
-                <li class="mt-2">
-                  <button class="hover:underline text-gray-600 hover:text-orange-500">
+      <footer className="bg-gray-100">
+        <div className="container mx-auto px-6 pt-10 pb-6">
+          <div className="flex flex-wrap">
+            <div className="w-full md:w-1/2 text-center md:text-center">
+              <h5 className="uppercase mb-6 font-bold">Links</h5>
+              <ul className="mb-4">
+                <li className="mt-2">
+                  <button className="hover:underline text-gray-600 hover:text-orange-500">
                     FAQ
                   </button>
                 </li>
-                <li class="mt-2">
-                  <button class="hover:underline text-gray-600 hover:text-orange-500">
+                <li className="mt-2">
+                  <button className="hover:underline text-gray-600 hover:text-orange-500">
                     Help
                   </button>
                 </li>
-                <li class="mt-2">
-                  <button class="hover:underline text-gray-600 hover:text-orange-500">
+                <li className="mt-2">
+                  <button className="hover:underline text-gray-600 hover:text-orange-500">
                     Support
                   </button>
                 </li>
               </ul>
             </div>
-            <div class="w-full md:w-1/2 text-center md:text-center">
-              <h5 class="uppercase mb-6 font-bold">Social</h5>
-              <ul class="mb-4">
-                <li class="mt-2">
-                  <button class="hover:underline text-gray-600 hover:text-orange-500">
+            <div className="w-full md:w-1/2 text-center md:text-center">
+              <h5 className="uppercase mb-6 font-bold">Social</h5>
+              <ul className="mb-4">
+                <li className="mt-2">
+                  <button className="hover:underline text-gray-600 hover:text-orange-500">
                     Facebook
                   </button>
                 </li>
-                <li class="mt-2">
-                  <button class="hover:underline text-gray-600 hover:text-orange-500">
+                <li className="mt-2">
+                  <button className="hover:underline text-gray-600 hover:text-orange-500">
                     Linkedin
                   </button>
                 </li>
-                <li class="mt-2">
-                  <button class="hover:underline text-gray-600 hover:text-orange-500">
+                <li className="mt-2">
+                  <button className="hover:underline text-gray-600 hover:text-orange-500">
                     Twitter
                   </button>
                 </li>

@@ -1,5 +1,4 @@
 import React, { useState, FunctionComponent } from 'react';
-import { withAuthenticationRequired } from '@auth0/auth0-react';
 import {
   Formik,
   Form,
@@ -64,7 +63,7 @@ const validationSchema = Yup.object({
     .min(Yup.ref('startDate'), 'End date must be after start date'),
 });
 
-function CreateTrip(): JSX.Element {
+export default function CreateTrip(): JSX.Element {
   const [redirect, setRedirect] = useState(false);
   const [serverError, setServerError] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
@@ -145,11 +144,6 @@ function CreateTrip(): JSX.Element {
     </>
   );
 }
-
-export default withAuthenticationRequired(CreateTrip, {
-  // Show a message while the user waits to be redirected to the login page.
-  onRedirecting: () => <div>Redirecting you to the login page...</div>,
-});
 
 type InputProps = {
   name: string;
