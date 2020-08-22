@@ -17,6 +17,7 @@ const jwtCheck = jwt({
   algorithms: ['RS256'],
 });
 
+router.get('/trips', jwtCheck, tripController.getAllTrips);
 router.post('/trips', jwtCheck, tripController.createTrip);
 
 export default router;
