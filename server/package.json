@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon -x ts-node src/index.ts ",
+    "start": "nodemon -x ts-node --files src/index.ts ",
     "test": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "tsc",
