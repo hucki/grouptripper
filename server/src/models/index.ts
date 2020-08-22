@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const DB_HOST = process.env.DB_HOSTL || 'mongodb://localhost';
-const DB_PORT = process.env.DB_PORT || 27017;
-const DB_NAME = process.env.DB_NAME || 'grouptripper3';
+const DB_HOST = process.env.DB_HOST;
+const DB_PORT = process.env.DB_PORT;
+const DB_NAME = process.env.DB_NAME;
 
 mongoose.connect(`${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useNewUrlParser: true,

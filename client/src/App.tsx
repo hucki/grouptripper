@@ -6,7 +6,7 @@ import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
-import DraggableStops from './components/Draggable';
+import DraggableStops from './components/TripDragger';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 interface Prprops {
