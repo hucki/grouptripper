@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import {
   Droppable,
   Draggable,
@@ -10,7 +9,6 @@ import styled from 'styled-components';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
-import { useTrip } from '../hooks/trips';
 import { useUpdateAllStops } from '../hooks/stops';
 import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
@@ -63,9 +61,14 @@ type DnDStructure = {
   daysOrder: string[];
 };
 
-export default function TripDragger(): JSX.Element | null {
-  const { id } = useParams();
-  const { trip } = useTrip(id);
+type TripDraggerInputProps = {
+  id: string;
+  trip: Trip;
+};
+export default function TripDragger({
+  id,
+  trip,
+}: TripDraggerInputProps): JSX.Element | null {
   const updateStops = useUpdateAllStops(id);
 
   if (!trip) return null;
