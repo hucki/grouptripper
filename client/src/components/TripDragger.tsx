@@ -63,7 +63,7 @@ type DnDStructure = {
   daysOrder: string[];
 };
 
-export default function DraggableNew(): JSX.Element | null {
+export default function TripDragger(): JSX.Element | null {
   const { id } = useParams();
   const { trip } = useTrip(id);
   const updateStops = useUpdateAllStops(id);

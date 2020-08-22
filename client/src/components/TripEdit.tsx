@@ -10,7 +10,7 @@ import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { useAuth0 } from '@auth0/auth0-react';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
-import Draggable from './Draggable';
+import TripDragger from './TripDragger';
 
 export default function TripEdit(): JSX.Element {
   // const [editStop, setEditStop] = useState('');
@@ -31,7 +31,7 @@ export default function TripEdit(): JSX.Element {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
         <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-          <Draggable />
+          <TripDragger />
         </div>
       </div>
     );
