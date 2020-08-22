@@ -6,7 +6,6 @@ import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
-import DraggableStops from './components/TripDragger';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 interface Prprops {
@@ -31,9 +30,6 @@ function App(): JSX.Element {
           </Route>
           <Route path="/trips/edit/:id">
             <TripEdit />
-          </Route>
-          <Route path="/trips/timeline/:id">
-            <DraggableStops />
           </Route>
           <Route exact={true} path="/">
             <LandingPage />
