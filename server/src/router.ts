@@ -15,6 +15,7 @@ router.use(jwtCheck);
 router.get('/trips', tripController.getAllTrips);
 router.get('/trips/:id', tripController.getOneTrip);
 router.post('/trips', tripController.createTrip);
+router.put('/trips/:tripId/invite', tripController.inviteParticipant);
 router.get('/tripstops/:tripId/stops/:stopId', stopController.getOneStop);
 router.put('/tripstops/:tripId/stops', stopController.updateStopArray);
 router.put('/tripstops/:tripId/stops/:stopId', stopController.updateOneStop);

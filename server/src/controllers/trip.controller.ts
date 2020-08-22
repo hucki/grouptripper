@@ -68,6 +68,43 @@ export const createTrip = async (
   }
 };
 
+export const inviteParticipant = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { email } = req.body;
+  const userId = req.user?.sub;
+  if (!userId) {
+    res.status(401).json({ message: 'No user found' });
+    return;
+  }
+  try {
+    const singleTrip = await TripModel.findById(req.params.id);
+    if (singleTrip && singleTrip.ownerId !== userId) {
+      res
+        .status(403)
+        .json({ message: 'You are not authorized to view this trip' });
+    } else if (singleTrip) {
+      if (!singleTrip.invitedEmails.includes(email)) {
+        singleTrip.invitedEmails.push(email);
+        await singleTrip.save();
+      }
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
+    console.error(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+      return;
+    }
+    next(e);
+  }
+};
+
 export const deleteTrip = async (
   req: Request,
   res: Response,
