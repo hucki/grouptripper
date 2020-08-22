@@ -19,18 +19,20 @@ export default function TripEdit(): JSX.Element {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
         <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-          <Link
-            to={`/trips/${id}`}
-            className="-mt-2 -mr-2 w-1/8"
-            style={{ alignSelf: 'flex-end' }}
-          >
-            <div
-              className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-              style={{ transition: 'all .15s ease' }}
+          <div key="rowHeader" className="flex flex-col">
+            <Link
+              to={`/trips/${id}`}
+              className="-mt-2 -mr-2 w-1/8"
+              style={{ alignSelf: 'flex-end' }}
             >
-              <FontAwesomeIcon icon={faSave} />
-            </div>
-          </Link>
+              <div
+                className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+                style={{ transition: 'all .15s ease' }}
+              >
+                <FontAwesomeIcon icon={faSave} />
+              </div>
+            </Link>
+          </div>
           <TripDragger id={id} trip={trip} />
         </div>
       </div>
