@@ -136,9 +136,6 @@ export default function StopCard({
                 className="text-teal-300 hover:text-teal-500"
                 icon={faChevronUp}
               />
-              {/* {{stop.properties.upvotes &&
-                stop.properties.downvotes &&
-                stop.properties.upvotes + stop.properties.downvotes}} */}
               <FontAwesomeIcon
                 className="text-teal-300 hover:text-teal-500"
                 icon={faChevronDown}

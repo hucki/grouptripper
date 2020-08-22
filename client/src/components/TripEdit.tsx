@@ -27,31 +27,22 @@ export default function TripEdit(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
   if (!trip) return <div>No trip found</div>;
 
-  // const Timeline = (): JSX.Element => {
-  //   return (
-  //     <div className="container flex items-center justify-center w-full mx-auto">
-  //       <div className="flex flex-col w-full p-4">
-  //         {trip?.stopsCollection.features.map((stop: Stop, index) => (
-  //           // <StopListItem key={index} stop={stop} />
-  //           <StopCard
-  //             key={index}
-  //             stop={stop}
-  //             setEditStop={setEditStop}
-  //             editStop={editStop}
-  //             tripEdit={true}
-  //           />
-  //         ))}
-  //       </div>
-  //     </div>
-  //   );
-  // };
+  const Timeline = (): JSX.Element => {
+    return (
+      <div className="container flex items-center justify-center w-full mx-auto">
+        <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+          <Draggable />
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        {/* {trip && <Timeline />} */}
-        <Draggable />
+        {trip && <Timeline />}
+
         {trip && <MapContainer trip={trip} />}
       </div>
       <Link to={`/trips/${id}`}>

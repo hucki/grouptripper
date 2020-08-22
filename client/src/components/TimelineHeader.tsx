@@ -5,14 +5,14 @@ type DayHeaderInputProps = {
   dayId: string;
   // day?: Dayjs;
 };
-export default function TripViewDayHeader({
+export default function TimelineHeader({
   dayId,
 }: // day,
 DayHeaderInputProps): JSX.Element {
   const result =
     dayId === '-1' ? (
       <div className="ml-1">
-        <span className="text-sm italic text-gray-400 lowercase">
+        <span className="text-sm italic text-red-400 lowercase">
           not yet scheduled:
         </span>
       </div>
