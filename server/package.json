@@ -37,6 +37,7 @@
     "unsplash-js": "^6.0.0"
   },
   "devDependencies": {
+    "@types/auth0": "^2.20.5",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.7",
     "@types/faker": "^4.1.12",
