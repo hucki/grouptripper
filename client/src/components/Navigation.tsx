@@ -8,7 +8,7 @@ export default function Navigation(): JSX.Element {
 
   return (
     <header className="flex flex-row justify-between p-6 align-middle">
-      <h1 className="text-xl text-teal-500 uppercase ">Group Tripper</h1>
+      <h1 className="text-3xl text-teal-700 uppercase">Group Tripper</h1>
       <nav>
         <ul className="flex flex-row space-x-6">
           <li>
