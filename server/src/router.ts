@@ -5,7 +5,7 @@ import * as stopController from './controllers/stop.controller';
 
 const router = express.Router();
 
-router.get('/trips', tripController.getAllTrips);
+// router.get('/trips', tripController.getAllTrips);
 router.get('/trips/:id', tripController.getOneTrip);
 router.delete('/trips/:id', tripController.deleteTrip);
 router.get('/photos/:queryText', photoController.getPhoto);

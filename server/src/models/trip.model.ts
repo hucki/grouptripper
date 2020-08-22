@@ -11,6 +11,7 @@ export type Trip = {
   startDate: Date;
   endDate: Date;
   stops?: string[];
+  ownerId: string;
   stopsCollection?: StopCollection;
 };
 
@@ -33,9 +34,9 @@ const tripSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  stops: {
-    type: [String],
-    required: false,
+  ownerId: {
+    type: String,
+    required: true,
   },
   stopsCollection: {
     type: {

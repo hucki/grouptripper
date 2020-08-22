@@ -35,6 +35,7 @@ function buildTrip(): Trip {
       type: 'FeatureCollection',
       features: [buildStop(), buildStop()],
     },
+    ownerId: faker.random.uuid(),
   };
 }
 

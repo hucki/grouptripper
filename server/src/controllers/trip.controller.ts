@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
+import { getUserId } from '../getUser';
 
 export const getAllTrips = async (
   req: Request,
@@ -8,6 +9,7 @@ export const getAllTrips = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    // const userId = await getUserId(req);
     const response = await TripModel.find();
     res.json(response);
     res.status(200);
@@ -42,7 +44,9 @@ export const createTrip = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const newTrip = await TripModel.create(req.body);
+    const userId = await getUserId(req);
+    const tripInput = { ...req.body, ownerId: userId };
+    const newTrip = await TripModel.create(tripInput);
     res.status(201);
     res.json(newTrip);
   } catch (e) {
