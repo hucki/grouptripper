@@ -10,7 +10,7 @@ import StopCard from './StopCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { useAuth0 } from '@auth0/auth0-react';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
-// import Draggable from './Draggable';
+import Draggable from './Draggable';
 
 export default function TripEdit(): JSX.Element {
   const [editStop, setEditStop] = useState('');
@@ -18,6 +18,7 @@ export default function TripEdit(): JSX.Element {
   // const [redirect, setRedirect] = useState(false);
   // const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
+  // const { isLoading, error, trip } = useTrip(id);
   const { isLoading, error, data: trip } = useQuery('trip', () =>
     client<Trip>(`trips/${id}`)
   );
@@ -49,8 +50,8 @@ export default function TripEdit(): JSX.Element {
     <>
       {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <Timeline />
-        {/* <DraggableNew /> */}
+        {/* {trip && <Timeline />} */}
+        <Draggable />
         {trip && <MapContainer trip={trip} />}
       </div>
       <Link to={`/trips/${id}`}>
