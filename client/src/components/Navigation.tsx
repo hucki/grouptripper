@@ -31,7 +31,7 @@ export default function Navigation(): JSX.Element {
               </div>
             </Link>
           </li>
-          {isAuthenticated && (
+          {isAuthenticated ? (
             <li>
               <Link to="/user-profile">
                 <div
@@ -42,6 +42,8 @@ export default function Navigation(): JSX.Element {
                 </div>
               </Link>
             </li>
+          ) : (
+            '' // <Auth0 />
           )}
           <li>{!isAuthenticated && <Auth0 />}</li>
         </ul>

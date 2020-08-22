@@ -20,7 +20,8 @@ const Auth0 = () => {
         Loading..
       </button>
     );
-  } else if (error) {
+  }
+  if (error) {
     return (
       <button
         className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
@@ -29,7 +30,8 @@ const Auth0 = () => {
         {error.message}
       </button>
     );
-  } else if (isAuthenticated)
+  }
+  if (isAuthenticated)
     return (
       <button
         className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
@@ -39,16 +41,15 @@ const Auth0 = () => {
         Log Out
       </button>
     );
-  else
-    return (
-      <button
-        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-        style={{ transition: 'all .15s ease' }}
-        onClick={() => loginWithRedirect()} //eslint-disable-line
-      >
-        Login / Signup
-      </button>
-    );
+  return (
+    <button
+      className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+      style={{ transition: 'all .15s ease' }}
+      onClick={() => loginWithRedirect()} //eslint-disable-line
+    >
+      Login / Signup
+    </button>
+  );
 };
 
 export default Auth0;
