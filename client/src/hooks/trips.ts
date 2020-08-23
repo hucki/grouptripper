@@ -8,6 +8,7 @@ import {
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Trip } from '../types/Trip';
+import { response } from 'msw/lib/types';
 
 export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
@@ -131,6 +132,30 @@ export function useInviteToTrip(
     },
     onSuccess: (updatedStops) => {
       queryCache.invalidateQueries(['trip', tripId]);
+    },
+  });
+}
+
+export function useInviteResponse(
+  tripId: string,
+  response: 'accept' | 'reject'
+): MutationResultPair<Trip, undefined, Error> {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const inviteToTrip = async (): Promise<Trip> => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Trip>(`trips/${tripId}/${response}_invite`, {
+      accessToken,
+      method: 'PUT',
+    });
+  };
+
+  return useMutation(inviteToTrip, {
+    onSuccess: (updatedStops) => {
+      queryCache.invalidateQueries(['trip', tripId]);
+      queryCache.invalidateQueries(['trips']);
     },
   });
 }
