@@ -15,7 +15,7 @@ export default function TimelineItem({
   return (
     <div className={editMode ? 'rounded hover:shadow-outline' : ''}>
       <div className="flex flex-row mb-1 ml-8 text-teal-900 border-t even:bg-gray-100">
-        <div className="-ml-8">
+        <div className="-ml-6">
           <FontAwesomeIcon
             className="text-teal-500 opacity-75"
             icon={faHotel}
