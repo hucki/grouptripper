@@ -49,6 +49,7 @@ const tripSchema = new mongoose.Schema({
     features: [stopSchema],
   },
   invitedEmails: [String],
+  participants: [String],
 });
 
 export default mongoose.model<TripDocument>('Trip', tripSchema);

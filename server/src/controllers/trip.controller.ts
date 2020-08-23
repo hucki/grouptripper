@@ -8,9 +8,8 @@ export const getAllTrips = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.user?.sub;
-  console.log(req.user);
   try {
-    const response = await TripModel.find({ ownerId: userId });
+    const response = await TripModel.find({ participants: userId });
     res.json(response);
     res.status(200);
     return;
@@ -24,11 +23,10 @@ export const getOneTrip = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.user?.sub;
-  console.log('userId', userId);
+  const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
   try {
     const singleTrip = await TripModel.findById(req.params.id);
-    if (singleTrip && singleTrip.ownerId !== userId) {
+    if (singleTrip && !singleTrip.participants.includes(userId)) {
       res
         .status(403)
         .json({ message: 'You are not authorized to view this trip' });
@@ -78,21 +76,18 @@ export const inviteParticipant = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { email } = req.body;
-  const userId = req.user?.sub;
-  if (!userId) {
-    res.status(401).json({ message: 'No user found' });
-    return;
-  }
+  const { email: newInviteEmail } = req.body;
+  const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
+
   try {
     const singleTrip = await TripModel.findById(req.params.tripId);
-    if (singleTrip && singleTrip.ownerId !== userId) {
+    if (singleTrip && !singleTrip.participants.includes(userId)) {
       res
         .status(403)
         .json({ message: 'You are not authorized to view this trip' });
     } else if (singleTrip) {
-      if (!singleTrip.invitedEmails.includes(email)) {
-        singleTrip.invitedEmails.push(email);
+      if (!singleTrip.invitedEmails.includes(newInviteEmail)) {
+        singleTrip.invitedEmails.push(newInviteEmail);
         await singleTrip.save();
       }
     } else {

@@ -31,6 +31,7 @@ function transformTrip(tripInput: TripInput): Trip {
     country: tripInput.country,
     startDate: new Date(tripInput.startDate),
     endDate: new Date(tripInput.endDate),
+    participants: [],
     stopsCollection: {
       type: 'FeatureCollection',
       features: tripInput.stops.map((stop) => {
