@@ -37,6 +37,7 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
           </button>
         </Form>
       </Formik>
+      <PendingInvites trip={trip} />
     </div>
   );
 }
@@ -48,3 +49,15 @@ type EmailInput = {
 const validationSchema = Yup.object({
   email: Yup.string().email('Please enter a valid email').required('Required'),
 });
+
+function PendingInvites({ trip }: { trip: Trip }): JSX.Element {
+  return (
+    <div>
+      <h3>Pending Invitations</h3>
+      <ul>
+        {trip.invitedEmails &&
+          trip.invitedEmails.map((email) => <li key={email}>{email}</li>)}
+      </ul>
+    </div>
+  );
+}

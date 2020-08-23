@@ -3,6 +3,7 @@ import {
   useMutation,
   QueryResult,
   MutationResultPair,
+  queryCache,
 } from 'react-query';
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -89,5 +90,28 @@ export function useInviteToTrip(
     });
   };
 
-  return useMutation(inviteToTrip);
+  return useMutation(inviteToTrip, {
+    onMutate: ({ email }) => {
+      queryCache.cancelQueries(['trip', tripId]);
+
+      const oldTrip = queryCache.getQueryData<Trip>(['trip', tripId]);
+      if (!oldTrip) return;
+
+      const updatedTrip = {
+        ...oldTrip,
+        invitedEmails: [...(oldTrip.invitedEmails || []), email],
+      };
+
+      queryCache.setQueryData<Trip>(['trip', tripId], updatedTrip);
+
+      return (): void =>
+        queryCache.setQueryData<Trip>(['trip', tripId], oldTrip);
+    },
+    onError: (err, newStops, rollback) => {
+      (rollback as () => void)();
+    },
+    onSuccess: (updatedStops) => {
+      queryCache.invalidateQueries(['trip', tripId]);
+    },
+  });
 }
