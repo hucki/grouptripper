@@ -8,6 +8,7 @@ export const getAllTrips = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.user?.sub;
+  console.log(req.user);
   try {
     const response = await TripModel.find({ ownerId: userId });
     res.json(response);
@@ -115,6 +116,27 @@ export const deleteTrip = async (
     await TripModel.findByIdAndDelete(req.params.id);
     res.json('Trip deleted');
     res.status(200);
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getInvitedTrips = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const email = req.email;
+  if (!email) {
+    res.status(401);
+    res.json({ message: 'No email address for your account' });
+    return;
+  }
+  try {
+    const response = await TripModel.find({ invitedEmails: email });
+    res.json(response);
+    res.status(200);
+    return;
   } catch (e) {
     next(e);
   }
