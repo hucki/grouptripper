@@ -28,6 +28,25 @@ export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
   };
 }
 
+export function useInvitedTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  const tripsQuery = useQuery(['trips', 'invited'], async () => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Trip[]>('trips/invited', { accessToken });
+  });
+
+  const trips = tripsQuery.data ?? [];
+
+  return {
+    trips,
+    ...tripsQuery,
+  };
+}
+
 export function useTrip(
   id: string
 ): QueryResult<Trip> & { trip: Trip | undefined } {

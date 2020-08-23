@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import TripList from './TripList';
-import { useTrips } from '../hooks/trips';
+import { useTrips, useInvitedTrips } from '../hooks/trips';
 
 export default function UserProfile(): JSX.Element {
   const { logout, user } = useAuth0();
@@ -36,18 +36,34 @@ export default function UserProfile(): JSX.Element {
         </div>
       </div>
       <UpcomingTrips />
+      <InvitedTrips />
     </div>
   );
 }
 
-function UpcomingTrips(): JSX.Element {
+function UpcomingTrips(): JSX.Element | null {
   const { isLoading, error, trips } = useTrips();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
+  if (trips.length === 0) return null;
   return (
     <div>
       <h3 className="mb-2 text-2xl font-bold text-teal-900">UpcomingTrips</h3>
+      <TripList trips={trips} />
+    </div>
+  );
+}
+
+function InvitedTrips(): JSX.Element | null {
+  const { isLoading, error, trips } = useInvitedTrips();
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error getting trips: {error}</div>;
+  if (trips.length === 0) return null;
+  return (
+    <div>
+      <h3 className="mb-2 text-2xl font-bold text-teal-900">Invites Waiting</h3>
       <TripList trips={trips} />
     </div>
   );
