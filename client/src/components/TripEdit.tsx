@@ -5,12 +5,17 @@ import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import TripDragger from './TripDragger';
+// import AutoComplete from './AutoComplete';
 import { useTrip } from '../hooks/trips';
 import Invite from './Invite';
+import { useCreateStop } from '../hooks/stops';
+import { Formik, Form } from 'formik';
+import { Stop } from '../types/Stop';
 
 export default function TripEdit(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
+  const [createStop /*, { error: savingError }*/] = useCreateStop();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error}</div>;
@@ -40,11 +45,97 @@ export default function TripEdit(): JSX.Element {
     );
   };
 
+  // type StopInput = {
+  //   name: string;
+  //   label: string;
+  //   description?: string;
+  // };
+
+  function transformStop(stopInput: Stop): Stop {
+    const res = {
+      geometry: {
+        type: 'Point' as const,
+        coordinates: [
+          stopInput.geometry.coordinates[0] || 0,
+          stopInput.geometry.coordinates[1] || 0,
+        ],
+      },
+      properties: {
+        name: stopInput.properties.name,
+        label: stopInput.properties.label,
+        description: stopInput.properties.description,
+        upvotes: stopInput.properties.upvotes || 0,
+        downvotes: stopInput.properties.upvotes || 0,
+        tripDay: stopInput.properties.tripDay || -1,
+      },
+      type: 'Feature' as const,
+    };
+    return res;
+  }
+  type TripInput = {
+    name: string;
+    country: string;
+    startDate: string;
+    endDate: string;
+    currentStop: Stop | null;
+    stops: Stop[];
+  };
+
+  // function renderStopInput(formikProps: FormikProps<TripInput>): JSX.Element {
+  //   return StopInput(formikProps);
+  // }
+  // const StopInput = ({ values }: FormikProps<TripInput>): JSX.Element => {
+  //   return (
+  //     <Form>
+  //       <AutoComplete
+  //         name="currentStop"
+  //         countryCode={values.country}
+  //         onAddClick={(): void => console.log(values.currentStop)}
+  //       />
+  //     </Form>
+  //   );
+  // };
+  // const newStopData: TripInput = {
+  //   name: trip.name,
+  //   country: trip.country,
+  //   startDate: trip.startDate.toString(),
+  //   endDate: trip.endDate.toString(),
+  //   currentStop: null,
+  //   stops: [],
+  // };
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
       <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        {trip && <Timeline />}
+        <div>
+          <div className="grid grid-cols-2 col-gap-8">
+            <Formik
+              initialValues={{
+                name: '',
+                country: '',
+                countryObj: null,
+                startDate: '',
+                endDate: '',
+                currentStop: null,
+                stops: new Array(0),
+              }}
+              onSubmit={async ({ stops }: { stops: Stop[] }): Promise<void> => {
+                if (stops) {
+                  const newStop = transformStop(stops[0]);
+                  await createStop({ tripId: id, stop: newStop });
+                }
+              }}
+            >
+              {(formikProps): JSX.Element => (
+                <Form>
+                  {/* {renderStopInput(formikProps)} */}
+                  {/* <StopInput values={newStopData} formikProps={formikProps}/> */}
+                </Form>
+              )}
+            </Formik>
+          </div>
+          {trip && <Timeline />}
+        </div>
         <div>
           {trip && <MapContainer trip={trip} />}
           <div className="container flex items-center justify-center w-full mx-auto mt-4">
