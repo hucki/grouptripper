@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import L, { LatLngTuple, LatLngBoundsLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -40,23 +40,30 @@ function getBounds(coordinates: LatLngTuple[]): LatLngBoundsLiteral {
 export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
   const gotPois = useQuery('pois', ApiClient.getPois);
   const gotRoute = useQuery('route', ApiClient.getRoute);
+  const markers: JSX.Element[] = [];
+  const getMarkers = (): JSX.Element[] => {
+    const res = trip.stopsCollection.features.map(
+      (feature: GeoJSON.Feature, index: number) => (
+        <GeoJSON
+          data={feature}
+          key={index}
+          pointToLayer={(feature, latlng): L.Marker =>
+            L.marker(latlng, { icon: poiMarker })
+          }
+        />
+      )
+    );
+    return res;
+  };
+  useEffect(() => {
+    markers.push(...getMarkers());
+  });
 
   if (gotRoute.status === 'loading' || gotPois.status === 'loading')
     return <div>Loading ...</div>;
   if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
   if (gotPois.error) return <div>error: {gotPois.error}</div>;
 
-  const markers = trip.stopsCollection.features.map(
-    (feature: GeoJSON.Feature, index: number) => (
-      <GeoJSON
-        data={feature}
-        key={index}
-        pointToLayer={(feature, latlng): L.Marker =>
-          L.marker(latlng, { icon: poiMarker })
-        }
-      />
-    )
-  );
   const allCoordinates = getAllCoordinates(trip.stopsCollection);
   const bounds: LatLngBoundsLiteral = getBounds(allCoordinates);
   const centerOfBounds = geolib.getCenterOfBounds(allCoordinates);
@@ -71,8 +78,9 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
         center={center}
         useFlyTo={true}
         bounds={bounds}
-        zoom={13}
+        zoom={6}
         className="container w-full h-full mx-auto rounded-lg shadow"
+        style={{ height: '50vh' }}
       >
         <TileLayer
           attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'

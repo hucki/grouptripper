@@ -7,8 +7,9 @@ export const getAllTrips = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const userId = req.user?.sub;
   try {
-    const response = await TripModel.find();
+    const response = await TripModel.find({ ownerId: userId });
     res.json(response);
     res.status(200);
     return;
@@ -22,9 +23,15 @@ export const getOneTrip = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const userId = req.user?.sub;
+  console.log('userId', userId);
   try {
     const singleTrip = await TripModel.findById(req.params.id);
-    if (singleTrip) {
+    if (singleTrip && singleTrip.ownerId !== userId) {
+      res
+        .status(403)
+        .json({ message: 'You are not authorized to view this trip' });
+    } else if (singleTrip) {
       res.json(singleTrip);
       res.status(200);
     } else {
@@ -41,15 +48,21 @@ export const createTrip = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const userId = req.user?.sub;
+  if (!userId) {
+    res.status(401).json({ message: 'No user found' });
+    return;
+  }
   try {
-    const newTrip = await TripModel.create(req.body);
+    const newTrip = await TripModel.create({ ...req.body, ownerId: userId });
     res.status(201);
     res.json(newTrip);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     if (/validation failed/i.test(e._message)) {
       res.status(400);
       res.json({ message: 'Invalid data' });
+      return;
     }
     next(e);
   }

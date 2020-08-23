@@ -3,10 +3,12 @@ import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faHotel, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useTrip } from '../hooks/trips';
 import dayjs, { Dayjs } from 'dayjs';
 import { Stop } from '../types/Stop';
+import TimelineHeader from './TimelineHeader';
+import TimelineItem from './TimelineItem';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -18,63 +20,38 @@ export default function TripView(): JSX.Element {
   const stopsOfAllDays: JSX.Element[][] = [];
   const notScheduled: JSX.Element[] = [];
 
-  type TimelineItemInputProps = {
-    stop: Stop;
-  };
-  const TimelineItem = ({ stop }: TimelineItemInputProps): JSX.Element => {
-    return (
-      <div className="flex flex-row mb-1 ml-8 text-teal-900 border-t even:bg-gray-100">
-        <div className="-ml-8">
-          <FontAwesomeIcon
-            className="text-teal-500 opacity-75"
-            icon={faHotel}
-          />{' '}
-        </div>
-        <div className="w-full ml-5 mr-2">
-          <div className="flex flex-row justify-between">
-            <div className="text-sm font-semibold uppercase">
-              {stop.properties.name}
-            </div>
-            <div>
-              {stop.properties.description ? (
-                <FontAwesomeIcon
-                  className="text-teal-500 opacity-50 hover:opacity-100"
-                  icon={faInfo}
-                />
-              ) : null}
-            </div>
-          </div>
-          <div className="text-xs italic opacity-75">
-            {stop.properties.label}
-          </div>
-          <div className="text-xs">{stop.properties.description}</div>
-        </div>
-      </div>
-    );
-  };
-
   const Timeline = (): JSX.Element => {
     return (
       <div className="container flex items-center justify-center w-full mx-auto">
         <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+          <div key="rowHeader" className="flex flex-col">
+            <Link
+              to={`/trips/edit/${id}`}
+              className="-mt-2 -mr-2 w-1/8"
+              style={{ alignSelf: 'flex-end' }}
+            >
+              <div
+                className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
+                style={{ transition: 'all .15s ease' }}
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </div>
+            </Link>
+          </div>
+
           {notScheduled.length ? (
-            <div>
-              <span className="text-sm italic text-gray-400 lowercase">
-                not yet scheduled:
-              </span>
+            <div key="row-1">
+              <TimelineHeader dayId={'-1'} key={'-1'} />
               {notScheduled}
             </div>
           ) : null}
           {daysOfTrip &&
             daysOfTrip.map((day: Dayjs, index) => (
-              <div key={day.format('YYYYMMDD')}>
-                <span className="font-semibold text-teal-700 uppercase opacity-50">
-                  {day.format('ddd')}
-                </span>
-
-                <span className="font-extrabold text-teal-700 uppercase">
-                  &nbsp;{day.format('D')}
-                </span>
+              <div key={'row' + index}>
+                <TimelineHeader
+                  key={day.format('YYYYMMDD')}
+                  dayId={index.toString()}
+                />
                 {stopsOfAllDays[index].length ? (
                   stopsOfAllDays[index]
                 ) : (
@@ -90,9 +67,11 @@ export default function TripView(): JSX.Element {
     );
   };
 
-  trip?.stopsCollection.features.map((stop: Stop) => {
+  trip?.stopsCollection.features.map((stop: Stop, index) => {
     if (stop.properties.tripDay === -1) {
-      notScheduled.push(<TimelineItem key={stop._id} stop={stop} />);
+      notScheduled.push(
+        <TimelineItem key={'-1' + index} stop={stop} editMode={false} />
+      );
     } else {
       return null;
     }
@@ -101,7 +80,9 @@ export default function TripView(): JSX.Element {
     stopsOfAllDays.push([]);
     trip?.stopsCollection.features.map((stop: Stop, index) => {
       if (i === stop.properties.tripDay) {
-        stopsOfAllDays[i].push(<TimelineItem key={stop._id} stop={stop} />);
+        stopsOfAllDays[i].push(
+          <TimelineItem key={i} stop={stop} editMode={false} />
+        );
       } else {
         return null;
       }
@@ -121,18 +102,11 @@ export default function TripView(): JSX.Element {
     <>
       {trip && <TripCard trip={trip} listView={false} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <Timeline />
+        <div>
+          <Timeline />
+        </div>
         {trip && <MapContainer trip={trip} />}
       </div>
-      <Link to={`/trips/edit/${id}`}>
-        <div
-          className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-          style={{ transition: 'all .15s ease' }}
-        >
-          <FontAwesomeIcon icon={faEdit} />
-          &nbsp; Edit this Trip
-        </div>
-      </Link>
     </>
   );
 }

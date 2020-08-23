@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import {
   Droppable,
   Draggable,
@@ -10,8 +9,9 @@ import styled from 'styled-components';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
 import dayjs from 'dayjs';
-import { useTrip } from '../hooks/trips';
 import { useUpdateAllStops } from '../hooks/stops';
+import TimelineHeader from './TimelineHeader';
+import TimelineItem from './TimelineItem';
 
 function transformToDnDData(trip: Trip): DnDStructure {
   const tripDays = dayjs(trip.endDate).diff(trip.startDate, 'day') + 1;
@@ -61,9 +61,14 @@ type DnDStructure = {
   daysOrder: string[];
 };
 
-export default function DraggableNew(): JSX.Element | null {
-  const { id } = useParams();
-  const { trip } = useTrip(id);
+type TripDraggerInputProps = {
+  id: string;
+  trip: Trip;
+};
+export default function TripDragger({
+  id,
+  trip,
+}: TripDraggerInputProps): JSX.Element | null {
   const updateStops = useUpdateAllStops(id);
 
   if (!trip) return null;
@@ -156,15 +161,14 @@ function Day({
   stops: Array<Stop | undefined>;
 }): JSX.Element {
   return (
-    <div className="m-4 border border-gray-500 rounded">
-      <h3 className="p-2 text-lg">
-        {dayId === '-1' ? 'Unallocated Stops' : `Day ${parseInt(dayId) + 1}`}
-      </h3>
+    <div>
+      <TimelineHeader key={dayId} dayId={dayId} />
       <Droppable droppableId={dayId}>
         {(provided): JSX.Element => (
           <StopList
             ref={provided.innerRef}
-            className="p-2"
+            className="border rounded shadow-inner"
+            style={{ minHeight: '2rem' }}
             {...provided.droppableProps}
           >
             {stops.map(
@@ -192,12 +196,11 @@ function StopCard({ stop, index }: { stop: Stop; index: number }): JSX.Element {
     <Draggable draggableId={stop.properties.name} index={index}>
       {(provided): JSX.Element => (
         <Container
-          className="p-4 mb-4 bg-gray-100 border border-gray-500 rounded"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          {stop.properties.name}
+          <TimelineItem stop={stop} editMode={true} />
         </Container>
       )}
     </Draggable>

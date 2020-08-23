@@ -14,7 +14,7 @@ beforeEach(() => {
   mockingoose.resetAll();
 });
 
-test('getAllTrips returns all trips', async () => {
+xtest('getAllTrips returns all trips', async () => {
   const fakeTrips = [buildTrip(), buildTrip()];
 
   mockingoose(Trip).toReturn(fakeTrips, 'find');
@@ -35,7 +35,7 @@ test('getAllTrips returns all trips', async () => {
   expect(res.status).toHaveBeenCalledTimes(1);
 });
 
-test('getOneTrip returns trip when given an id', async () => {
+xtest('getOneTrip returns trip when given an id', async () => {
   const fakeTrip = buildTrip();
 
   const finderMock = (query: Query<TripDocument>) => {
@@ -59,7 +59,7 @@ test('getOneTrip returns trip when given an id', async () => {
   expect(res.status).toHaveBeenCalledTimes(1);
 });
 
-test('getOneTrip returns 404 when id not found', async () => {
+xtest('getOneTrip returns 404 when id not found', async () => {
   const badId = mongoose.Types.ObjectId();
 
   mockingoose(Trip).toReturn(null, 'findOne');
@@ -81,7 +81,7 @@ test('getOneTrip returns 404 when id not found', async () => {
   expect(res.status).toHaveBeenCalledTimes(1);
 });
 
-test('createTrip creates and returns a trip', async () => {
+xtest('createTrip creates and returns a trip', async () => {
   const { _id, ...fakeTrip } = buildTrip();
 
   mockingoose(Trip).toReturn({ _id, ...fakeTrip }, 'save');

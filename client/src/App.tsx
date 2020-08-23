@@ -6,7 +6,6 @@ import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
-import DraggableStops from './components/Draggable';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 
@@ -34,13 +33,12 @@ function App(): JSX.Element {
             <Route path="/trips/edit/:id">
               <TripEdit />
             </Route>
-            <Route path="/trips/timeline/:id">
-              <DraggableStops />
-            </Route>
             <Route exact={true} path="/">
               <LandingPage />
             </Route>
-            <ProtectedRoute path="/user-profile" componenent={UserProfile} />
+            <Route path="/user-profile">
+              <UserProfile />
+            </Route>
           </Switch>
         </div>
       </Auth0ProviderWithHistory>
