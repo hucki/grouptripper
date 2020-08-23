@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import TripDragger from './TripDragger';
 import { useTrip } from '../hooks/trips';
+import Invite from './Invite';
 
 export default function TripEdit(): JSX.Element {
   const { id } = useParams();
@@ -17,7 +18,7 @@ export default function TripEdit(): JSX.Element {
 
   const Timeline = (): JSX.Element => {
     return (
-      <div className="container flex items-center justify-center w-full mx-auto">
+      <div className="container flex justify-center w-full mx-auto">
         <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
           <div key="rowHeader" className="flex flex-col">
             <Link
@@ -42,9 +43,19 @@ export default function TripEdit(): JSX.Element {
   return (
     <>
       {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
-      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
         {trip && <Timeline />}
-        {trip && <MapContainer trip={trip} />}
+        <div>
+          {trip && <MapContainer trip={trip} />}
+          <div className="container flex items-center justify-center w-full mx-auto mt-4">
+            <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+              <h3 className="mb-2 text-2xl font-bold text-teal-900">
+                who is on board?
+              </h3>
+              {trip && <Invite trip={trip} />}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

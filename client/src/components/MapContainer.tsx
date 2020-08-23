@@ -80,7 +80,7 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
         bounds={bounds}
         zoom={6}
         className="container w-full h-full mx-auto rounded-lg shadow"
-        style={{ height: '50vh' }}
+        style={{ height: '30vh' }}
       >
         <TileLayer
           attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'

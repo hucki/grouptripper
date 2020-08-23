@@ -23,7 +23,7 @@ export default function TripView(): JSX.Element {
 
   const Timeline = (): JSX.Element => {
     return (
-      <div className="container flex items-center justify-center w-full mx-auto">
+      <div className="container flex justify-center w-full mx-auto">
         <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
           <div key="rowHeader" className="flex flex-col">
             <Link
@@ -64,7 +64,6 @@ export default function TripView(): JSX.Element {
               </div>
             ))}
         </div>
-        {trip && <Invite trip={trip} />}
       </div>
     );
   };
@@ -104,10 +103,18 @@ export default function TripView(): JSX.Element {
     <>
       {trip && <TripCard trip={trip} listView={false} />}
       <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+        <Timeline />
         <div>
-          <Timeline />
+          {trip && <MapContainer trip={trip} />}
+          <div className="container flex items-center justify-center w-full mx-auto mt-4">
+            <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+              <h3 className="mb-2 text-2xl font-bold text-teal-900">
+                who is on board?
+              </h3>
+              {trip && <Invite trip={trip} />}
+            </div>
+          </div>
         </div>
-        {trip && <MapContainer trip={trip} />}
       </div>
     </>
   );
