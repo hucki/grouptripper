@@ -9,6 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Stop } from '../types/Stop';
 import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
+import Invite from './Invite';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -63,6 +64,7 @@ export default function TripView(): JSX.Element {
               </div>
             ))}
         </div>
+        {trip && <Invite trip={trip} />}
       </div>
     );
   };

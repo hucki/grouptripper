@@ -7,4 +7,5 @@ export type Trip = {
   startDate: Date;
   endDate: Date;
   stopsCollection: StopCollection;
+  invitedEmails?: string[];
 };

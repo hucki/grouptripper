@@ -3,5 +3,6 @@ declare namespace Express {
     user?: {
       sub: string;
     };
+    email?: string;
   }
 }

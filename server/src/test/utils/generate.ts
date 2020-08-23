@@ -36,6 +36,7 @@ function buildTrip(): Trip {
       features: [buildStop(), buildStop()],
     },
     ownerId: faker.random.uuid(),
+    invitedEmails: [],
   };
 }
 
