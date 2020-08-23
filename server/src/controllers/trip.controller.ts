@@ -145,7 +145,7 @@ export const acceptInvite = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { email: acceptingEmail } = req.body;
+  const acceptingEmail = req.email as string; // Middleware guarantees this exists
   const userId = req.user?.sub;
   if (!userId) {
     res.status(401).json({ message: 'No user found' });
@@ -183,7 +183,7 @@ export const rejectInvite = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { email: acceptingEmail } = req.body;
+  const acceptingEmail = req.email as string; // Middleware guarantees this exists
   const userId = req.user?.sub;
   if (!userId) {
     res.status(401).json({ message: 'No user found' });
