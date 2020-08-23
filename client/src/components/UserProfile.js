@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import TripList from './TripList';
 
 //eslint-disable-next-line
@@ -9,18 +9,16 @@ const UserProfile = () => {
     <div className="px-4 py-2 mb-4 mr-1 ">
       <div className="bg-white shadow p-4 rounded">
         <div className="text-center mt-4">
-          <p className="text-gray-600 font-bold">
-            {user.name ? user.name : ''}
-          </p>
+          <p className="text-gray-600 font-bold">{user ? user.name : ''}</p>
           <p className="text-sm font-hairline text-gray-600 mt-1">
-            {user.email ? user.email : ''}
+            {user ? user.email : ''}
           </p>
         </div>
         <div className="flex justify-center mt-4">
           <img
             className="shadow sm:w-12 sm:h-12 w-20 h-20 rounded-full object-contain h-48 w-full"
             src={
-              user.picture
+              user
                 ? user.picture
                 : `https://source.unsplash.com/featured/100x100/?mohammed`
             }
@@ -42,7 +40,9 @@ const UserProfile = () => {
   );
 };
 
-export default withAuthenticationRequired(UserProfile, {
-  // Show a message while the user waits to be redirected to the login page.
-  onRedirecting: () => <div>Redirecting you to the login page...</div>,
-});
+// export default withAuthenticationRequired(UserProfile, {
+//   // Show a message while the user waits to be redirected to the login page.
+//   onRedirecting: () => <div>Redirecting you to the login page...</div>,
+// });
+
+export default UserProfile;
