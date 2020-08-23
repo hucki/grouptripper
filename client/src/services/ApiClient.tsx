@@ -22,7 +22,6 @@ const reqGeocode = {
 // request POIs
 const reqBodyPoi =
   '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.1068,51.504687]},"buffer":200}}';
-const reqBodyRoute = `{"coordinates":${JSON.stringify(reqRoute.LatLng)}}`;
 
 const ApiClient = {
   getPois: (): Promise<GeoJSON.FeatureCollection> => {
@@ -35,8 +34,13 @@ const ApiClient = {
       body: reqBodyPoi,
     }).then((res) => res.json());
   },
-  getRoute: (): Promise<GeoJSON.FeatureCollection> => {
+  getRoute: (
+    endpoint: string,
+    reqBodyString: string
+  ): Promise<GeoJSON.FeatureCollection> => {
+    console.log(reqBodyString);
     return fetch(
+      // 'localhost',
       `${routingApiUrl}/v2/directions/${reqRoute.profile}/${reqRoute.format}`,
       {
         method: 'POST',
@@ -44,7 +48,7 @@ const ApiClient = {
           'content-type': 'application/json',
           Authorization: routingApiKey,
         },
-        body: reqBodyRoute,
+        body: reqBodyString,
       }
     ).then((res) => res.json());
   },

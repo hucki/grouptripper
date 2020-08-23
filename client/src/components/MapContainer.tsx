@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import L, { LatLngTuple, LatLngBoundsLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -38,9 +38,17 @@ function getBounds(coordinates: LatLngTuple[]): LatLngBoundsLiteral {
 }
 
 export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
-  const gotPois = useQuery('pois', ApiClient.getPois);
-  const gotRoute = useQuery('route', ApiClient.getRoute);
-  const markers: JSX.Element[] = [];
+  // const [currentRoute, setCurrentRoute] = useState();
+  const [allCoordinates, setAllCoordinates] = useState<LatLngTuple[]>([]);
+  const [bounds, setBounds] = useState<LatLngBoundsLiteral>([]);
+  const [centerOfBounds, setCenterOfBounds] = useState({
+    latitude: 0,
+    longitude: 0,
+  });
+  const [center, setCenter] = useState<LatLngTuple>([0, 0]);
+  const [markers, setMarkers] = useState<JSX.Element[]>([]);
+  // const gotPois = useQuery('pois', ApiClient.getPois);
+
   const getMarkers = (): JSX.Element[] => {
     const res = trip.stopsCollection.features.map(
       (feature: GeoJSON.Feature, index: number) => (
@@ -55,29 +63,50 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
     );
     return res;
   };
-  useEffect(() => {
-    markers.push(...getMarkers());
-  });
 
-  if (gotRoute.status === 'loading' || gotPois.status === 'loading')
+  useEffect(() => {
+    setMarkers([...getMarkers()]);
+    setAllCoordinates([...getAllCoordinates(trip.stopsCollection)]);
+  }, [getMarkers, trip]);
+
+  useEffect(() => {
+    if (allCoordinates.length) {
+      setBounds([...getBounds(allCoordinates)]);
+    }
+  }, [allCoordinates]);
+
+  useEffect(() => {
+    if (bounds.length) {
+      const newCenter = geolib.getCenterOfBounds(allCoordinates);
+      setCenterOfBounds({
+        longitude: newCenter.longitude,
+        latitude: newCenter.latitude,
+      });
+      setCenter([centerOfBounds.longitude, centerOfBounds.latitude]);
+    }
+  }, [
+    allCoordinates,
+    bounds,
+    centerOfBounds.latitude,
+    centerOfBounds.longitude,
+  ]);
+  const reqBodyRoute = `{"coordinates":${JSON.stringify(allCoordinates)}}`;
+  const gotRoute = useQuery(['route', reqBodyRoute], ApiClient.getRoute);
+  if (gotRoute.status === 'loading' /* || gotPois.status === 'loading'*/)
     return <div>Loading ...</div>;
   if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
-  if (gotPois.error) return <div>error: {gotPois.error}</div>;
-
-  const allCoordinates = getAllCoordinates(trip.stopsCollection);
-  const bounds: LatLngBoundsLiteral = getBounds(allCoordinates);
-  const centerOfBounds = geolib.getCenterOfBounds(allCoordinates);
-  const center: LatLngTuple = [
-    centerOfBounds.longitude,
-    centerOfBounds.latitude,
-  ];
-
+  // if (gotPois.error) return <div>error: {gotPois.error}</div>;
+  const routeDirections = gotRoute.data?.features.map(
+    (feature: GeoJSON.Feature, index: number) => {
+      return <GeoJSON data={feature} key={index} />;
+    }
+  );
   return (
     <>
       <Map
         center={center}
         useFlyTo={true}
-        bounds={bounds}
+        bounds={bounds.length ? bounds : undefined}
         zoom={6}
         className="container w-full h-full mx-auto rounded-lg shadow"
         style={{ height: '30vh' }}
@@ -86,6 +115,7 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
           attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
+        {routeDirections}
         {markers}
       </Map>
     </>
