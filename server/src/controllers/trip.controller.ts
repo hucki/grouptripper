@@ -55,7 +55,11 @@ export const createTrip = async (
     return;
   }
   try {
-    const newTrip = await TripModel.create({ ...req.body, ownerId: userId });
+    const newTrip = await TripModel.create({
+      ...req.body,
+      ownerId: userId,
+      participants: [userId],
+    });
     res.status(201);
     res.json(newTrip);
   } catch (e) {
@@ -82,7 +86,6 @@ export const inviteParticipant = async (
   }
   try {
     const singleTrip = await TripModel.findById(req.params.tripId);
-    console.log('found trip', singleTrip);
     if (singleTrip && singleTrip.ownerId !== userId) {
       res
         .status(403)
@@ -138,6 +141,81 @@ export const getInvitedTrips = async (
     res.status(200);
     return;
   } catch (e) {
+    next(e);
+  }
+};
+
+export const acceptInvite = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { email: acceptingEmail } = req.body;
+  const userId = req.user?.sub;
+  if (!userId) {
+    res.status(401).json({ message: 'No user found' });
+    return;
+  }
+  try {
+    const singleTrip = await TripModel.findById(req.params.tripId);
+    if (singleTrip && !singleTrip.invitedEmails.includes(acceptingEmail)) {
+      res.status(403).json({ message: 'You are not invited to this trip' });
+    } else if (singleTrip) {
+      if (!singleTrip.invitedEmails.includes(acceptingEmail)) {
+        singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
+          (email) => email !== acceptingEmail
+        );
+        singleTrip.participants.push(userId);
+        await singleTrip.save();
+      }
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
+    console.error(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+      return;
+    }
+    next(e);
+  }
+};
+
+export const rejectInvite = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { email: acceptingEmail } = req.body;
+  const userId = req.user?.sub;
+  if (!userId) {
+    res.status(401).json({ message: 'No user found' });
+    return;
+  }
+  try {
+    const singleTrip = await TripModel.findById(req.params.tripId);
+    if (singleTrip && !singleTrip.invitedEmails.includes(acceptingEmail)) {
+      res.status(403).json({ message: 'You are not invited to this trip' });
+    } else if (singleTrip) {
+      if (!singleTrip.invitedEmails.includes(acceptingEmail)) {
+        singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
+          (email) => email !== acceptingEmail
+        );
+        await singleTrip.save();
+      }
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
+    console.error(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+      return;
+    }
     next(e);
   }
 };

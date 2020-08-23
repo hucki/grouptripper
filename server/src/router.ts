@@ -17,6 +17,8 @@ router.get('/trips/invited', getEmailAddress, tripController.getInvitedTrips);
 router.get('/trips/:id', tripController.getOneTrip);
 router.post('/trips', tripController.createTrip);
 router.put('/trips/:tripId/invite', tripController.inviteParticipant);
+router.put('/trips/:tripId/accept_invite', tripController.acceptInvite);
+router.put('/trips/:tripId/reject_invite', tripController.rejectInvite);
 router.get('/tripstops/:tripId/stops/:stopId', stopController.getOneStop);
 router.put('/tripstops/:tripId/stops', stopController.updateStopArray);
 router.put('/tripstops/:tripId/stops/:stopId', stopController.updateOneStop);

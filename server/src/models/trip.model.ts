@@ -14,6 +14,7 @@ export type Trip = {
   ownerId: string;
   stopsCollection?: StopCollection;
   invitedEmails: string[];
+  participants: string[];
 };
 
 export type TripDocument = Trip & Document;

@@ -24,6 +24,7 @@ function buildStop(): Stop {
 }
 
 function buildTrip(): Trip {
+  const ownerId = faker.random.uuid();
   return {
     _id: mongoose.Types.ObjectId(),
     name: faker.lorem.words(),
@@ -35,8 +36,9 @@ function buildTrip(): Trip {
       type: 'FeatureCollection',
       features: [buildStop(), buildStop()],
     },
-    ownerId: faker.random.uuid(),
+    ownerId,
     invitedEmails: [],
+    participants: [ownerId],
   };
 }
 
