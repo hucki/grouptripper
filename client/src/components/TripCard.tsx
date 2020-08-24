@@ -13,10 +13,12 @@ export default function TripCard({
   listView,
 }: TripCardProps): JSX.Element {
   const photo = usePhoto({
-    queryText: trip.stopsCollection.features[0].properties.name,
+    queryText: trip.stopsCollection.features[0].properties.name.replace(
+      `’`,
+      ''
+    ),
     dimensions: { width: 300, height: 300 },
   });
-
   return (
     <div className="flex items-center flex-1 p-1 transition duration-500 ease-in-out transform rounded-lg shadow cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="flex flex-col">
