@@ -2,6 +2,8 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import TripList from './TripList';
 import { useTrips, useInvitedTrips } from '../hooks/trips';
+import { Trip } from '../types/Trip';
+import InviteResponse from './InviteResponse';
 
 export default function UserProfile(): JSX.Element {
   const { logout, user } = useAuth0();
@@ -55,6 +57,15 @@ function UpcomingTrips(): JSX.Element | null {
   );
 }
 
+function InvitedTripCard({ trip }: { trip: Trip }): JSX.Element {
+  return (
+    <div key={trip._id}>
+      <h3>{trip.name}</h3>
+      {trip._id ? <InviteResponse tripId={trip._id} /> : null}
+    </div>
+  );
+}
+
 function InvitedTrips(): JSX.Element | null {
   const { isLoading, error, trips } = useInvitedTrips();
 
@@ -64,7 +75,7 @@ function InvitedTrips(): JSX.Element | null {
   return (
     <div>
       <h3 className="mb-2 text-2xl font-bold text-teal-900">Invites Waiting</h3>
-      <TripList trips={trips} />
+      <TripList trips={trips} renderTrip={InvitedTripCard} />
     </div>
   );
 }
