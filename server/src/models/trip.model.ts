@@ -14,6 +14,7 @@ export type Trip = {
   ownerId: string;
   stopsCollection?: StopCollection;
   invitedEmails: string[];
+  participants: string[];
 };
 
 export type TripDocument = Trip & Document;
@@ -48,6 +49,7 @@ const tripSchema = new mongoose.Schema({
     features: [stopSchema],
   },
   invitedEmails: [String],
+  participants: [String],
 });
 
 export default mongoose.model<TripDocument>('Trip', tripSchema);

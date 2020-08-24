@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
+import { sendMail } from '../middleware/emailing';
 
 export const getAllTrips = async (
   req: Request,
@@ -8,9 +9,8 @@ export const getAllTrips = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.user?.sub;
-  console.log(req.user);
   try {
-    const response = await TripModel.find({ ownerId: userId });
+    const response = await TripModel.find({ participants: userId });
     res.json(response);
     res.status(200);
     return;
@@ -24,11 +24,10 @@ export const getOneTrip = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const userId = req.user?.sub;
-  console.log('userId', userId);
+  const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
   try {
     const singleTrip = await TripModel.findById(req.params.id);
-    if (singleTrip && singleTrip.ownerId !== userId) {
+    if (singleTrip && !singleTrip.participants.includes(userId)) {
       res
         .status(403)
         .json({ message: 'You are not authorized to view this trip' });
@@ -55,7 +54,11 @@ export const createTrip = async (
     return;
   }
   try {
-    const newTrip = await TripModel.create({ ...req.body, ownerId: userId });
+    const newTrip = await TripModel.create({
+      ...req.body,
+      ownerId: userId,
+      participants: [userId],
+    });
     res.status(201);
     res.json(newTrip);
   } catch (e) {
@@ -74,22 +77,24 @@ export const inviteParticipant = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { email } = req.body;
-  const userId = req.user?.sub;
-  if (!userId) {
-    res.status(401).json({ message: 'No user found' });
-    return;
-  }
+  const { email: newInviteEmail } = req.body;
+  const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
+
+  const info = await sendMail({
+    subject: 'Invitation to a trip',
+    to: newInviteEmail,
+    text: 'Someone invited you to a trip',
+  });
+
   try {
     const singleTrip = await TripModel.findById(req.params.tripId);
-    console.log('found trip', singleTrip);
-    if (singleTrip && singleTrip.ownerId !== userId) {
+    if (singleTrip && !singleTrip.participants.includes(userId)) {
       res
         .status(403)
         .json({ message: 'You are not authorized to view this trip' });
     } else if (singleTrip) {
-      if (!singleTrip.invitedEmails.includes(email)) {
-        singleTrip.invitedEmails.push(email);
+      if (!singleTrip.invitedEmails.includes(newInviteEmail)) {
+        singleTrip.invitedEmails.push(newInviteEmail);
         await singleTrip.save();
       }
     } else {
@@ -138,6 +143,81 @@ export const getInvitedTrips = async (
     res.status(200);
     return;
   } catch (e) {
+    next(e);
+  }
+};
+
+export const acceptInvite = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const acceptingEmail = req.email as string; // Middleware guarantees this exists
+  const userId = req.user?.sub;
+  if (!userId) {
+    res.status(401).json({ message: 'No user found' });
+    return;
+  }
+  try {
+    const singleTrip = await TripModel.findById(req.params.tripId);
+    if (singleTrip && !singleTrip.invitedEmails.includes(acceptingEmail)) {
+      res.status(403).json({ message: 'You are not invited to this trip' });
+    } else if (singleTrip) {
+      if (!singleTrip.invitedEmails.includes(acceptingEmail)) {
+        singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
+          (email) => email !== acceptingEmail
+        );
+        singleTrip.participants.push(userId);
+        await singleTrip.save();
+      }
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
+    console.error(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+      return;
+    }
+    next(e);
+  }
+};
+
+export const rejectInvite = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const acceptingEmail = req.email as string; // Middleware guarantees this exists
+  const userId = req.user?.sub;
+  if (!userId) {
+    res.status(401).json({ message: 'No user found' });
+    return;
+  }
+  try {
+    const singleTrip = await TripModel.findById(req.params.tripId);
+    if (singleTrip && !singleTrip.invitedEmails.includes(acceptingEmail)) {
+      res.status(403).json({ message: 'You are not invited to this trip' });
+    } else if (singleTrip) {
+      if (!singleTrip.invitedEmails.includes(acceptingEmail)) {
+        singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
+          (email) => email !== acceptingEmail
+        );
+        await singleTrip.save();
+      }
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
+    console.error(e);
+    if (/validation failed/i.test(e._message)) {
+      res.status(400);
+      res.json({ message: 'Invalid data' });
+      return;
+    }
     next(e);
   }
 };

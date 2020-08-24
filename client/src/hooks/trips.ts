@@ -28,6 +28,25 @@ export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
   };
 }
 
+export function useInvitedTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  const tripsQuery = useQuery(['trips', 'invited'], async () => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Trip[]>('trips/invited', { accessToken });
+  });
+
+  const trips = tripsQuery.data ?? [];
+
+  return {
+    trips,
+    ...tripsQuery,
+  };
+}
+
 export function useTrip(
   id: string
 ): QueryResult<Trip> & { trip: Trip | undefined } {
@@ -112,6 +131,30 @@ export function useInviteToTrip(
     },
     onSuccess: (updatedStops) => {
       queryCache.invalidateQueries(['trip', tripId]);
+    },
+  });
+}
+
+export function useInviteResponse(
+  tripId: string,
+  response: 'accept' | 'reject'
+): MutationResultPair<Trip, undefined, Error> {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const inviteToTrip = async (): Promise<Trip> => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Trip>(`trips/${tripId}/${response}_invite`, {
+      accessToken,
+      method: 'PUT',
+    });
+  };
+
+  return useMutation(inviteToTrip, {
+    onSuccess: (updatedStops) => {
+      queryCache.invalidateQueries(['trip', tripId]);
+      queryCache.invalidateQueries(['trips']);
     },
   });
 }
