@@ -1,12 +1,20 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, wait } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { server, rest } from './../../test/server/test-server';
 import faker from 'faker';
 import dayjs from 'dayjs';
 import { buildTrip } from './../../test/utils/generate';
+import { Redirect as MockRedirect } from 'react-router-dom';
 
 import CreateTrip from '../CreateTrip';
+import { MemoryRouter } from 'react-router-dom';
+
+jest.mock('react-router', () => {
+  return {
+    Redirect: jest.fn(() => null),
+  };
+});
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -64,8 +72,12 @@ test('trip can be created', async () => {
   await user.click(submitButton);
   expect(submitButton).toBeDisabled();
 
-  const successMessage = await screen.findByText(/success/i);
-  expect(successMessage).toBeInTheDocument();
+  await wait(() =>
+    expect(MockRedirect).toHaveBeenCalledWith({ to: '/user-profile' }, {})
+  );
+
+  // const successMessage = await screen.findByText(/success/i);
+  // expect(successMessage).toBeInTheDocument();
 });
 
 test('form displays error and can be resubmitted on server error', async () => {

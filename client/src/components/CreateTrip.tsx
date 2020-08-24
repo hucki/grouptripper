@@ -15,6 +15,7 @@ import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
 import { usePhoto } from '../hooks/usePhoto';
 import { useCreateTrip } from '../hooks/trips';
+import { Redirect } from 'react-router-dom';
 
 type TripInput = {
   name: string;
@@ -75,7 +76,7 @@ export default function CreateTrip(): JSX.Element {
     return formPages[currentPage](formikProps);
   }
 
-  if (redirect && !savingError) return <div>Success</div>;
+  if (redirect && !savingError) return <Redirect to="/user-profile" />;
 
   return (
     <>
