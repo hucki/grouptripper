@@ -137,21 +137,25 @@ export const addStopToTrip = async (
   try {
     const currentTrip = await TripModel.findById(req.params.tripId);
     const updateStopsCollection: Stop[] = [];
-    const newStopData = req.body[0];
-    const newStop = await new stopModel({
-      geometry: {
-        coordinates: newStopData.geometry.coordinates,
-        type: newStopData.geometry.type,
-      },
-      properties: {
-        name: newStopData.properties.name,
-        label: newStopData.properties.label,
-        description: newStopData.properties.description,
-        upvotes: newStopData.properties.upvotes,
-        downvotes: newStopData.properties.downvotes,
-      },
-      type: newStopData.type,
-    });
+    const newStopData = req.body;
+    const newStop = await new stopModel(
+      newStopData
+
+      //   {
+      //   geometry: {
+      //     coordinates: newStopData.geometry.coordinates,
+      //     type: newStopData.geometry.type,
+      //   },
+      //   properties: {
+      //     name: newStopData.properties.name,
+      //     label: newStopData.properties.label,
+      //     description: newStopData.properties.description,
+      //     upvotes: newStopData.properties.upvotes,
+      //     downvotes: newStopData.properties.downvotes,
+      //   },
+      //   type: newStopData.type,
+      // }
+    );
 
     const resultingStops = await currentTrip?.stopsCollection?.features.map(
       (stop) => {

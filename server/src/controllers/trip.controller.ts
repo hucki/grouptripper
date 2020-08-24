@@ -154,24 +154,29 @@ export const acceptInvite = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  console.log('accepting invite...');
   const acceptingEmail = req.email as string; // Middleware guarantees this exists
   const userId = req.user?.sub;
   if (!userId) {
     res.status(401).json({ message: 'No user found' });
     return;
   }
+
+  console.log('accepting email', acceptingEmail, 'userId', userId);
   try {
     const singleTrip = await TripModel.findById(req.params.tripId);
+    console.log('found trip', singleTrip);
     if (singleTrip && !singleTrip.invitedEmails.includes(acceptingEmail)) {
       res.status(403).json({ message: 'You are not invited to this trip' });
     } else if (singleTrip) {
-      if (!singleTrip.invitedEmails.includes(acceptingEmail)) {
-        singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
-          (email) => email !== acceptingEmail
-        );
-        singleTrip.participants.push(userId);
-        await singleTrip.save();
-      }
+      singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
+        (email) => email !== acceptingEmail
+      );
+      console.log('about to accept');
+      singleTrip.participants.push(userId);
+      await singleTrip.save();
+      res.status(200);
+      res.json(singleTrip);
     } else {
       res.status(404);
       res.json({ message: 'Trip not found' });
@@ -203,12 +208,13 @@ export const rejectInvite = async (
     if (singleTrip && !singleTrip.invitedEmails.includes(acceptingEmail)) {
       res.status(403).json({ message: 'You are not invited to this trip' });
     } else if (singleTrip) {
-      if (!singleTrip.invitedEmails.includes(acceptingEmail)) {
-        singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
-          (email) => email !== acceptingEmail
-        );
-        await singleTrip.save();
-      }
+      console.log('about to reject');
+      singleTrip.invitedEmails = singleTrip.invitedEmails.filter(
+        (email) => email !== acceptingEmail
+      );
+      await singleTrip.save();
+      res.status(200);
+      res.json(singleTrip);
     } else {
       res.status(404);
       res.json({ message: 'Trip not found' });
