@@ -2,6 +2,7 @@ import express from 'express';
 import * as tripController from './controllers/trip.controller';
 import * as photoController from './controllers/photo.controller';
 import * as stopController from './controllers/stop.controller';
+import * as commentContoller from './controllers/comment.controller';
 import { jwtCheck, getEmailAddress } from './middleware/authentication';
 
 const router = express.Router();
@@ -9,6 +10,10 @@ const router = express.Router();
 // unauthenticated roots
 router.delete('/trips/:id', tripController.deleteTrip);
 router.get('/photos/:queryText', photoController.getPhoto);
+
+router.get('/comments/:tripId', commentContoller.getComments);
+router.post('/comments', commentContoller.addComment);
+router.delete('/comments/:commentId', commentContoller.deleteComment);
 
 router.use(jwtCheck);
 

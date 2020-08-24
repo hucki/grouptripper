@@ -10,10 +10,13 @@ import { Stop } from '../types/Stop';
 import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
 import Invite from './Invite';
+import TripComments from './TripComments';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
+  console.log(trip);
+
   const numberOfDays =
     dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
 
@@ -119,6 +122,7 @@ export default function TripView(): JSX.Element {
         <Timeline />
         <div>{trip && <MapContainer trip={trip} />}</div>
       </div>
+      <TripComments tripId={id} />
     </>
   );
 }

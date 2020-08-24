@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
 import { sendMail } from '../middleware/emailing';
+import console from 'console';
 
 export const getAllTrips = async (
   req: Request,
@@ -60,6 +61,7 @@ export const createTrip = async (
       participants: [userId],
     });
     res.status(201);
+    console.log(newTrip);
     res.json(newTrip);
   } catch (e) {
     console.error(e);
