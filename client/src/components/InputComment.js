@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-export default function InputComment({ onSubmit, user }) {
+export default function InputComment({ onSubmit, user }) {//eslint-disable-line
   const [comment, setComment] = useState(null);
 
-  const handleChange = (event) => {
+  const handleChange = (event) => {//eslint-disable-line
     setComment(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event) => {//eslint-disable-line
     event.preventDefault();
     onSubmit({ comment });
     setComment('');
@@ -15,7 +15,11 @@ export default function InputComment({ onSubmit, user }) {
 
   return (
     <div className="flex items-center mb-2">
-      <img className="w-12 h-12 rounded-full mr-4" src={user.picture} />
+      <img
+        className="w-12 h-12 rounded-full mr-4"
+        src={user.picture}
+        alt="user"
+      />
       <form onSubmit={handleSubmit}>
         <input
           type="text"
