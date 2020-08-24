@@ -12,11 +12,9 @@ type AddStopInputProps = {
   tripId: string;
   stop: Stop;
 };
-export function useCreateStop(): MutationResultPair<
-  Stop,
-  AddStopInputProps,
-  Error
-> {
+export function useCreateStop(
+  tripId: string
+): MutationResultPair<Stop, AddStopInputProps, Error> {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const addStop = async ({
@@ -27,13 +25,18 @@ export function useCreateStop(): MutationResultPair<
     if (isAuthenticated) {
       accessToken = await getAccessTokenSilently();
     }
-    return client<Stop>(`/tripstops/${tripId}/stops`, {
+    return client<Stop>(`tripstops/${tripId}/stops`, {
       data: stop,
       accessToken,
     });
   };
 
-  return useMutation(addStop);
+  return useMutation(addStop, {
+    onSuccess: (updatedStops) => {
+      queryCache.invalidateQueries(['trip', tripId]);
+      queryCache.invalidateQueries(['trip']);
+    },
+  });
 }
 
 export function useUpdateAllStops(

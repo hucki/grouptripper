@@ -94,7 +94,7 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
     <>
       <Map
         center={center}
-        useFlyTo={true}
+        useFlyTo={false}
         bounds={validBounds ? bounds : undefined}
         zoom={10}
         className="container w-full h-full mx-auto rounded-lg shadow"
