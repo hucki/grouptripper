@@ -11,7 +11,9 @@ export const getAllTrips = async (
 ): Promise<void> => {
   const userId = req.user?.sub;
   try {
-    const response = await TripModel.find({ participants: userId });
+    const response = await TripModel.find({ participants: userId }).sort({
+      startDate: 1,
+    });
     res.json(response);
     res.status(200);
     return;
@@ -140,7 +142,9 @@ export const getInvitedTrips = async (
     return;
   }
   try {
-    const response = await TripModel.find({ invitedEmails: email });
+    const response = await TripModel.find({ invitedEmails: email }).sort({
+      startDate: 1,
+    });
     res.json(response);
     res.status(200);
     return;
