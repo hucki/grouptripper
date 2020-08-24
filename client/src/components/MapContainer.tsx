@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import L, { LatLngTuple, LatLngBoundsLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
