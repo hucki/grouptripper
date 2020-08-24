@@ -56,7 +56,10 @@ export default function TripView(): JSX.Element {
                 {stopsOfAllDays[index].length ? (
                   stopsOfAllDays[index]
                 ) : (
-                  <div className="ml-8 text-sm italic text-gray-400 lowercase">
+                  <div
+                    key={'none' + index}
+                    className="ml-8 text-sm italic text-gray-400 lowercase"
+                  >
                     {' '}
                     no stops on this day
                   </div>
@@ -82,7 +85,7 @@ export default function TripView(): JSX.Element {
     trip?.stopsCollection.features.map((stop: Stop, index) => {
       if (i === stop.properties.tripDay) {
         stopsOfAllDays[i].push(
-          <TimelineItem key={i} stop={stop} editMode={false} />
+          <TimelineItem key={stop._id} stop={stop} editMode={false} />
         );
       } else {
         return null;
