@@ -3,14 +3,13 @@ import mongoose from './index';
 // import { Document } from 'mongoose';
 
 const commentSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   picture: {
     type: String,
     required: true,
+  },
+  username: {
+    type: String,
+    required: false,
   },
   comment: {
     type: String,

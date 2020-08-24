@@ -13,6 +13,7 @@ router.get('/photos/:queryText', photoController.getPhoto);
 
 router.get('/comments/:tripId', commentContoller.getComments);
 router.post('/comments', commentContoller.addComment);
+router.delete('/comments/:commentId', commentContoller.deleteComment);
 
 router.use(jwtCheck);
 

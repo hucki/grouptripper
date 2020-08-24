@@ -2,33 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import InputComment from './InputComment';
-
-// const dummyComments = [
-//   {
-//     username: 'mohmed',
-//     pictureURL:
-//       'https://lh3.googleusercontent.com/a-/AOh14GjITz9CQ0DeLGfnFi_-VgniwZZ0sYjwF36mX5Bl',
-//     comment: 'This is a great comment',
-//     createdAt: '2020-11-14T00:00:00.000Z',
-//     tripId: '5f438f427331b41754c77838',
-//   },
-//   {
-//     username: 'alex',
-//     pictureURL:
-//       'https://lh3.googleusercontent.com/a-/AOh14GjITz9CQ0DeLGfnFi_-VgniwZZ0sYjwF36mX5Bl',
-//     comment: 'This is a great comment',
-//     createdAt: '2020-11-14T00:00:00.000Z',
-//     tripId: '5f438f427331b41754c77838',
-//   },
-//   {
-//     username: 'stefan',
-//     pictureURL:
-//       'https://lh3.googleusercontent.com/a-/AOh14GjITz9CQ0DeLGfnFi_-VgniwZZ0sYjwF36mX5Bl',
-//     comment: 'This is a great comment',
-//     createdAt: '2020-11-14T00:00:00.000Z',
-//     tripId: '5f438f427331b41754c77838',
-//   },
-// ];
+import dayjs from 'dayjs';
 
 export default function TripComments({ tripId }) {
   const { user } = useAuth0();
@@ -77,8 +51,12 @@ export default function TripComments({ tripId }) {
                     {comment.username}
                   </p>
                   <p className="text-grey-dark text-center">
-                    {comment.createdAt}
+                    {comment.createdAt
+                      ? dayjs(comment.createdAt).format('DD.MM.YYYY')
+                      : ''}
                   </p>
+                  {comment.username === name && <button>Delete</button>}
+                  {/* <button>Delete</button> */}
                 </div>
                 <p>{comment.comment}</p>
               </div>
