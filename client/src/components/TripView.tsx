@@ -122,7 +122,7 @@ export default function TripView(): JSX.Element {
         <Timeline />
         <div>{trip && <MapContainer trip={trip} />}</div>
       </div>
-      <TripComments tripId={id} />  
+      <TripComments tripId={id} />
     </>
   );
 }
