@@ -109,24 +109,25 @@ export default function TripEdit(): JSX.Element {
   };
   return (
     <>
-      {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
       <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <div>
-          <div className="grid grid-cols-2 col-gap-8">
-            {/* {renderStopInput(formikProps)} */}
-            <StopInput values={newStopData} />
+        {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
+        <div className="container flex items-center justify-center w-full mx-auto mt-4">
+          <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+            <h3 className="mb-2 text-2xl font-bold text-teal-900">
+              who is on board?
+            </h3>
+            {trip && <Invite trip={trip} />}
           </div>
-          {trip && <Timeline />}
         </div>
+      </div>
+      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+        <div>{trip && <Timeline />}</div>
         <div>
           {trip && <MapContainer trip={trip} />}
-          <div className="container flex items-center justify-center w-full mx-auto mt-4">
-            <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-              <h3 className="mb-2 text-2xl font-bold text-teal-900">
-                who is on board?
-              </h3>
-              {trip && <Invite trip={trip} />}
-            </div>
+
+          <div>
+            {/* {renderStopInput(formikProps)} */}
+            <StopInput values={newStopData} />
           </div>
         </div>
       </div>

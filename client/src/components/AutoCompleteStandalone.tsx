@@ -134,7 +134,7 @@ function DropdownCombobox({
           className="flex-grow p-3 border border-gray-500 rounded"
         />
         <button
-          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl bg-teal-500 rounded-full"
+          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl text-white bg-teal-500 rounded-full"
           onClick={(): void =>
             selectedItem ? onAddClick(selectedItem) : undefined
           }

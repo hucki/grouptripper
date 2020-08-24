@@ -104,20 +104,20 @@ export default function TripView(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
   return (
     <>
-      {trip && <TripCard trip={trip} listView={false} />}
-      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <Timeline />
-        <div>
-          {trip && <MapContainer trip={trip} />}
-          <div className="container flex items-center justify-center w-full mx-auto mt-4">
-            <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-              <h3 className="mb-2 text-2xl font-bold text-teal-900">
-                who is on board?
-              </h3>
-              {trip && <Invite trip={trip} />}
-            </div>
+      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+        {trip && <TripCard trip={trip} listView={false} />}
+        <div className="container flex items-center justify-center w-full mx-auto mt-4">
+          <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+            <h3 className="mb-2 text-2xl font-bold text-teal-900">
+              who is on board?
+            </h3>
+            {trip && <Invite trip={trip} />}
           </div>
         </div>
+      </div>
+      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+        <Timeline />
+        <div>{trip && <MapContainer trip={trip} />}</div>
       </div>
     </>
   );
