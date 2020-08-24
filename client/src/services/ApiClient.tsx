@@ -38,7 +38,6 @@ const ApiClient = {
     endpoint: string,
     reqBodyString: string
   ): Promise<GeoJSON.FeatureCollection> => {
-    console.log(reqBodyString);
     return fetch(
       // 'localhost',
       `${routingApiUrl}/v2/directions/${reqRoute.profile}/${reqRoute.format}`,

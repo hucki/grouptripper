@@ -65,9 +65,10 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
         longitude: 0,
       };
   const center: LatLngTuple = [
-    centerOfBounds.longitude,
     centerOfBounds.latitude,
+    centerOfBounds.longitude,
   ];
+
   // const [currentRoute, setCurrentRoute] = useState();
 
   // const gotPois = useQuery('pois', ApiClient.getPois);
@@ -84,13 +85,18 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
     gotRoute.data?.features.map((feature: GeoJSON.Feature, index: number) => {
       return <GeoJSON data={feature} key={index} />;
     });
+  const validBounds =
+    bounds.length &&
+    (bounds[0][0] !== bounds[1][0] || bounds[0][1] !== bounds[1][1])
+      ? true
+      : false;
   return (
     <>
       <Map
         center={center}
         useFlyTo={true}
-        bounds={bounds.length ? bounds : undefined}
-        zoom={6}
+        bounds={validBounds ? bounds : undefined}
+        zoom={10}
         className="container w-full h-full mx-auto rounded-lg shadow"
         style={{ height: '30vh' }}
       >
