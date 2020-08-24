@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
+import { sendMail } from '../middleware/emailing';
 
 export const getAllTrips = async (
   req: Request,
@@ -78,6 +79,12 @@ export const inviteParticipant = async (
 ): Promise<void> => {
   const { email: newInviteEmail } = req.body;
   const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
+
+  const info = await sendMail({
+    subject: 'Invitation to a trip',
+    to: newInviteEmail,
+    text: 'Someone invited you to a trip',
+  });
 
   try {
     const singleTrip = await TripModel.findById(req.params.tripId);

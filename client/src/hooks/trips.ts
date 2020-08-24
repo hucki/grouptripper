@@ -8,7 +8,6 @@ import {
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Trip } from '../types/Trip';
-import { response } from 'msw/lib/types';
 
 export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
