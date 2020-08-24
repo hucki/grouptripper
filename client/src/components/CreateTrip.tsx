@@ -185,6 +185,9 @@ const SelectInput: FunctionComponent<InputProps> = ({ label, ...props }) => {
 };
 
 function FormFirstPage(): JSX.Element {
+  const countriesData = countries
+    .getData()
+    .sort((a, b) => (a.name < b.name ? -1 : 1));
   return (
     <>
       <h2 className="text-2xl">Start planning your trip</h2>
@@ -194,7 +197,7 @@ function FormFirstPage(): JSX.Element {
         <option key="empty" value="">
           {' '}
         </option>
-        {countries.getData().map((country) => (
+        {countriesData.map((country) => (
           <option key={country.code} value={country.code}>
             {country.name}
           </option>
