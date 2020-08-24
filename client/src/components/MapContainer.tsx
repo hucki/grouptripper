@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import L, { LatLngTuple, LatLngBoundsLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -38,9 +38,6 @@ function getBounds(coordinates: LatLngTuple[]): LatLngBoundsLiteral {
 }
 
 export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
-  const gotPois = useQuery('pois', ApiClient.getPois);
-  const gotRoute = useQuery('route', ApiClient.getRoute);
-  const markers: JSX.Element[] = [];
   const getMarkers = (): JSX.Element[] => {
     const res = trip.stopsCollection.features.map(
       (feature: GeoJSON.Feature, index: number) => (
@@ -55,37 +52,59 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
     );
     return res;
   };
-  useEffect(() => {
-    markers.push(...getMarkers());
-  });
 
-  if (gotRoute.status === 'loading' || gotPois.status === 'loading')
-    return <div>Loading ...</div>;
-  if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
-  if (gotPois.error) return <div>error: {gotPois.error}</div>;
-
-  const allCoordinates = getAllCoordinates(trip.stopsCollection);
-  const bounds: LatLngBoundsLiteral = getBounds(allCoordinates);
-  const centerOfBounds = geolib.getCenterOfBounds(allCoordinates);
+  const allCoordinates: LatLngTuple[] = getAllCoordinates(trip.stopsCollection);
+  const markers: JSX.Element[] = getMarkers();
+  const bounds: LatLngBoundsLiteral = allCoordinates.length
+    ? getBounds(allCoordinates)
+    : [];
+  const centerOfBounds = bounds.length
+    ? geolib.getCenterOfBounds(allCoordinates)
+    : {
+        latitude: 0,
+        longitude: 0,
+      };
   const center: LatLngTuple = [
-    centerOfBounds.longitude,
     centerOfBounds.latitude,
+    centerOfBounds.longitude,
   ];
 
+  // const [currentRoute, setCurrentRoute] = useState();
+
+  // const gotPois = useQuery('pois', ApiClient.getPois);
+
+  const reqBodyRoute = `{"coordinates":${JSON.stringify(allCoordinates)}}`;
+  const gotRoute = useQuery(['route', reqBodyRoute], ApiClient.getRoute);
+
+  if (gotRoute.status === 'loading' /* || gotPois.status === 'loading'*/)
+    return <div>Loading ...</div>;
+  if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
+  // if (gotPois.error) return <div>error: {gotPois.error}</div>;
+  const routeDirections =
+    gotRoute.data?.features &&
+    gotRoute.data?.features.map((feature: GeoJSON.Feature, index: number) => {
+      return <GeoJSON data={feature} key={index} />;
+    });
+  const validBounds =
+    bounds.length &&
+    (bounds[0][0] !== bounds[1][0] || bounds[0][1] !== bounds[1][1])
+      ? true
+      : false;
   return (
     <>
       <Map
         center={center}
         useFlyTo={true}
-        bounds={bounds}
-        zoom={6}
+        bounds={validBounds ? bounds : undefined}
+        zoom={10}
         className="container w-full h-full mx-auto rounded-lg shadow"
-        style={{ height: '50vh' }}
+        style={{ height: '30vh' }}
       >
         <TileLayer
           attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
+        {routeDirections}
         {markers}
       </Map>
     </>

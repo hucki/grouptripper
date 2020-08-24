@@ -1,8 +1,40 @@
-import { useMutation, MutateFunction, queryCache } from 'react-query';
+import {
+  useMutation,
+  MutateFunction,
+  queryCache,
+  MutationResultPair,
+} from 'react-query';
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Stop } from '../types/Stop';
 import { Trip } from '../types/Trip';
+type AddStopInputProps = {
+  tripId: string;
+  stop: Stop;
+};
+export function useCreateStop(): MutationResultPair<
+  Stop,
+  AddStopInputProps,
+  Error
+> {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  const addStop = async ({
+    tripId,
+    stop,
+  }: AddStopInputProps): Promise<Stop> => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Stop>(`/tripstops/${tripId}/stops`, {
+      data: stop,
+      accessToken,
+    });
+  };
+
+  return useMutation(addStop);
+}
 
 export function useUpdateAllStops(
   tripId: string

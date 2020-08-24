@@ -228,6 +228,7 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
               countryCode={values.country}
               onAddClick={(): void => {
                 if (values.currentStop) {
+                  console.log(values);
                   push(values.currentStop);
                 }
               }}

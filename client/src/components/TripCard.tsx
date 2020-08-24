@@ -13,15 +13,17 @@ export default function TripCard({
   listView,
 }: TripCardProps): JSX.Element {
   const photo = usePhoto({
-    queryText: trip.stopsCollection.features[0].properties.name,
+    queryText: trip.stopsCollection.features[0].properties.name.replace(
+      `’`,
+      ''
+    ),
     dimensions: { width: 300, height: 300 },
   });
-
   return (
     <div className="flex items-center flex-1 p-1 transition duration-500 ease-in-out transform rounded-lg shadow cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="flex flex-col">
         <div className="flex flex-col justify-between leading-normal rounded-b lg:rounded-b-none lg:rounded-r">
-          <div>
+          <div className="">
             <div
               className={
                 listView
@@ -30,7 +32,7 @@ export default function TripCard({
               }
             >
               <div
-                className="flex flex-wrap flex-shrink-0 m-4"
+                className="relative flex flex-wrap flex-shrink-0 m-4"
                 style={listView ? {} : { height: '100px', width: '100px' }}
               >
                 {photo ? (
@@ -63,12 +65,17 @@ export default function TripCard({
                   {trip?.stopsCollection.features.map((stop, index: number) => (
                     <span
                       key={stop.properties.name}
-                      className="p-1 m-2 text-sm leading-none text-teal-900 bg-teal-200 rounded-md"
+                      className="p-2 m-2 text-xs leading-none text-teal-900 bg-teal-200 rounded-full"
                     >
                       {stop.properties.name}
                     </span>
                   ))}
                 </p>
+                {listView && trip?.invitedEmails?.length ? (
+                  <span className="absolute top-0 px-2 py-1 mt-2 text-xs font-bold text-teal-900 uppercase bg-teal-300 rounded-full">
+                    {trip?.invitedEmails?.length}
+                  </span>
+                ) : null}
               </div>
             </div>
           </div>

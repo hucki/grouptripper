@@ -21,7 +21,7 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
         }}
       >
         <Form>
-          <label htmlFor="email">Invite someone by email</label>
+          <label htmlFor="email">Invite:</label>
           <Field
             name="email"
             id="email"
