@@ -2,13 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import SignInOut from './SignInOut';
+import logo from '../assets/groupglobe.svg';
 
 const Navigation: React.FC = () => {
   return (
     <header className="text-gray-100 bg-gray-900">
       <div className="container flex items-center justify-between flex-shrink-0 p-4 mx-auto ">
         <Link to="/">
-          <div className="text-3xl">Grouptripper</div>
+          <div className="flex flex-row text-3xl">
+            <img src={logo} width="55px" className="mx-2" />
+            Grouptripper
+          </div>
         </Link>
         <nav>
           <ul className="flex space-x-8">
