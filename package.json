@@ -4,6 +4,7 @@
   "description": "no content so far",
   "main": "index.js",
   "scripts": {
+    "build": "npm run build:client && npm run build:server",
     "build:client": "cd client && npm run build",
     "build:server": "cd server && npm run build",
     "postbuild": "if [ -d 'server/src/build' ]; then rm -Rf server/src/build; fi && mv client/build server/src/build",
