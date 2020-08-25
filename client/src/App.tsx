@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
-import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
