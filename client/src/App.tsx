@@ -2,12 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
-import LandingPage from './components/LandingPage';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
+import LandingPageNew from './components/LandingPageNew';
+import PageLayout from './components/PageLayout';
 
 interface Prprops {
   componenent: React.FC;
@@ -23,24 +24,27 @@ function App(): JSX.Element {
   return (
     <Router>
       <Auth0ProviderWithHistory>
-        <div className="container w-screen h-screen mx-auto">
-          <Navigation />
-          <Switch>
-            <ProtectedRoute path="/create-trip" componenent={CreateTrip} />
-            <Route exact={true} path="/trips/:id">
+        <Switch>
+          <ProtectedRoute path="/create-trip" componenent={CreateTrip} />
+          <Route exact={true} path="/trips/:id">
+            <PageLayout Navigation={Navigation}>
               <TripView />
-            </Route>
-            <Route path="/trips/edit/:id">
+            </PageLayout>
+          </Route>
+          <Route path="/trips/edit/:id">
+            <PageLayout Navigation={Navigation}>
               <TripEdit />
-            </Route>
-            <Route exact={true} path="/">
-              <LandingPage />
-            </Route>
-            <Route path="/user-profile">
+            </PageLayout>
+          </Route>
+          <Route exact={true} path="/">
+            <LandingPageNew Navigation={Navigation} />
+          </Route>
+          <Route path="/user-profile">
+            <PageLayout Navigation={Navigation}>
               <UserProfile />
-            </Route>
-          </Switch>
-        </div>
+            </PageLayout>
+          </Route>
+        </Switch>
       </Auth0ProviderWithHistory>
     </Router>
   );
