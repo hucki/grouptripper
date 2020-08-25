@@ -1,5 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { usePhoto } from '../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 
@@ -12,11 +14,11 @@ export default function TripCard({
   trip,
   listView,
 }: TripCardProps): JSX.Element {
+  const qureyString = trip.stopsCollection.features[0]
+    ? trip.stopsCollection.features[0].properties.name
+    : trip.name;
   const photo = usePhoto({
-    queryText: trip.stopsCollection.features[0].properties.name.replace(
-      `’`,
-      ''
-    ),
+    queryText: qureyString.replace(`’`, ''),
     dimensions: { width: 300, height: 300 },
   });
   return (
@@ -55,6 +57,7 @@ export default function TripCard({
                     </p>
                   </div>
                 </div>
+                <FontAwesomeIcon icon={faComment} />
                 <p className="text-base text-teal-700">
                   Yeah! We are having a trip. Prepare to be happy!{' '}
                   <span role="img" aria-label="Party Popper">
@@ -65,7 +68,7 @@ export default function TripCard({
                   {trip?.stopsCollection.features.map((stop, index: number) => (
                     <span
                       key={stop.properties.name}
-                      className="p-2 m-2 text-xs leading-none text-teal-900 bg-teal-200 rounded-full"
+                      className="p-2 m-2 text-xs leading-none text-white rounded-full bg-secondary"
                     >
                       {stop.properties.name}
                     </span>
