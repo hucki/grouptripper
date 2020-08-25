@@ -17,7 +17,7 @@ export default function TripComments({ tripId }) {//eslint-disable-line
   useEffect(() => {
     const getDataAxios = async () => {//eslint-disable-line
       const { data: comments } = await axios.get(
-        `http://localhost:3001/comments/${tripId}`
+        `${API_URL}/comments/${tripId}`
       );
       setComments(comments);
     };
