@@ -4,33 +4,34 @@ import axios from 'axios';
 import InputComment from './InputComment';
 import dayjs from 'dayjs';
 
-export default function TripComments({ tripId }) {//eslint-disable-line
+export default function TripComments({ tripId }) {
+  //eslint-disable-line
+  const apiUrl = process.env.REACT_APP_API_URL;
   const { user } = useAuth0();
   const { name, picture } = user;
 
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const getDataAxios = async () => {//eslint-disable-line
+    const getDataAxios = async () => {
+      //eslint-disable-line
       const { data: comments } = await axios.get(
-        `http://localhost:3001/comments/${tripId}`
+        `${apiUrl}/comments/${tripId}`
       );
       setComments(comments);
     };
     getDataAxios(); //calling the above created function
-  }, [tripId]);
+  }, [apiUrl, tripId]);
   console.log(comments);
 
-  const handleCreateComment = async ({ comment }) => {//eslint-disable-line
-    const { data: newComment } = await axios.post(
-      'http://localhost:3001/comments/',
-      {
-        username: name,
-        picture,
-        comment,
-        tripId,
-      }
-    );
+  const handleCreateComment = async ({ comment }) => {
+    //eslint-disable-line
+    const { data: newComment } = await axios.post(`${apiUrl}/comments/`, {
+      username: name,
+      picture,
+      comment,
+      tripId,
+    });
     setComments((prevComments) => [...prevComments, newComment]);
   };
 
@@ -42,16 +43,16 @@ export default function TripComments({ tripId }) {//eslint-disable-line
           return (
             <div className="flex items-center mb-2" key={index}>
               <img
-                className="w-10 h-10 rounded-full mr-4"
+                className="w-10 h-10 mr-4 rounded-full"
                 src={comment.picture}
                 alt="user"
               />
               <div className="text-sm">
-                <div className="flex justify-between items-center ">
-                  <p className="text-black leading-none bg-gray-200 text-center mr-10">
+                <div className="flex items-center justify-between ">
+                  <p className="mr-10 leading-none text-center text-black bg-gray-200">
                     {comment.username}
                   </p>
-                  <p className="text-grey-dark text-center">
+                  <p className="text-center text-grey-dark">
                     {comment.createdAt
                       ? dayjs(comment.createdAt).format('DD.MM.YYYY')
                       : ''}
