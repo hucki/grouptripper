@@ -6,7 +6,7 @@
   "scripts": {
     "build:client": "cd client && npm run build",
     "build:server": "cd server && npm run build",
-    "postbuild": "mv client/build server/src/build",
+    "postbuild": "rm -R server/src/build && mv client/build server/src/build",
     "test:client": "cd client && npm run test:coverage",
     "test:server": "cd server && npm run test:coverage",
     "test": "npm run test:client && npm run test:server",
