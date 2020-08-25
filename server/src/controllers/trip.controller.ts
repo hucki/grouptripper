@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
-import { sendMail } from '../middleware/emailing';
-import console from 'console';
+import { sendMail } from '../services/email.service';
 
 export const getAllTrips = async (
   req: Request,

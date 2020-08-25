@@ -8,6 +8,7 @@ import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
+import LandingPageNew from './components/LandingPageNew';
 
 interface Prprops {
   componenent: React.FC;
@@ -23,7 +24,7 @@ function App(): JSX.Element {
   return (
     <Router>
       <Auth0ProviderWithHistory>
-        <div className="container w-screen h-screen mx-auto">
+        <div className="w-screen h-screen mx-auto">
           <Navigation />
           <Switch>
             <ProtectedRoute path="/create-trip" componenent={CreateTrip} />
@@ -34,10 +35,13 @@ function App(): JSX.Element {
               <TripEdit />
             </Route>
             <Route exact={true} path="/">
-              <LandingPage />
+              <LandingPageNew Navigation={Navigation} />
             </Route>
             <Route path="/user-profile">
               <UserProfile />
+            </Route>
+            <Route path="/new-landing">
+              <LandingPageNew Navigation={Navigation} />
             </Route>
           </Switch>
         </div>
