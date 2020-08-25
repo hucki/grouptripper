@@ -1,3 +1,5 @@
+const { colors } = require('tailwindcss/defaultTheme');
+
 module.exports = {
   purge: [
     'src/**/*.js',
@@ -7,7 +9,13 @@ module.exports = {
     'public/**/*.html',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        ...colors,
+        primary: '#736969',
+        secondary: '#69BAC9',
+      },
+    },
   },
   variants: {
     backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
