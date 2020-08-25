@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as RightChevron } from '../assets/right-chevron.svg';
+import DefaultNavigation from './Navigation';
 
 type Props = {
-  Navigation: React.FC;
+  Navigation?: React.FC;
 };
 
-const LandingPage: React.FC<Props> = ({ Navigation }) => (
+const LandingPage: React.FC<Props> = ({ Navigation = DefaultNavigation }) => (
   <div className="flex flex-col h-screen">
     <Navigation />
     <section

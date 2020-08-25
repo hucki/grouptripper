@@ -3,7 +3,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const SignInOut: React.FC = () => {
   const {
-    loginWithRedirect,
+    // loginWithRedirect,
+    loginWithPopup,
     logout,
     isAuthenticated,
     isLoading,
@@ -22,9 +23,7 @@ const SignInOut: React.FC = () => {
     );
   if (!isAuthenticated)
     return (
-      <button onClick={(): Promise<void> => loginWithRedirect()}>
-        Sign in
-      </button>
+      <button onClick={(): Promise<void> => loginWithPopup()}>Sign in</button>
     );
 
   return <button>Sign in</button>;
