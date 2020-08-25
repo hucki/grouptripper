@@ -33,6 +33,10 @@ router.put(
   tripController.rejectInvite
 );
 router.get('/tripstops/:tripId/stops/:stopId', stopController.getOneStop);
+router.get(
+  '/tripstops/:tripId/participantProfiles',
+  tripController.getUserProfiles
+);
 router.put('/tripstops/:tripId/stops', stopController.updateStopArray);
 router.put('/tripstops/:tripId/stops/:stopId', stopController.updateOneStop);
 router.delete('/tripstops/:tripId/stops/:stopId', stopController.deleteOneStop);

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import TripModel from '../models/trip.model';
 import { sendMail } from '../services/email.service';
+import { getProfile } from '../services/user.service';
 
 export const getAllTrips = async (
   req: Request,
@@ -229,6 +230,32 @@ export const rejectInvite = async (
       res.json({ message: 'Invalid data' });
       return;
     }
+    next(e);
+  }
+};
+
+export const getUserProfiles = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
+  try {
+    const singleTrip = await TripModel.findById(req.params.id);
+    if (singleTrip && !singleTrip.participants.includes(userId)) {
+      res
+        .status(403)
+        .json({ message: 'You are not authorized to view this trip' });
+    } else if (singleTrip) {
+      const profilePromises = singleTrip.participants.map(getProfile);
+      const participantProfiles = Promise.all(profilePromises);
+      res.status(200);
+      res.json(participantProfiles);
+    } else {
+      res.status(404);
+      res.json({ message: 'Trip not found' });
+    }
+  } catch (e) {
     next(e);
   }
 };
