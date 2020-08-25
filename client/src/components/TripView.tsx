@@ -111,16 +111,6 @@ export default function TripView(): JSX.Element {
     <>
       {trip && <MainTripView trip={trip} />}
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-          <div className="container flex items-center justify-center w-full mx-auto mt-4">
-            {/* <div className="flex flex-col w-full p-4 bg-white rounded-lg">
-              <h3 className="mb-2 text-2xl font-bold text-gray-800">
-                Here's who's going
-              </h3>
-              {trip && <Invite trip={trip} />}
-            </div> */}
-          </div>
-        </div>
         <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
           <Timeline />
           <div>{trip && <MapContainer trip={trip} />}</div>
