@@ -4,9 +4,10 @@ import axios from 'axios';
 import InputComment from './InputComment';
 import dayjs from 'dayjs';
 
-export default function TripComments({ tripId }) {
-  //eslint-disable-line
-  const apiUrl = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
+
+export default function TripComments({ tripId }) {//eslint-disable-line
+
   const { user } = useAuth0();
   const { name, picture } = user;
 
@@ -21,17 +22,24 @@ export default function TripComments({ tripId }) {
       setComments(comments);
     };
     getDataAxios(); //calling the above created function
-  }, [apiUrl, tripId]);
+  }, [tripId]);
 
-  const handleCreateComment = async ({ comment }) => {
-    //eslint-disable-line
-    const { data: newComment } = await axios.post(`${apiUrl}/comments/`, {
+  const handleCreateComment = async ({ comment }) => {//eslint-disable-line
+    const { data: newComment } = await axios.post(`${API_URL}/comments/`, {
       username: name,
       picture,
       comment,
       tripId,
     });
     setComments((prevComments) => [...prevComments, newComment]);
+  };
+
+  const handleDeleteComment = async (comment) => {//eslint-disable-line
+    axios.delete(`${API_URL}/comments/${comment._id}`).then(() => {
+      setComments((prevComments) =>
+        prevComments.filter((prevComment) => prevComment._id !== comment._id)
+      );
+    });
   };
 
   return (
@@ -51,13 +59,20 @@ export default function TripComments({ tripId }) {
                   <p className="mr-10 leading-none text-center text-black bg-gray-200">
                     {comment.username}
                   </p>
-                  <p className="text-center text-grey-dark">
+                  <p className="text-grey-dark text-center mr-5">
                     {comment.createdAt
                       ? dayjs(comment.createdAt).format('DD.MM.YYYY')
                       : ''}
                   </p>
-                  {comment.username === name && <button>Delete</button>}
-                  {/* <button>Delete</button> */}
+                  {comment.username === name && (
+                    <button
+                      className="px-1 py-1 mb-1 ml-3 text-xs font-bold text-black uppercase bg-red-500 rounded shadow outline-none active:bg-red-600 hover:shadow-md focus:outline-none"
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => handleDeleteComment(comment)}//eslint-disable-line
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
                 <p>{comment.comment}</p>
               </div>
