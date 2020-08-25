@@ -6,7 +6,7 @@ import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
-import LandingPageNew from './components/LandingPageNew';
+import LandingPageNew from './components/LandingPage';
 import PageLayout from './components/PageLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -21,23 +21,23 @@ function App(): JSX.Element {
           <ProtectedRoute
             path="/create-trip"
             component={(): JSX.Element => (
-              <PageLayout Navigation={Navigation}>
+              <PageLayout>
                 <CreateTrip />
               </PageLayout>
             )}
           />
           <Route exact={true} path="/trips/:id">
-            <PageLayout Navigation={Navigation}>
+            <PageLayout>
               <TripView />
             </PageLayout>
           </Route>
           <Route path="/trips/edit/:id">
-            <PageLayout Navigation={Navigation}>
+            <PageLayout>
               <TripEdit />
             </PageLayout>
           </Route>
           <Route path="/user-profile">
-            <PageLayout Navigation={Navigation}>
+            <PageLayout>
               <UserProfile />
             </PageLayout>
           </Route>

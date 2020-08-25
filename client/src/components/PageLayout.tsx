@@ -1,10 +1,14 @@
 import React from 'react';
+import DefaultNavigation from './Navigation';
 
 type Props = {
-  Navigation: React.FC;
+  Navigation?: React.FC;
 };
 
-const PageLayout: React.FC<Props> = ({ Navigation, children }) => {
+const PageLayout: React.FC<Props> = ({
+  Navigation = DefaultNavigation,
+  children,
+}) => {
   return (
     <div className="flex flex-col h-screen">
       <Navigation />
