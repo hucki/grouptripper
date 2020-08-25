@@ -6,5 +6,5 @@ module.exports = {
   },
   collectCoverageFrom: ['**/src/**/*.[jt]s', '!src/test/**/*.*'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+  modulePathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/src/build/'],
 };
