@@ -15,7 +15,6 @@ import TripComments from './TripComments';
 export default function TripView(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
-  console.log(trip);
 
   const numberOfDays =
     dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;

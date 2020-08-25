@@ -22,7 +22,6 @@ export default function TripComments({ tripId }) {
     };
     getDataAxios(); //calling the above created function
   }, [apiUrl, tripId]);
-  console.log(comments);
 
   const handleCreateComment = async ({ comment }) => {
     //eslint-disable-line
