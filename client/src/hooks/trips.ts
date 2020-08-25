@@ -68,6 +68,36 @@ export function useTrip(
   };
 }
 
+type Participant = {
+  id: string;
+  name: string;
+  email: string;
+  picture: string;
+};
+
+export function useParticipants(
+  tripId: string
+): QueryResult<Participant[]> & { participants: Participant[] } {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  const participantsQuery = useQuery(['participants', tripId], async () => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client<Participant[]>(`trips/${tripId}/participantProfiles`, {
+      accessToken,
+    });
+  });
+
+  const participants = participantsQuery.data ?? [];
+
+  return {
+    participants,
+    ...participantsQuery,
+  };
+}
+
 export function useCreateTrip(): MutationResultPair<
   Trip,
   {
