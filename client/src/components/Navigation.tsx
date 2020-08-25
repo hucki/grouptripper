@@ -10,7 +10,12 @@ const Navigation: React.FC = () => {
       <div className="container flex items-center justify-between flex-shrink-0 p-4 mx-auto ">
         <Link to="/">
           <div className="flex flex-row text-3xl">
-            <img src={logo} width="55px" className="mx-2" />
+            <img
+              src={logo}
+              width="55px"
+              className="mx-2"
+              alt="grouptripper logo"
+            />
             Grouptripper
           </div>
         </Link>
