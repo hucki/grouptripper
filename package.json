@@ -4,12 +4,17 @@
   "description": "no content so far",
   "main": "index.js",
   "scripts": {
-    "build:client": "cd client && npm run build",
-    "build:server": "cd server && npm run build",
+    "preinstall": "(cd server && npm install); (cd client && npm install)",
+    "build": "npm run build:client && npm run build:server",
+    "heroku-postbuild": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm i --only=dev && npm run build",
+    "build:server": "cd server && npm i --only=dev && npm run build",
+    "postbuild": "if [ -d 'server/dist/build' ]; then rm -Rf server/dist/build; fi && mv client/build server/dist/build",
+    "heroku-cleanup": "if [ -d 'server/dist/build' ]; then rm -Rf server/dist/build; fi && mv client/build server/dist/build",
     "test:client": "cd client && npm run test:coverage",
     "test:server": "cd server && npm run test:coverage",
     "test": "npm run test:client && npm run test:server",
-    "postinstall": "(cd server && npm install); (cd client && npm install)"
+    "start": "node server/dist/index.js"
   },
   "repository": {
     "type": "git",

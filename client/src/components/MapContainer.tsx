@@ -73,7 +73,9 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
 
   // const gotPois = useQuery('pois', ApiClient.getPois);
 
-  const reqBodyRoute = `{"coordinates":${JSON.stringify(allCoordinates)}}`;
+  const reqBodyRoute = `{"coordinates":${JSON.stringify(
+    allCoordinates
+  )}, "radiuses":${JSON.stringify(allCoordinates.map(() => 1000))}}`;
   const gotRoute = useQuery(['route', reqBodyRoute], ApiClient.getRoute);
 
   if (gotRoute.status === 'loading' /* || gotPois.status === 'loading'*/)

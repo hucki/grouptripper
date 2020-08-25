@@ -1,10 +1,9 @@
 import React from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
-import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { useTrip } from '../hooks/trips';
+import { useTrip, useParticipants } from '../hooks/trips';
 import dayjs, { Dayjs } from 'dayjs';
 import { Stop } from '../types/Stop';
 import TimelineHeader from './TimelineHeader';
@@ -12,6 +11,10 @@ import TimelineItem from './TimelineItem';
 import Invite from './Invite';
 import TripComments from './TripComments';
 import TripImages from './TripImages/TripImages';
+import { getName } from 'country-list';
+import { usePhoto } from './../hooks/usePhoto';
+import { Trip } from './../types/Trip';
+import BackgroundShim from './BackgroundShim';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
@@ -107,24 +110,83 @@ export default function TripView(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
   return (
     <>
-      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        {trip && <TripCard trip={trip} listView={false} />}
-        <div className="container flex items-center justify-center w-full mx-auto mt-4">
-          <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-            <h3 className="mb-2 text-2xl font-bold text-teal-900">
-              who is on board?
-            </h3>
-            {trip && <Invite trip={trip} />}
-          </div>
+      {trip && <MainTripView trip={trip} />}
+      <div className="container mx-auto">
+        <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+          <Timeline />
+          <div>{trip && <MapContainer trip={trip} />}</div>
         </div>
+        <TripComments tripId={id} />
       </div>
-      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <Timeline />
-        <div>{trip && <MapContainer trip={trip} />}</div>
-      </div>
-      <TripComments tripId={id} />
       <h3>RELATED IMAGES</h3>
       {trip && <TripImages trip={trip} />}
     </>
   );
 }
+
+const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
+  const countryName = getName(trip.country) || 'World';
+  return (
+    <main>
+      <HeroImage queryText={countryName} className="flex items-center">
+        <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
+          <div className="self-center col-start-1 col-end-3 p-6 text-gray-100">
+            <BackgroundShim>
+              <h1 className="text-6xl font-semibold">{trip.name}</h1>
+              <p>
+                {dayjs(trip.startDate).format('dddd DD MMM YYYY')} to{' '}
+                {dayjs(trip.endDate).format('dddd DD MMM YYYY')}
+              </p>
+            </BackgroundShim>
+          </div>
+        </div>
+      </HeroImage>
+      <div className="container mx-auto mt-4">
+        <h2 className="mb-3 text-2xl">Who's coming</h2>
+        {trip._id && <TripParticipants tripId={trip._id} />}
+        <Invite trip={trip} />
+      </div>
+    </main>
+  );
+};
+
+const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
+  queryText,
+  className,
+  children,
+}) => {
+  const photo = usePhoto({ queryText });
+
+  return (
+    <div
+      className={`${className} w-full bg-center bg-cover`}
+      style={{ backgroundImage: `url(${photo.imgUrl})`, minHeight: '25vh' }}
+    >
+      {children}
+    </div>
+  );
+};
+
+type Participant = {
+  id: string;
+  name: string;
+  email: string;
+  picture: string;
+};
+
+const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
+  const { isLoading, error, participants } = useParticipants(tripId);
+  if (isLoading) return null;
+  if (error) return null;
+  if (!participants) return null;
+
+  return (
+    <ul className="mb-4">
+      {participants.map((participant) => (
+        <li key={participant.id}>
+          <div>{participant.name}</div>
+        </li>
+      ))}
+    </ul>
+  );
+};

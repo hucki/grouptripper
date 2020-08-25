@@ -32,6 +32,10 @@ router.put(
   getEmailAddress,
   tripController.rejectInvite
 );
+router.get(
+  '/trips/:tripId/participantProfiles',
+  tripController.getUserProfiles
+);
 router.get('/tripstops/:tripId/stops/:stopId', stopController.getOneStop);
 router.put('/tripstops/:tripId/stops', stopController.updateStopArray);
 router.put('/tripstops/:tripId/stops/:stopId', stopController.updateOneStop);

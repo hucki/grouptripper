@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import path from 'path';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import tripsRouter from './router';
@@ -12,7 +13,13 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 
-app.use('/', tripsRouter);
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.use('/api', tripsRouter);
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 // eslint-disable-next-line
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

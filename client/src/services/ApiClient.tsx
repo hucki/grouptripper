@@ -44,7 +44,9 @@ const ApiClient = {
       {
         method: 'POST',
         headers: {
-          'content-type': 'application/json',
+          'content-type': 'application/json; charset=utf-8',
+          Accept:
+            'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
           Authorization: routingApiKey,
         },
         body: reqBodyString,
@@ -63,7 +65,10 @@ const ApiClient = {
 
 export default ApiClient;
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_URL_PROD
+    : process.env.REACT_APP_API_URL;
 
 type clientOptions<T> = {
   data?: T;
