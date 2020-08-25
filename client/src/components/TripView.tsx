@@ -10,6 +10,7 @@ import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
 import Invite from './Invite';
 import TripComments from './TripComments';
+import TripImages from './TripImages/TripImages';
 import { getName } from 'country-list';
 import { usePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
@@ -116,6 +117,8 @@ export default function TripView(): JSX.Element {
           <div>{trip && <MapContainer trip={trip} />}</div>
         </div>
         <TripComments tripId={id} />
+        <h3>RELATED IMAGES</h3>
+        {trip && <TripImages trip={trip} />}
       </div>
     </>
   );
