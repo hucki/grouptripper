@@ -1,5 +1,6 @@
-/* eslint no-use-before-define: 0 */ // --> OFF
 import React from 'react';
+import SignupButton from './SIgnUpButton';
+
 //eslint-disable-next-line
 export default function LandingPage() {
   return (
@@ -18,9 +19,7 @@ export default function LandingPage() {
           <h3 className="text-2xl mb-8 text-black-200">
             Design outstanding group travel iteneraries
           </h3>
-          <button className="bg-white font-bold rounded-full py-4 px-8 shadow-lg uppercase tracking-wider hover:bg-teal-600 mt-4 mb-2">
-            SIGN UP FOR FREE
-          </button>
+          <SignupButton />
         </div>
       </div>
       <section className="container mx-auto px-6 p-10">
