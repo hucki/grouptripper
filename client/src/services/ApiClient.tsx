@@ -44,7 +44,9 @@ const ApiClient = {
       {
         method: 'POST',
         headers: {
-          'content-type': 'application/json',
+          'content-type': 'application/json; charset=utf-8',
+          Accept:
+            'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
           Authorization: routingApiKey,
         },
         body: reqBodyString,
