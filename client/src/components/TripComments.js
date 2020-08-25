@@ -6,17 +6,16 @@ import dayjs from 'dayjs';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+//eslint-disable-next-line
 export default function TripComments({ tripId }) {
-  //eslint-disable-line
-
   const { user } = useAuth0();
   const { name, picture } = user;
 
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
+    //eslint-disable-next-line
     const getDataAxios = async () => {
-      //eslint-disable-line
       const { data: comments } = await axios.get(
         `${API_URL}/comments/${tripId}`
       );
@@ -25,8 +24,8 @@ export default function TripComments({ tripId }) {
     getDataAxios(); //calling the above created function
   }, [tripId]);
 
+  //eslint-disable-next-line
   const handleCreateComment = async ({ comment }) => {
-    //eslint-disable-line
     const { data: newComment } = await axios.post(`${API_URL}/comments/`, {
       username: name,
       picture,
@@ -36,8 +35,8 @@ export default function TripComments({ tripId }) {
     setComments((prevComments) => [...prevComments, newComment]);
   };
 
+  //eslint-disable-next-line
   const handleDeleteComment = async (comment) => {
-    //eslint-disable-line
     axios.delete(`${API_URL}/comments/${comment._id}`).then(() => {
       setComments((prevComments) =>
         prevComments.filter((prevComment) => prevComment._id !== comment._id)
