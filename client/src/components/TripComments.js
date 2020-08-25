@@ -6,7 +6,10 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL =
+  process.env.NODE_ENV === 'production'
+    ? `https://grouptripper.herokuapp.com:${process.env.PORT}/api`
+    : process.env.REACT_APP_API_URL;
 
 //eslint-disable-next-line
 export default function TripComments({ tripId }) {
@@ -52,15 +55,15 @@ export default function TripComments({ tripId }) {
       {comments &&
         comments.map((comment, index) => {
           return (
-            <div className="flex items-center mb-2 mt-2 md:w-1/2" key={index}>
+            <div className="flex items-center mt-2 mb-2 md:w-1/2" key={index}>
               <img
                 className="w-10 h-10 mr-4 rounded-full"
                 src={comment.picture}
                 alt="user"
               />
-              <div className="text-sm flex-col justify-between items-center">
-                <div className="flex justify-between items-center">
-                  <p className="text-black leading-none bg-gray-200 text-center mr-10">
+              <div className="flex-col items-center justify-between text-sm">
+                <div className="flex items-center justify-between">
+                  <p className="mr-10 leading-none text-center text-black bg-gray-200">
                     {comment.username}
                   </p>
                   <p className="mr-5 text-center text-grey-dark">
