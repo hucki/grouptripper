@@ -14,11 +14,12 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 app.use(express.static(path.join(__dirname, 'build')));
+
+app.use('/api', tripsRouter);
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
-app.use('/', tripsRouter);
 
 // eslint-disable-next-line
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
