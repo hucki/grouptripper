@@ -4,5 +4,6 @@ node_js:
 script:
   - npm run build:client
   - npm run build:server
+  - npm run postbuild
   - npm test
 after_script: npx codecov@3
