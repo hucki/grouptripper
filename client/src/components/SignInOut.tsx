@@ -3,7 +3,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const SignInOut: React.FC = () => {
   const {
-    // loginWithRedirect,
     loginWithPopup,
     logout,
     isAuthenticated,

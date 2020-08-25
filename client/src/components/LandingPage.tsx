@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as RightChevron } from '../assets/right-chevron.svg';
 import DefaultNavigation from './Navigation';
+import BackgroundShim from './BackgroundShim';
 
 type Props = {
   Navigation?: React.FC;
@@ -37,21 +38,3 @@ const LandingPage: React.FC<Props> = ({ Navigation = DefaultNavigation }) => (
 );
 
 export default LandingPage;
-
-const BackgroundShim: React.FC<{ className?: string }> = ({
-  className,
-  children,
-}) => {
-  return (
-    <div
-      className={className}
-      style={{
-        backgroundColor: 'rgba(0,0,0,0.1)',
-        boxShadow: '0 0 20px 35px rgba(0,0,0,0.1)',
-        borderRadius: '40px',
-      }}
-    >
-      {children}
-    </div>
-  );
-};

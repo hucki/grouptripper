@@ -12,7 +12,7 @@ export async function getPhoto(
   const { queryText } = req.params;
   try {
     const unsplashPhoto = await fetch(
-      `https://api.unsplash.com/photos/random?featured=true&query=${queryText}`,
+      `https://api.unsplash.com/photos/random?featured=true&orientation=landscape&query=${queryText}`,
       { headers: { Authorization: `Client-ID ${apikey}` } }
     ).then((result) => result.json());
 

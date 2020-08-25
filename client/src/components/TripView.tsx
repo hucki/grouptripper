@@ -11,11 +11,14 @@ import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
 import Invite from './Invite';
 import TripComments from './TripComments';
+import { getName } from 'country-list';
+import { usePhoto } from './../hooks/usePhoto';
+import { Trip } from './../types/Trip';
+import BackgroundShim from './BackgroundShim';
 
 export default function TripView(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
-  console.log(trip);
 
   const numberOfDays =
     dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
@@ -107,22 +110,60 @@ export default function TripView(): JSX.Element {
   if (error) return <div>Error getting trips: {error}</div>;
   return (
     <>
-      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        {trip && <TripCard trip={trip} listView={false} />}
-        <div className="container flex items-center justify-center w-full mx-auto mt-4">
-          <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-            <h3 className="mb-2 text-2xl font-bold text-teal-900">
-              who is on board?
-            </h3>
-            {trip && <Invite trip={trip} />}
+      {trip && <MainTripView trip={trip} />}
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+          {trip && <TripCard trip={trip} listView={false} />}
+          <div className="container flex items-center justify-center w-full mx-auto mt-4">
+            <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
+              <h3 className="mb-2 text-2xl font-bold text-teal-900">
+                who is on board?
+              </h3>
+              {trip && <Invite trip={trip} />}
+            </div>
           </div>
         </div>
+        <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
+          <Timeline />
+          <div>{trip && <MapContainer trip={trip} />}</div>
+        </div>
+        <TripComments tripId={id} />
       </div>
-      <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <Timeline />
-        <div>{trip && <MapContainer trip={trip} />}</div>
-      </div>
-      <TripComments tripId={id} />
     </>
   );
 }
+
+const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
+  const countryName = getName(trip.country) || 'World';
+  return (
+    <HeroImage queryText={countryName}>
+      <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
+        <div className="self-center col-start-1 col-end-3 p-6 text-gray-100">
+          <BackgroundShim>
+            <h1 className="text-6xl font-semibold">{trip.name}</h1>
+            <p>
+              {dayjs(trip.startDate).format('dddd DD MMM YYYY')} to{' '}
+              {dayjs(trip.endDate).format('dddd DD MMM YYYY')}
+            </p>
+          </BackgroundShim>
+        </div>
+      </div>
+    </HeroImage>
+  );
+};
+
+const HeroImage: React.FC<{ queryText: string }> = ({
+  queryText,
+  children,
+}) => {
+  const photo = usePhoto({ queryText });
+
+  return (
+    <div
+      className="w-full bg-center bg-cover"
+      style={{ backgroundImage: `url(${photo.imgUrl})`, minHeight: '25vh' }}
+    >
+      {children}
+    </div>
+  );
+};
