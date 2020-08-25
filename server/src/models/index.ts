@@ -13,25 +13,17 @@ const DB_URI_PARAMS = process.env.DB_URI_PARAMS;
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 const DB_PASS_ENC = encodeURIComponent(DB_PASS ? DB_PASS : '');
+const connectionString =
+  DB_LOCAL === 'true'
+    ? `${DB_LOCAL_URI}:${DB_LOCAL_PORT}/${DB_NAME}`
+    : `${DB_URI_PROTOCOL}://${DB_USER}:${DB_PASS_ENC}@${DB_URI_HOST}/${DB_NAME}?${DB_URI_PARAMS}`;
 
-if (DB_LOCAL === 'true') {
-  mongoose.connect(`${DB_LOCAL_URI}:${DB_LOCAL_PORT}/${DB_NAME}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  });
-} else {
-  mongoose.connect(
-    `${DB_URI_PROTOCOL}://${DB_USER}:${DB_PASS_ENC}@${DB_URI_HOST}/${DB_NAME}?${DB_URI_PARAMS}`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    }
-  );
-}
+mongoose.connect(connectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
 const connection = mongoose.connection;
 
