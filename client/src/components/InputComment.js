@@ -14,9 +14,9 @@ export default function InputComment({ onSubmit, user }) {//eslint-disable-line
   };
 
   return (
-    <div className="flex items-center mb-2">
+    <div className="flex items-center mb-2 mt-1">
       <img
-        className="w-12 h-12 rounded-full mr-4"
+        className="w-12 h-12 rounded-full mr-2"
         src={user.picture}
         alt="user"
       />

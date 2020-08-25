@@ -3,6 +3,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import InputComment from './InputComment';
 import dayjs from 'dayjs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -50,15 +52,15 @@ export default function TripComments({ tripId }) {
       {comments &&
         comments.map((comment, index) => {
           return (
-            <div className="flex items-center mb-2" key={index}>
+            <div className="flex items-center mb-2 mt-2 md:w-1/2" key={index}>
               <img
                 className="w-10 h-10 mr-4 rounded-full"
                 src={comment.picture}
                 alt="user"
               />
-              <div className="text-sm">
-                <div className="flex items-center justify-between ">
-                  <p className="mr-10 leading-none text-center text-black bg-gray-200">
+              <div className="text-sm flex-col justify-between items-center">
+                <div className="flex justify-between items-center">
+                  <p className="text-black leading-none bg-gray-200 text-center mr-10">
                     {comment.username}
                   </p>
                   <p className="mr-5 text-center text-grey-dark">
@@ -72,7 +74,7 @@ export default function TripComments({ tripId }) {
                       style={{ transition: 'all .15s ease' }}
                       onClick={() => handleDeleteComment(comment)} //eslint-disable-line
                     >
-                      Delete
+                      <FontAwesomeIcon icon={faTrashAlt} />
                     </button>
                   )}
                 </div>
