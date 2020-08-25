@@ -54,20 +54,3 @@ const BackgroundShim: React.FC<{ className?: string }> = ({
     </div>
   );
 };
-
-const Navigation: React.FC = () => (
-  <header className="text-gray-100 bg-gray-900">
-    <div className="container flex items-center justify-between flex-shrink-0 p-4 mx-auto ">
-      <Link to="/">
-        <div className="text-3xl">Grouptripper</div>
-      </Link>
-      <nav>
-        <ul className="flex space-x-8">
-          <li>My trips</li>
-          <li>Start a trip</li>
-          <li>Sign in</li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-);
