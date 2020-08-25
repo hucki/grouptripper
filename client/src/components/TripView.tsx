@@ -16,7 +16,6 @@ import TripImages from './TripImages/TripImages';
 export default function TripView(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
-  console.log(trip);
 
   const numberOfDays =
     dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
@@ -124,6 +123,7 @@ export default function TripView(): JSX.Element {
         <div>{trip && <MapContainer trip={trip} />}</div>
       </div>
       <TripComments tripId={id} />
+      <h3>RELATED IMAGES</h3>
       {trip && <TripImages trip={trip} />}
     </>
   );

@@ -2,28 +2,32 @@ import React, { useState, useEffect } from 'react';
 import unsplash from '../../services/unsplashClient.js';
 import ImageList from './ImagesList.js';
 
-export default function TripImages({ trip }) {
+export default function TripImages({ trip }) {//eslint-disable-line
   const [images, setImages] = useState([]);
-  console.log(trip);
+
+  const stopNames = trip.stopsCollection.features.map((feature) => {//eslint-disable-line
+    return feature.properties.name;
+  });
 
   useEffect(() => {
     unsplash
       .get('/search/photos', {
         params: {
-          query: 'Rome',
+          query: `${stopNames.toString()}`,
           per_page: 15 //eslint-disable-line
         },
       })
       .then((response) => {
-        // console.log(response);
         setImages(response.data.results);
       });
-  }, []);
+  }, []);//eslint-disable-line
 
   return (
-    <div className="container" style={{ marginTop: '12px' }}>
-      <h2>RELATED IMAGES</h2>
-      <ImageList images={images} />
+    <div
+      className="container"
+      style={{ marginTop: '12px', height: '40vh', overflowY: 'scroll' }}
+    >
+      {images && <ImageList images={images} />}
     </div>
   );
 }
