@@ -241,14 +241,14 @@ export const getUserProfiles = async (
 ): Promise<void> => {
   const userId = req.user?.sub as string; // Auth middleware will guarantee us a user at this point
   try {
-    const singleTrip = await TripModel.findById(req.params.id);
+    const singleTrip = await TripModel.findById(req.params.tripId);
     if (singleTrip && !singleTrip.participants.includes(userId)) {
       res
         .status(403)
         .json({ message: 'You are not authorized to view this trip' });
     } else if (singleTrip) {
       const profilePromises = singleTrip.participants.map(getProfile);
-      const participantProfiles = Promise.all(profilePromises);
+      const participantProfiles = await Promise.all(profilePromises);
       res.status(200);
       res.json(participantProfiles);
     } else {

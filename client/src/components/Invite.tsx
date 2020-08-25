@@ -16,19 +16,22 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
           { email }: EmailInput,
           { setSubmitting }: FormikHelpers<EmailInput>
         ): Promise<void> => {
-          console.log('about to submit', email);
           await inviteToTrip({ email });
         }}
       >
         <Form>
-          <label htmlFor="email">Invite:</label>
-          <Field
-            name="email"
-            id="email"
-            type="email"
-            placeholder="name@example.com"
-            className="p-3 border border-gray-500 rounded"
-          />
+          <div className="mb-2">
+            <label htmlFor="email" className="mr-2">
+              Invite someone else:
+            </label>
+            <Field
+              name="email"
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              className="p-1 border border-gray-500 rounded"
+            />
+          </div>
           <button
             type="submit"
             className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"

@@ -10,6 +10,7 @@ const management = new ManagementClient({
 });
 
 type User = {
+  id: string;
   name: string;
   email: string;
   picture: string;
@@ -18,6 +19,6 @@ type User = {
 export async function getProfile(userId: string): Promise<User | null> {
   const user = await management.getUser({ id: userId });
   if (!user) return null;
-  const { name = '', email = '', picture = '' } = user;
-  return { name, email, picture };
+  const { user_id = '', name = '', email = '', picture = '' } = user;
+  return { id: user_id, name, email, picture };
 }

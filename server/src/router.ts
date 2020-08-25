@@ -32,11 +32,11 @@ router.put(
   getEmailAddress,
   tripController.rejectInvite
 );
-router.get('/tripstops/:tripId/stops/:stopId', stopController.getOneStop);
 router.get(
-  '/tripstops/:tripId/participantProfiles',
+  '/trips/:tripId/participantProfiles',
   tripController.getUserProfiles
 );
+router.get('/tripstops/:tripId/stops/:stopId', stopController.getOneStop);
 router.put('/tripstops/:tripId/stops', stopController.updateStopArray);
 router.put('/tripstops/:tripId/stops/:stopId', stopController.updateOneStop);
 router.delete('/tripstops/:tripId/stops/:stopId', stopController.deleteOneStop);
