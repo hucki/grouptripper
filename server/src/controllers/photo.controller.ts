@@ -14,7 +14,19 @@ export async function getPhoto(
     const unsplashPhoto = await fetch(
       `https://api.unsplash.com/photos/random?featured=true&orientation=landscape&query=${queryText}`,
       { headers: { Authorization: `Client-ID ${apikey}` } }
-    ).then((result) => result.json());
+    ).then((result) => {
+      if (!result.ok) {
+        return {
+          id: '001',
+          urls: {
+            raw:
+              'https://images.unsplash.com/photo-1543169108-32ac15a21e05?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80',
+          },
+          alt_description: '...',
+        };
+      }
+      return result.json();
+    });
 
     const {
       id,
@@ -26,6 +38,7 @@ export async function getPhoto(
 
     res.status(200).json(photoObject);
   } catch (e) {
+    console.log(e);
     next(e);
   }
 }
