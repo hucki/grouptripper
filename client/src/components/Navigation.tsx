@@ -5,6 +5,7 @@ import SignInOut from './SignInOut';
 import logo from '../assets/groupglobe.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faCompass, faMap } from '@fortawesome/free-regular-svg-icons';
 
 const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,7 +20,7 @@ const Navigation: React.FC = () => {
             className="mx-2"
             alt="grouptripper logo"
           />
-          <span className="text-xl font-semibold tracking-tight">
+          <span className="text-2xl font-semibold tracking-tight">
             Grouptripper
           </span>
         </div>
@@ -56,11 +57,17 @@ const RestrictedLinks: React.FC = () => {
 
   return (
     <>
-      <div className="block mt-4 mr-4 md:inline-block md:mt-0">
-        <Link to="/user-profile">My trips</Link>
+      <div className="block mt-4 mr-6 text-lg md:inline-block md:mt-0">
+        <Link to="/user-profile">
+          <FontAwesomeIcon icon={faCompass} className="mx-2" />
+          My trips
+        </Link>
       </div>
-      <div className="block mt-4 mr-4 md:inline-block md:mt-0">
-        <Link to="/create-trip">Start a trip</Link>
+      <div className="block mt-4 mr-6 text-lg md:inline-block md:mt-0">
+        <Link to="/create-trip">
+          <FontAwesomeIcon icon={faMap} className="mx-2" />
+          <span className="">Plan a trip</span>
+        </Link>
       </div>
     </>
   );
