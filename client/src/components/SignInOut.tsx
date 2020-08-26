@@ -15,14 +15,14 @@ const SignInOut: React.FC = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (isAuthenticated)
     return (
-      <div className="flex flex-row space-x-8">
+      <div className="flex flex-row justify-end space-x-8">
         <button
           onClick={(): void => logout({ returnTo: window.location.origin })}
         >
           Log out
         </button>
         <img
-          className="object-contain w-12 h-12 mx-2 border-2 border-gray-600 rounded-full"
+          className="hidden object-contain w-12 h-12 mx-2 border-2 border-gray-600 rounded-full lg:block"
           src={
             user
               ? user.picture

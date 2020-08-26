@@ -1,34 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import SignInOut from './SignInOut';
 import logo from '../assets/groupglobe.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 const Navigation: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <header className="text-gray-100 bg-gray-900">
-      <div className="container flex items-center justify-between flex-shrink-0 p-4 mx-auto ">
-        <Link to="/">
-          <div className="flex flex-row text-3xl">
-            <img
-              src={logo}
-              width="55px"
-              className="mx-2"
-              alt="grouptripper logo"
-            />
-            Grouptripper
-          </div>
-        </Link>
-        <nav>
-          <ul className="flex items-center space-x-8">
-            <RestrictedLinks />
-            <li>
-              <SignInOut />
-            </li>
-          </ul>
-        </nav>
+    <nav className="flex flex-wrap items-center justify-between p-6 bg-gray-900">
+      <div className="flex items-center justify-between flex-shrink-0 mr-6 text-gray-100">
+        <img src={logo} width="55px" className="mx-2" alt="grouptripper logo" />
+        <span className="text-xl font-semibold tracking-tight">
+          Grouptripper
+        </span>
       </div>
-    </header>
+      <div className="block lg:hidden">
+        <button className="flex items-center px-3 py-2 text-gray-100 rounded">
+          <FontAwesomeIcon
+            icon={faBars}
+            className="text-2xl"
+            onClick={(): void => setMenuOpen(!menuOpen)}
+          />
+        </button>
+      </div>
+      <div
+        className={`flex-grow ${
+          !menuOpen ? 'hidden' : null
+        } w-full text-gray-100 lg:flex lg:items-center lg:w-auto`}
+      >
+        <div className="text-sm text-right lg:flex-grow">
+          {/* <ul className="flex items-center space-x-8"> */}
+          <RestrictedLinks />
+          <div className="block mt-4 mr-4 lg:inline-block lg:mt-0">
+            <SignInOut />
+          </div>
+          {/* </ul> */}
+        </div>
+      </div>
+    </nav>
   );
 };
 
@@ -39,12 +51,12 @@ const RestrictedLinks: React.FC = () => {
 
   return (
     <>
-      <li>
+      <div className="block mt-4 mr-4 lg:inline-block lg:mt-0">
         <Link to="/user-profile">My trips</Link>
-      </li>
-      <li>
+      </div>
+      <div className="block mt-4 mr-4 lg:inline-block lg:mt-0">
         <Link to="/create-trip">Start a trip</Link>
-      </li>
+      </div>
     </>
   );
 };
