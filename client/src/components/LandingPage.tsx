@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as RightChevron } from '../assets/right-chevron.svg';
 import DefaultNavigation from './Navigation';
 import BackgroundShim from './BackgroundShim';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
