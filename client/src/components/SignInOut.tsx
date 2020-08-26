@@ -14,11 +14,18 @@ const SignInOut: React.FC = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (isAuthenticated)
     return (
-      <button
-        onClick={(): void => logout({ returnTo: window.location.origin })}
-      >
-        Log out
-      </button>
+      <div className="flex flex-row">
+        <button
+          onClick={(): void => logout({ returnTo: window.location.origin })}
+        >
+          Log out
+        </button>
+        <img
+          className="object-contain w-12 h-12 mx-2 rounded-full shadow"
+          src={`https://source.unsplash.com/featured/100x100/?portrait`}
+          alt="user"
+        />
+      </div>
     );
   if (!isAuthenticated)
     return (
