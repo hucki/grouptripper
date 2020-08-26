@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0 } from '@auth0/auth0-react';
 import TripList from './TripList';
 import { useTrips, useInvitedTrips } from '../hooks/trips';
 import { Trip } from '../types/Trip';
@@ -7,10 +7,13 @@ import InviteResponse from './InviteResponse';
 import TripCard from './TripCard';
 
 export default function UserProfile(): JSX.Element {
-  // const { user } = useAuth0();
+  const { user } = useAuth0();
   return (
     <>
       <div className="px-4 py-2 mb-4 mr-1 ">
+        <h3 className="mb-2 text-2xl font-bold text-teal-900">
+          Welcome back, {user.name}!
+        </h3>
         {/* <div className="rounded shadow-lg">
           <div className="flex flew-row">
             <div className="flex justify-center m-2">
@@ -89,7 +92,9 @@ function UpcomingTrips(): JSX.Element | null {
   if (trips.length === 0) return null;
   return (
     <div>
-      <h3 className="mb-2 text-2xl font-bold text-teal-900">UpcomingTrips</h3>
+      <h4 className="mb-2 text-xl font-bold text-teal-900">
+        Here are your upcoming Trips:
+      </h4>
       <TripList key="ownTripList" trips={trips} />
     </div>
   );
@@ -118,7 +123,10 @@ function InvitedTrips(): JSX.Element | null {
   if (trips.length === 0) return null;
   return (
     <div>
-      <h3 className="mb-2 text-2xl font-bold text-teal-900">Invites Waiting</h3>
+      <h4 className="mb-2 text-xl font-bold text-teal-900">
+        Check this out! You have been invited to{' '}
+        {trips.length === 1 ? 'this trip' : 'these trips'}:
+      </h4>
       <TripList
         key="invitedTripList"
         trips={trips}
