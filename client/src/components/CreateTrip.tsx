@@ -85,65 +85,71 @@ export default function CreateTrip(): JSX.Element {
       <HeroImageWithText queryText="scotland" className="flex items-center">
         <h1 className="text-6xl font-semibold">Start planning your trip</h1>
       </HeroImageWithText>
-      <div className="">
-        <Formik
-          initialValues={{
-            name: '',
-            country: '',
-            countryObj: null,
-            startDate: '',
-            endDate: '',
-            currentStop: null,
-            stops: new Array(0),
-          }}
-          validationSchema={validationSchema}
-          onSubmit={async (
-            values: TripInput,
-            { setSubmitting }: FormikHelpers<TripInput>
-          ): Promise<void> => {
-            setRedirect(false);
-            const newTrip = transformTrip(values);
-            await createTrip({ trip: newTrip });
-            setSubmitting(false);
-            setRedirect(true);
-          }}
-        >
-          {(formikProps): JSX.Element => (
-            <Form>
-              {renderFormPage(formikProps)}
-              <div>
-                {currentPage > 0 ? (
-                  <button
-                    type="button"
-                    onClick={(): void => setCurrentPage((page) => page - 1)}
-                    className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                  >
-                    Previous page
-                  </button>
+      <div className="container p-4 mx-auto">
+        <section className="row-start-1 row-end-4 p-4 bg-white rounded">
+          <Formik
+            initialValues={{
+              name: '',
+              country: '',
+              countryObj: null,
+              startDate: '',
+              endDate: '',
+              currentStop: null,
+              stops: new Array(0),
+            }}
+            validationSchema={validationSchema}
+            onSubmit={async (
+              values: TripInput,
+              { setSubmitting }: FormikHelpers<TripInput>
+            ): Promise<void> => {
+              setRedirect(false);
+              const newTrip = transformTrip(values);
+              await createTrip({ trip: newTrip });
+              setSubmitting(false);
+              setRedirect(true);
+            }}
+          >
+            {(formikProps): JSX.Element => (
+              <Form>
+                {renderFormPage(formikProps)}
+                <div>
+                  {currentPage > 0 ? (
+                    <div className="flex flex-col items-start">
+                      <button
+                        type="button"
+                        onClick={(): void => setCurrentPage((page) => page - 1)}
+                        className="px-4 py-2 mt-6 text-xs font-bold text-gray-900 uppercase bg-gray-400 rounded outline-none active:bg-gray-600 hover:shadow-md focus:outline-none"
+                      >
+                        Previous page
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 mt-6 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+                        disabled={
+                          formikProps.isSubmitting || !formikProps.isValid
+                        }
+                      >
+                        Create Trip
+                      </button>
+                    </div>
+                  ) : null}
+                  {currentPage < formPages.length - 1 ? (
+                    <button
+                      type="button"
+                      onClick={(): void => setCurrentPage((page) => page + 1)}
+                      className="px-4 py-2 mt-6 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+                    >
+                      Next page
+                    </button>
+                  ) : null}
+                </div>
+                {savingError ? (
+                  <div>{savingError.message} - Please retry</div>
                 ) : null}
-                {currentPage < formPages.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={(): void => setCurrentPage((page) => page + 1)}
-                    className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                  >
-                    Next page
-                  </button>
-                ) : null}
-              </div>
-              <button
-                type="submit"
-                className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none disabled:bg-gray-600 active:bg-teal-600 hover:shadow-md focus:outline-none"
-                disabled={formikProps.isSubmitting || !formikProps.isValid}
-              >
-                Create Trip
-              </button>
-              {savingError ? (
-                <div>{savingError.message} - Please retry</div>
-              ) : null}
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
+        </section>
       </div>
     </>
   );
@@ -161,7 +167,9 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
 
   return (
     <div className="flex flex-col my-3 space-y-2">
-      <label htmlFor={props.name}>{label}</label>
+      <label htmlFor={props.name} className="text-xl">
+        {label}
+      </label>
       <Field
         {...field}
         {...props}
@@ -177,7 +185,9 @@ const SelectInput: FunctionComponent<InputProps> = ({ label, ...props }) => {
 
   return (
     <div className="flex flex-col my-3 space-y-2">
-      <label htmlFor={props.name}>{label}</label>
+      <label htmlFor={props.name} className="text-xl">
+        {label}
+      </label>
       <select
         {...field}
         {...props}
