@@ -56,11 +56,15 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
         </div>
       </HeroImage>
       <div className="container mx-auto mt-4">
-        <h2 className="mb-4 text-2xl">Who's coming</h2>
-        {trip._id && <TripParticipants tripId={trip._id} />}
-        <Invite trip={trip} />
-        <h2 className="mb-4 text-2xl">Your schedule</h2>
-        {<Timeline trip={trip} />}
+        <section className="mb-6">
+          <h2 className="mb-4 text-2xl">Who's coming</h2>
+          {trip._id && <TripParticipants tripId={trip._id} />}
+          <Invite trip={trip} />
+        </section>
+        <section className="mb-6">
+          <h2 className="mb-4 text-2xl">Your schedule</h2>
+          {<Timeline trip={trip} />}
+        </section>
       </div>
     </main>
   );
@@ -149,34 +153,34 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
 
         {unscheduledStops.length ? (
           <div key="row-1">
-            <TimelineHeader dayId={'-1'} key={'-1'} />
+            <TimelineHeader dayId={'-1'} key={'-1'} day={null} />
             {stopsForTripDay(-1).map((stop: Stop) => (
               <TimelineItem key={stop._id} stop={stop} editMode={false} />
             ))}
           </div>
         ) : null}
-        {daysOfTrip &&
-          daysOfTrip.map((day: Dayjs, index) => (
-            <div key={'row' + index}>
-              <TimelineHeader
-                key={day.format('YYYYMMDD')}
-                dayId={index.toString()}
-              />
-              {stopsForTripDay(index).length ? (
-                stopsForTripDay(index).map((stop: Stop) => (
-                  <TimelineItem key={stop._id} stop={stop} editMode={false} />
-                ))
-              ) : (
-                <div
-                  key={'none' + index}
-                  className="ml-8 text-sm italic text-gray-400 lowercase"
-                >
-                  {' '}
-                  no stops on this day
-                </div>
-              )}
-            </div>
-          ))}
+        {daysOfTrip.map((day: Dayjs, index) => (
+          <div key={'row' + index}>
+            <TimelineHeader
+              key={day.format('YYYYMMDD')}
+              dayId={index.toString()}
+              day={day}
+            />
+            {stopsForTripDay(index).length ? (
+              stopsForTripDay(index).map((stop: Stop) => (
+                <TimelineItem key={stop._id} stop={stop} editMode={false} />
+              ))
+            ) : (
+              <div
+                key={'none' + index}
+                className="ml-8 text-sm italic text-gray-400 lowercase"
+              >
+                {' '}
+                Nothing planned
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
