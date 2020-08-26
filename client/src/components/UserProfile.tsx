@@ -44,8 +44,8 @@ export default function UserProfile(): JSX.Element {
             </div>
           </div>
         </div> */}
-        <UpcomingTrips />
         <InvitedTrips />
+        <UpcomingTrips />
       </div>
     </>
 

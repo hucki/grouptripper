@@ -10,20 +10,20 @@ export default function InviteResponse({
   const [accept] = useInviteResponse(tripId, 'accept');
   const [reject] = useInviteResponse(tripId, 'reject');
   return (
-    <div className="absolute z-30">
+    <div className="absolute z-30 m-4">
       <button
         type="button"
-        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none disabled:bg-gray-600 active:bg-teal-600 hover:shadow-md focus:outline-none"
+        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-lg focus:outline-none"
         onClick={(): Promise<Trip> => accept()}
       >
-        Accept Invitation
+        Accept
       </button>
       <button
         type="button"
-        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none disabled:bg-gray-600 active:bg-teal-600 hover:shadow-md focus:outline-none"
+        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-lg focus:outline-none"
         onClick={(): Promise<Trip> => reject()}
       >
-        Reject Invitation
+        Reject
       </button>
     </div>
   );
