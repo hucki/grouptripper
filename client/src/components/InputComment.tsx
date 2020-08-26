@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 
-export default function InputComment({ onSubmit, user }) {
+const InputComment: React.FC<{
+  onSubmit: ({ comment }: { comment: string }) => void;
+}> = ({ onSubmit }) => {
   //eslint-disable-line
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState('');
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.FormEvent<HTMLInputElement>): void => {
     //eslint-disable-line
-    setComment(event.target.value);
+    setComment(event.currentTarget.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     //eslint-disable-line
     event.preventDefault();
     onSubmit({ comment });
@@ -29,4 +31,6 @@ export default function InputComment({ onSubmit, user }) {
       />
     </form>
   );
-}
+};
+
+export default InputComment;
