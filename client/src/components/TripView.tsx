@@ -23,17 +23,7 @@ const TripView: React.FC = () => {
   if (error) return <div>Error getting trips: {error.message}</div>;
   if (!trip) return null;
 
-  return (
-    <>
-      {<MainTripView trip={trip} />}
-      <div className="container mx-auto">
-        <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-          <div>{<MapContainer trip={trip} />}</div>
-        </div>
-        <TripComments tripId={id} />
-      </div>
-    </>
-  );
+  return <MainTripView trip={trip} />;
 };
 
 export default TripView;
@@ -55,18 +45,26 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           </div>
         </div>
       </HeroImage>
-      <div className="container p-4 mx-auto mt-4">
-        <section className="mb-6">
-          <h2 className="mb-4 text-2xl">Who's coming</h2>
-          {trip._id && <TripParticipants tripId={trip._id} />}
-          <Invite trip={trip} />
-        </section>
-        <section className="mb-6">
+      <div className="container grid grid-cols-1 row-gap-6 col-gap-6 p-4 mx-auto mt-4 lg:grid-cols-2">
+        <section className="row-start-1 row-end-4 p-4 bg-white rounded">
           <div className="flex items-center space-x-4">
             <h2 className="mb-4 text-2xl">Your schedule</h2>
             <TripEditLink to={`/trips/edit/${trip._id}`} />
           </div>
           <Timeline trip={trip} />
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Trip route</h2>
+          <div>{<MapContainer trip={trip} />}</div>
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Who's coming</h2>
+          {trip._id && <TripParticipants tripId={trip._id} />}
+          <Invite trip={trip} />
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Comments</h2>
+          {trip._id && <TripComments tripId={trip._id} />}
         </section>
       </div>
     </main>

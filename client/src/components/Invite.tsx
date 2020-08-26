@@ -35,7 +35,7 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
             />
             <button
               type="submit"
-              className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+              className="px-4 py-2 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
             >
               Send invite
             </button>
@@ -55,7 +55,9 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Please enter a valid email').required('Required'),
 });
 
-function PendingInvites({ trip }: { trip: Trip }): JSX.Element {
+const PendingInvites: React.FC<{ trip: Trip }> = ({ trip }) => {
+  if (!trip.invitedEmails || !trip.invitedEmails.length) return null;
+
   return (
     <div>
       <h3 className="mb-2 text-xl">Hasn't responded yet</h3>
@@ -65,4 +67,4 @@ function PendingInvites({ trip }: { trip: Trip }): JSX.Element {
       </ul>
     </div>
   );
-}
+};
