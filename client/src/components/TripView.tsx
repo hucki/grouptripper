@@ -11,7 +11,7 @@ import TimelineItem from './TimelineItem';
 import Invite from './Invite';
 import TripComments from './TripComments';
 import { getName } from 'country-list';
-import { usePhoto } from './../hooks/usePhoto';
+import { useSinglePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 import BackgroundShim from './BackgroundShim';
 
@@ -152,7 +152,7 @@ const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
   className,
   children,
 }) => {
-  const photo = usePhoto({ queryText });
+  const photo = useSinglePhoto({ queryText });
 
   return (
     <div
