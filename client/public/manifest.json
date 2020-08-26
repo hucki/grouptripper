@@ -1,19 +1,17 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Grouptripper",
+  "name": "Grouptripper Trip Planner",
   "icons": [
     {
       "src": "favicon.svg",
       "sizes": "64x64 32x32 24x24 16x16"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
+      "src": "favicon.svg",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "favicon.svg",
       "sizes": "512x512"
     }
   ],
