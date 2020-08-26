@@ -67,7 +67,7 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           <h2 className="mb-4 text-2xl">Comments</h2>
           {trip._id && <TripComments tripId={trip._id} />}
         </section>
-        <section className="col-start-1 col-end-3 p-4 bg-white rounded">
+        <section className="col-start-1 p-4 bg-white rounded lg:col-end-3">
           <h2 className="mb-4 text-2xl">Photos of the trip</h2>
           <TripImages trip={trip} />
         </section>
