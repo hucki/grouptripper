@@ -8,7 +8,6 @@ export async function getSinglePhoto(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  console.log('got to controller');
   const apikey = process.env.UNSPLASH_API_ACCESS_KEY;
   const { query } = req.query;
   try {
@@ -30,7 +29,6 @@ export async function getSinglePhoto(
     });
 
     const photoObject = mapPhoto(unsplashPhoto);
-    console.log(photoObject);
 
     res.status(200).json(photoObject);
   } catch (e) {
@@ -44,7 +42,6 @@ export async function getPhotos(
   res: Response,
   next: NextFunction
 ): Promise<void> {
-  console.log('got to controller');
   const apikey = process.env.UNSPLASH_API_ACCESS_KEY;
   const { query, count } = req.query;
   try {
