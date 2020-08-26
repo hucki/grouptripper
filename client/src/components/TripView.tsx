@@ -15,24 +15,28 @@ import { useSinglePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 import BackgroundShim from './BackgroundShim';
 
-export default function TripView(): JSX.Element {
+const TripView: React.FC = () => {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error getting trips: {error}</div>;
+  if (error) return <div>Error getting trips: {error.message}</div>;
+  if (!trip) return null;
+
   return (
     <>
-      {trip && <MainTripView trip={trip} />}
+      {<MainTripView trip={trip} />}
       <div className="container mx-auto">
         <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-          <div>{trip && <MapContainer trip={trip} />}</div>
+          <div>{<MapContainer trip={trip} />}</div>
         </div>
         <TripComments tripId={id} />
       </div>
     </>
   );
-}
+};
+
+export default TripView;
 
 const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
   const countryName = getName(trip.country) || 'World';
