@@ -51,7 +51,6 @@ export default function TripComments({ tripId }) {
 
   return (
     <div>
-      <h1>Trip comments</h1>
       {comments &&
         comments.map((comment, index) => {
           return (
