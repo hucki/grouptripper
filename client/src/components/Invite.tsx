@@ -19,11 +19,13 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
           await inviteToTrip({ email });
         }}
       >
-        <Form>
+        <Form className="mb-6">
           <div className="mb-2">
             <label htmlFor="email" className="mr-2">
               Invite someone else:
             </label>
+          </div>
+          <div className="flex space-x-2">
             <Field
               name="email"
               id="email"
@@ -31,13 +33,13 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
               placeholder="name@example.com"
               className="p-1 border border-gray-500 rounded"
             />
+            <button
+              type="submit"
+              className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+            >
+              Send invite
+            </button>
           </div>
-          <button
-            type="submit"
-            className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-          >
-            Send invite
-          </button>
         </Form>
       </Formik>
       <PendingInvites trip={trip} />
@@ -56,8 +58,8 @@ const validationSchema = Yup.object({
 function PendingInvites({ trip }: { trip: Trip }): JSX.Element {
   return (
     <div>
-      <h3>Pending Invitations</h3>
-      <ul>
+      <h3 className="mb-2 text-xl">Hasn't responded yet</h3>
+      <ul className="space-y-2">
         {trip.invitedEmails &&
           trip.invitedEmails.map((email) => <li key={email}>{email}</li>)}
       </ul>
