@@ -49,7 +49,7 @@ export default function TripCard({
   ) : (
     <></>
   );
-
+  const countryFlag = `https://www.countryflags.io/${trip.country}/flat/32.png`;
   return (
     <div className="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="relative h-48 pb-2/3">
@@ -61,6 +61,11 @@ export default function TripCard({
             className="absolute object-cover w-full h-full"
           />
         ) : null}
+        <img
+          src={countryFlag}
+          className="absolute m-2 opacity-50"
+          alt="Countryflag"
+        />
       </div>
       <div className="p-2">
         <h4 className="mt-1 text-xl font-semibold leading-tight uppercase truncate text-secondary">

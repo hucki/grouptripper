@@ -13,13 +13,17 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 
-app.use(express.static(path.join(__dirname, 'build')));
+process.env.NODE_ENV === 'production'
+  ? app.use(express.static(path.join(__dirname, 'build')))
+  : null;
 
 app.use('/api', tripsRouter);
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+process.env.NODE_ENV === 'production'
+  ? app.get('/*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    })
+  : null;
 
 // eslint-disable-next-line
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

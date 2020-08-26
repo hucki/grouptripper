@@ -12,7 +12,7 @@ export default function UserProfile(): JSX.Element {
     <>
       <div className="px-4 py-2 mb-4 mr-1 ">
         <h3 className="mb-2 text-2xl font-bold text-teal-900">
-          Welcome back, {user.name}!
+          Welcome back{user ? `, ${user.name}` : null}!
         </h3>
         {/* <div className="rounded shadow-lg">
           <div className="flex flew-row">
@@ -44,8 +44,8 @@ export default function UserProfile(): JSX.Element {
             </div>
           </div>
         </div> */}
-        <UpcomingTrips />
         <InvitedTrips />
+        <UpcomingTrips />
       </div>
     </>
 
