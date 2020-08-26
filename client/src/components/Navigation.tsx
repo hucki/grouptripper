@@ -10,7 +10,7 @@ const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="flex flex-wrap items-center justify-between p-6 bg-gray-900">
+    <nav className="flex flex-wrap items-center justify-between p-2 bg-gray-900 md:p-4 lg:p-6">
       <Link to="/">
         <div className="flex items-center justify-between flex-shrink-0 mr-6 text-gray-100">
           <img
