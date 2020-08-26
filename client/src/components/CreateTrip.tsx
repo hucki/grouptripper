@@ -248,7 +248,7 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
               }}
             />
 
-            <div>
+            <div className="my-3 space-y-2">
               <h3 className="mb-4 text-xl">Your stops</h3>
               <ul className="space-y-3">
                 {values.stops.map(
@@ -275,7 +275,7 @@ function StopCard({ stop }: StopCardPropTypes): JSX.Element {
   });
 
   return (
-    <li className="flex flex-row w-full space-x-4 overflow-hidden border rounded shadow broder-gray-100">
+    <li className="flex flex-row w-full space-x-4 overflow-hidden border-2 border-gray-100 rounded">
       <div style={{ height: '100px', width: '100px' }} className="bg-gray-500">
         {photo ? <img src={photo.imgUrl} alt={photo.altDescription} /> : null}
       </div>
