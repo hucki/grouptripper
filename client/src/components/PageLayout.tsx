@@ -12,7 +12,7 @@ const PageLayout: React.FC<Props> = ({
   return (
     <div className="flex flex-col h-screen">
       <Navigation />
-      {children}
+      <div className="mt-24">{children}</div>
     </div>
   );
 };
