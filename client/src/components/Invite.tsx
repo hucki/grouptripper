@@ -35,7 +35,7 @@ export default function Invite({ trip }: { trip: Trip }): JSX.Element {
             />
             <button
               type="submit"
-              className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+              className="px-4 py-2 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
             >
               Send invite
             </button>
