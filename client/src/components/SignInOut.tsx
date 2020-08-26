@@ -8,6 +8,7 @@ const SignInOut: React.FC = () => {
     isAuthenticated,
     isLoading,
     error,
+    user,
   } = useAuth0();
 
   if (isLoading) return <button>Loading...</button>;
@@ -22,7 +23,11 @@ const SignInOut: React.FC = () => {
         </button>
         <img
           className="object-contain w-12 h-12 mx-2 rounded-full shadow"
-          src={`https://source.unsplash.com/featured/100x100/?portrait`}
+          src={
+            user
+              ? user.picture
+              : `https://source.unsplash.com/featured/100x100/?portrait`
+          }
           alt="user"
         />
       </div>
