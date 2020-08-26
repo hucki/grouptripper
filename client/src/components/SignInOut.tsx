@@ -26,7 +26,7 @@ const SignInOut: React.FC = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (isAuthenticated)
     return (
-      <div className="flex flex-row justify-end space-x-8 text-lg ">
+      <div className="flex flex-row justify-end space-x-8 text-lg hover:text-yellow-500">
         <button
           onClick={(): void => logout({ returnTo: window.location.origin })}
         >
@@ -48,7 +48,7 @@ const SignInOut: React.FC = () => {
     return (
       <button
         onClick={(): Promise<void> => loginWithPopup()}
-        className="text-lg"
+        className="text-lg hover:text-yellow-500"
       >
         {' '}
         <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
@@ -57,7 +57,7 @@ const SignInOut: React.FC = () => {
     );
 
   return (
-    <button className="text-lg">
+    <button className="text-lg hover:text-yellow-500">
       <FontAwesomeIcon icon={faSignInAlt} />
       Sign in
     </button>
