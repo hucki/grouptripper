@@ -1,135 +1,149 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
-import TripCard from './TripCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { useTrip, useParticipants } from '../hooks/trips';
+import dayjs from 'dayjs';
+import Invite from './Invite';
+import { getName } from 'country-list';
+import { useSinglePhoto } from '../hooks/usePhoto';
+import { Trip } from '../types/Trip';
+import { Stop } from '../types/Stop';
+import BackgroundShim from './BackgroundShim';
 import TripDragger from './TripDragger';
 import AutoComplete from './AutoCompleteStandalone';
-import { useTrip } from '../hooks/trips';
-import Invite from './Invite';
 import { useCreateStop } from '../hooks/stops';
-import { Stop } from '../types/Stop';
 
-export default function TripEdit(): JSX.Element {
+const TripEdit: React.FC = () => {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
-  const [newStop, setNewStop] = useState<Stop>();
-  const [createStop] = useCreateStop(id);
-
-  useEffect(() => {
-    if (newStop && trip?._id) {
-      createStop({ stop: transformStop(newStop) });
-      setNewStop(undefined);
-    }
-  }, [newStop, trip, createStop]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error getting trips: {error.message}</div>;
-  if (!trip) return <div>No trip found</div>;
+  if (!trip) return null;
 
-  const Timeline = (): JSX.Element => {
-    return (
-      <div className="container flex justify-center w-full mx-auto">
-        <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-          <div key="rowHeader" className="flex flex-col">
-            <Link
-              to={`/trips/${id}`}
-              className="-mt-2 -mr-2 w-1/8"
-              style={{ alignSelf: 'flex-end' }}
-            >
-              <div
-                className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                style={{ transition: 'all .15s ease' }}
-              >
-                <FontAwesomeIcon icon={faSave} />
-              </div>
-            </Link>
-          </div>
-          <TripDragger id={id} trip={trip} />
-        </div>
-      </div>
-    );
-  };
+  return <MainTripView trip={trip} />;
+};
 
-  type StopInput = {
-    name: string;
-    label: string;
-    description?: string;
-  };
+export default TripEdit;
 
-  function transformStop(stopInput: Stop): Stop {
-    const res = {
-      geometry: {
-        type: 'Point' as const,
-        coordinates: [
-          stopInput.geometry.coordinates[0] || 0,
-          stopInput.geometry.coordinates[1] || 0,
-        ],
-      },
-      properties: {
-        name: stopInput.properties.name,
-        label: stopInput.properties.label,
-        description: stopInput.properties.description,
-        upvotes: stopInput.properties.upvotes || 0,
-        downvotes: stopInput.properties.upvotes || 0,
-        tripDay: stopInput.properties.tripDay || -1,
-      },
-      type: 'Feature' as const,
-    };
-    return res;
-  }
-
-  type TripInput = {
-    name: string;
-    country: string;
-    startDate: string;
-    endDate: string;
-    currentStop: Stop | null;
-    stops: Stop[];
-  };
-
-  const StopInput = ({ values }: { values: TripInput }): JSX.Element => {
-    return (
-      <AutoComplete
-        name="currentStop"
-        countryCode={values.country}
-        onAddClick={setNewStop}
-      />
-    );
-  };
-  const newStopData: TripInput = {
-    name: trip.name,
-    country: trip.country,
-    startDate: trip.startDate.toString(),
-    endDate: trip.endDate.toString(),
-    currentStop: null,
-    stops: [],
-  };
+const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
+  const countryName = getName(trip.country) || 'World';
   return (
-    <>
-      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        {trip && <TripCard trip={trip} listView={false} key={trip.name} />}
-        <div className="container flex items-center justify-center w-full mx-auto mt-4">
-          <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-            <h3 className="mb-2 text-2xl font-bold text-teal-900">
-              who is on board?
-            </h3>
-            {trip && <Invite trip={trip} />}
+    <main>
+      <HeroImage queryText={countryName} className="flex items-center">
+        <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
+          <div className="self-center col-start-1 col-end-3 p-6 text-gray-100">
+            <BackgroundShim>
+              <h1 className="text-6xl font-semibold">{trip.name}</h1>
+              <p>
+                {dayjs(trip.startDate).format('dddd DD MMM YYYY')} to{' '}
+                {dayjs(trip.endDate).format('dddd DD MMM YYYY')}
+              </p>
+            </BackgroundShim>
           </div>
         </div>
-      </div>
-      <div className="grid grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-        <div>{trip && <Timeline />}</div>
-        <div>
-          {trip && <MapContainer trip={trip} />}
-
-          <div>
-            {/* {renderStopInput(formikProps)} */}
-            <StopInput values={newStopData} />
+      </HeroImage>
+      <div className="container grid grid-cols-1 row-gap-6 col-gap-6 p-4 mx-auto mt-4 lg:grid-cols-2">
+        <section className="row-start-1 row-end-4 p-4 bg-white rounded">
+          <div className="flex items-center space-x-4">
+            <h2 className="mb-4 text-2xl">Your schedule</h2>
+            <TripSaveLink to={`/trips/${trip._id}`} />
           </div>
-        </div>
+          {trip._id && <TripDragger id={trip._id} trip={trip} />}
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Trip route</h2>
+          <div>{<MapContainer trip={trip} />}</div>
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Add new stop</h2>
+          {trip._id && (
+            <StopInput tripId={trip._id} countryCode={trip.country} />
+          )}
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Who's coming</h2>
+          {trip._id && <TripParticipants tripId={trip._id} />}
+          <Invite trip={trip} />
+        </section>
       </div>
-    </>
+    </main>
   );
-}
+};
+
+const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
+  queryText,
+  className,
+  children,
+}) => {
+  const photo = useSinglePhoto({ queryText });
+
+  return (
+    <div
+      className={`${className} w-full bg-center bg-cover`}
+      style={{ backgroundImage: `url(${photo.imgUrl})`, minHeight: '25vh' }}
+    >
+      {children}
+    </div>
+  );
+};
+
+const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
+  const { isLoading, error, participants } = useParticipants(tripId);
+  if (isLoading) return null;
+  if (error) return null;
+  if (!participants) return null;
+
+  return (
+    <ul className="mb-6 space-y-2">
+      {participants.map((participant) => (
+        <li key={participant.id} className="flex items-center">
+          <img
+            src={participant.picture}
+            alt=""
+            className="w-6 h-6 mr-3 rounded-full"
+          />
+          <div>{participant.name}</div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const TripSaveLink: React.FC<{ to: string }> = ({ to }) => (
+  <Link to={to} className="-mt-2 -mr-2 w-1/8">
+    <div
+      className="flex justify-center p-2 mr-1 text-xs font-bold uppercase bg-gray-300 rounded outline-none active:bg-gray-400 hover:shadow focus:outline-none"
+      style={{ transition: 'all .15s ease' }}
+    >
+      <FontAwesomeIcon icon={faSave} />
+    </div>
+  </Link>
+);
+
+const StopInput: React.FC<{
+  tripId: string;
+  countryCode: string;
+}> = ({ tripId, countryCode }) => {
+  const [createStop] = useCreateStop(tripId);
+
+  const enrichStop: (stop: Stop) => Stop = (stop) => {
+    return { ...stop, tripDay: -1 };
+  };
+
+  const handleAddClick: (stop: Stop | null | undefined) => void = (stop) => {
+    if (!stop) return;
+    const enrichedStop = enrichStop(stop);
+    createStop({ stop: enrichedStop });
+  };
+
+  return (
+    <AutoComplete
+      name="addNewStop"
+      countryCode={countryCode}
+      onAddClick={handleAddClick}
+    />
+  );
+};
