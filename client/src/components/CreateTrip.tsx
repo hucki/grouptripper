@@ -13,7 +13,7 @@ import * as countries from 'country-list';
 import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
-import { usePhoto } from '../hooks/usePhoto';
+import { useSinglePhoto } from '../hooks/usePhoto';
 import { useCreateTrip } from '../hooks/trips';
 import { Redirect } from 'react-router-dom';
 
@@ -255,7 +255,7 @@ type StopCardPropTypes = {
 };
 
 function StopCard({ stop }: StopCardPropTypes): JSX.Element {
-  const photo = usePhoto({
+  const photo = useSinglePhoto({
     queryText: stop.properties.name,
     dimensions: { width: 100, height: 100 },
   });

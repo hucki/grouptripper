@@ -9,7 +9,8 @@ const router = express.Router();
 
 // unauthenticated roots
 router.delete('/trips/:id', tripController.deleteTrip);
-router.get('/photos/:queryText', photoController.getPhoto);
+router.get('/photos/single', photoController.getSinglePhoto);
+router.get('/photos', photoController.getPhotos);
 
 router.get('/comments/:tripId', commentContoller.getComments);
 router.post('/comments', commentContoller.addComment);

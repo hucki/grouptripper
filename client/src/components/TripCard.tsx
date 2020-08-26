@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faUserClock } from '@fortawesome/free-solid-svg-icons';
-import { usePhoto } from '../hooks/usePhoto';
+import { useSinglePhoto } from '../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 
 type TripCardProps = {
@@ -19,7 +19,7 @@ export default function TripCard({
   const qureyString = trip.stopsCollection.features[0]
     ? trip.stopsCollection.features[0].properties.name
     : trip.name;
-  const photo = usePhoto({
+  const photo = useSinglePhoto({
     queryText: qureyString.replace(`’`, ''),
     dimensions: { width: 300, height: 300 },
   });
