@@ -21,7 +21,7 @@ export default function UserProfile(): JSX.Element {
           Welcome back{user ? `, ${user.name}` : null}!
         </h1>
       </HeroImageWithText>
-      <div className="px-4 py-2 mb-4 mr-1 ">
+      <div className="container p-4 mx-auto mt-4 ">
         <InvitedTrips />
         <UpcomingTrips />
       </div>
