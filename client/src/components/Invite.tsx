@@ -55,7 +55,9 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Please enter a valid email').required('Required'),
 });
 
-function PendingInvites({ trip }: { trip: Trip }): JSX.Element {
+const PendingInvites: React.FC<{ trip: Trip }> = ({ trip }) => {
+  if (!trip.invitedEmails || !trip.invitedEmails.length) return null;
+
   return (
     <div>
       <h3 className="mb-2 text-xl">Hasn't responded yet</h3>
@@ -65,4 +67,4 @@ function PendingInvites({ trip }: { trip: Trip }): JSX.Element {
       </ul>
     </div>
   );
-}
+};
