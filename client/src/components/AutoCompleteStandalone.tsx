@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useCombobox, UseComboboxStateChange } from 'downshift';
 import { useQuery } from 'react-query';
 import { Stop } from '../types/Stop';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function fetchAutocomplete(
   key: string,
@@ -131,13 +133,13 @@ function DropdownCombobox({
           className="flex-grow p-3 border border-gray-500 rounded"
         />
         <button
-          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl text-white bg-teal-500 rounded-full"
+          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl text-gray-800 bg-yellow-500 rounded-full"
           onClick={(): void =>
             selectedItem ? onAddClick(selectedItem) : undefined
           }
           type="button"
         >
-          +
+          <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
       <ul
