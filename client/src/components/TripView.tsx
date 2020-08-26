@@ -26,12 +26,12 @@ const TripView: React.FC = () => {
   return (
     <>
       {<MainTripView trip={trip} />}
-      <div className="container mx-auto">
+      {/* <div className="container mx-auto">
         <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
           <div>{<MapContainer trip={trip} />}</div>
         </div>
         <TripComments tripId={id} />
-      </div>
+      </div> */}
     </>
   );
 };
@@ -67,6 +67,10 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
             <TripEditLink to={`/trips/edit/${trip._id}`} />
           </div>
           <Timeline trip={trip} />
+        </section>
+        <section className="mb-6">
+          <h2 className="mb-4 text-2xl">Trip route</h2>
+          <div>{<MapContainer trip={trip} />}</div>
         </section>
       </div>
     </main>
