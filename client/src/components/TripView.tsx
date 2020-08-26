@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -55,12 +55,19 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           </div>
         </div>
       </HeroImage>
-      <div className="container mx-auto mt-4">
-        <h2 className="mb-4 text-2xl">Who's coming</h2>
-        {trip._id && <TripParticipants tripId={trip._id} />}
-        <Invite trip={trip} />
-        <h2 className="mb-4 text-2xl">Your schedule</h2>
-        {<Timeline trip={trip} />}
+      <div className="container p-4 mx-auto mt-4">
+        <section className="mb-6">
+          <h2 className="mb-4 text-2xl">Who's coming</h2>
+          {trip._id && <TripParticipants tripId={trip._id} />}
+          <Invite trip={trip} />
+        </section>
+        <section className="mb-6">
+          <div className="flex items-center space-x-4">
+            <h2 className="mb-4 text-2xl">Your schedule</h2>
+            <TripEditLink to={`/trips/edit/${trip._id}`} />
+          </div>
+          <Timeline trip={trip} />
+        </section>
       </div>
     </main>
   );
@@ -106,88 +113,74 @@ const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
 };
 
 const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
-  const daysOfTrip: Dayjs[] = [];
-  const stopsOfAllDays: JSX.Element[][] = [];
-  const notScheduled: JSX.Element[] = [];
+  const unscheduledStops = trip.stopsCollection.features.filter(
+    (stop) => stop.properties.tripDay === -1
+  );
 
-  const numberOfDays =
-    dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
-
-  trip?.stopsCollection.features.map((stop: Stop, index) => {
-    if (stop.properties.tripDay === -1) {
-      notScheduled.push(
-        <TimelineItem key={'-1' + index} stop={stop} editMode={false} />
+  const stopsForTripDay = useCallback(
+    (tripDay) => {
+      return trip.stopsCollection.features.filter(
+        (stop) => stop.properties.tripDay === tripDay
       );
-    } else {
-      return null;
-    }
-  });
-  for (let i = 0; i < numberOfDays; i++) {
-    stopsOfAllDays.push([]);
-    trip?.stopsCollection.features.map((stop: Stop, index) => {
-      if (i === stop.properties.tripDay) {
-        stopsOfAllDays[i].push(
-          <TimelineItem key={stop._id} stop={stop} editMode={false} />
-        );
-      } else {
-        return null;
-      }
-    });
+    },
+    [trip.stopsCollection.features]
+  );
 
-    daysOfTrip.push(
-      dayjs(trip?.startDate)
-        .add(i, 'd')
-        .set('second', 0)
-        .set('minute', 1)
-        .set('hour', 0)
-    );
-  }
+  const daysOfTrip = useMemo(() => {
+    const numberOfDays =
+      dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
+    const result = [];
+    for (let i = 0; i < numberOfDays; i++) {
+      result.push(dayjs(trip.startDate).add(i, 'd'));
+    }
+    return result;
+  }, [trip.startDate, trip.endDate]);
 
   return (
     <div className="container flex justify-center w-full mx-auto">
-      <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-        <div key="rowHeader" className="flex flex-col">
-          <Link
-            to={`/trips/edit/${trip._id}`}
-            className="-mt-2 -mr-2 w-1/8"
-            style={{ alignSelf: 'flex-end' }}
-          >
-            <div
-              className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-              style={{ transition: 'all .15s ease' }}
-            >
-              <FontAwesomeIcon icon={faEdit} />
-            </div>
-          </Link>
-        </div>
-
-        {notScheduled.length ? (
+      <div className="flex flex-col w-full">
+        {unscheduledStops.length ? (
           <div key="row-1">
-            <TimelineHeader dayId={'-1'} key={'-1'} />
-            {notScheduled}
+            <TimelineHeader dayId={'-1'} key={'-1'} day={null} />
+            {stopsForTripDay(-1).map((stop: Stop) => (
+              <TimelineItem key={stop._id} stop={stop} editMode={false} />
+            ))}
           </div>
         ) : null}
-        {daysOfTrip &&
-          daysOfTrip.map((day: Dayjs, index) => (
-            <div key={'row' + index}>
-              <TimelineHeader
-                key={day.format('YYYYMMDD')}
-                dayId={index.toString()}
-              />
-              {stopsOfAllDays[index].length ? (
-                stopsOfAllDays[index]
-              ) : (
-                <div
-                  key={'none' + index}
-                  className="ml-8 text-sm italic text-gray-400 lowercase"
-                >
-                  {' '}
-                  no stops on this day
-                </div>
-              )}
-            </div>
-          ))}
+        {daysOfTrip.map((day: Dayjs, index) => (
+          <div key={'row' + index}>
+            <TimelineHeader
+              key={day.format('YYYYMMDD')}
+              dayId={index.toString()}
+              day={day}
+            />
+            {stopsForTripDay(index).length ? (
+              stopsForTripDay(index).map((stop: Stop) => (
+                <TimelineItem key={stop._id} stop={stop} editMode={false} />
+              ))
+            ) : (
+              <div
+                key={'none' + index}
+                className="ml-8 text-sm italic text-gray-400 lowercase"
+              >
+                {' '}
+                Nothing planned
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
+
+const TripEditLink: React.FC<{ to: string }> = ({ to }) => (
+  <Link to={to} className="-mt-2 -mr-2 w-1/8">
+    <div
+      className="flex justify-center p-2 mr-1 text-xs font-bold uppercase bg-gray-300 rounded outline-none active:bg-gray-400 hover:shadow focus:outline-none"
+      style={{ transition: 'all .15s ease' }}
+    >
+      <FontAwesomeIcon icon={faEdit} />
+    </div>
+  </Link>
+);

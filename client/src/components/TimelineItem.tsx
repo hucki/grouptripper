@@ -14,10 +14,10 @@ export default function TimelineItem({
 }: TimelineItemInputProps): JSX.Element {
   return (
     <div className={editMode ? 'rounded hover:shadow-outline' : ''}>
-      <div className="flex flex-row mb-1 ml-8 text-teal-900 border-t even:bg-gray-100">
+      <div className="flex flex-row pt-2 my-4 ml-8 border-t even:bg-gray-100">
         <div className="-ml-6">
           <FontAwesomeIcon
-            className="text-teal-500 opacity-75"
+            className="text-gray-500 opacity-75"
             icon={faHotel}
           />{' '}
         </div>
@@ -29,7 +29,7 @@ export default function TimelineItem({
             <div>
               {stop.properties.description ? (
                 <FontAwesomeIcon
-                  className="text-teal-500 opacity-50 hover:opacity-100"
+                  className="text-gray-300 opacity-50 hover:opacity-100"
                   icon={faInfo}
                 />
               ) : null}
