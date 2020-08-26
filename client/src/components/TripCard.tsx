@@ -61,7 +61,11 @@ export default function TripCard({
             className="absolute object-cover w-full h-full"
           />
         ) : null}
-        <img src={countryFlag} className="absolute m-2 opacity-50" />
+        <img
+          src={countryFlag}
+          className="absolute m-2 opacity-50"
+          alt="Countryflag"
+        />
       </div>
       <div className="p-2">
         <h4 className="mt-1 text-xl font-semibold leading-tight uppercase truncate text-secondary">
