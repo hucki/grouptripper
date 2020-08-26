@@ -130,7 +130,7 @@ const StopInput: React.FC<{
   const [createStop] = useCreateStop(tripId);
 
   const enrichStop: (stop: Stop) => Stop = (stop) => {
-    return { ...stop, tripDay: -1 };
+    return { ...stop, properties: { ...stop.properties, tripDay: -1 } };
   };
 
   const handleAddClick: (stop: Stop | null | undefined) => void = (stop) => {
