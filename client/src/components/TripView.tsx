@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -106,11 +106,17 @@ const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
 };
 
 const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
-  const stopsOfAllDays: JSX.Element[][] = [];
-  const numberOfDays = dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
-
   const unscheduledStops = trip.stopsCollection.features.filter(
     (stop) => stop.properties.tripDay === -1
+  );
+
+  const stopsForTripDay = useCallback(
+    (tripDay) => {
+      return trip.stopsCollection.features.filter(
+        (stop) => stop.properties.tripDay === tripDay
+      );
+    },
+    [trip.stopsCollection.features]
   );
 
   const daysOfTrip = useMemo(() => {
@@ -122,19 +128,6 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
     }
     return result;
   }, [trip.startDate, trip.endDate]);
-
-  for (let i = 0; i < numberOfDays; i++) {
-    stopsOfAllDays.push([]);
-    trip?.stopsCollection.features.map((stop: Stop, index) => {
-      if (i === stop.properties.tripDay) {
-        stopsOfAllDays[i].push(
-          <TimelineItem key={stop._id} stop={stop} editMode={false} />
-        );
-      } else {
-        return null;
-      }
-    });
-  }
 
   return (
     <div className="container flex justify-center w-full mx-auto">
@@ -157,7 +150,7 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
         {unscheduledStops.length ? (
           <div key="row-1">
             <TimelineHeader dayId={'-1'} key={'-1'} />
-            {unscheduledStops.map((stop: Stop) => (
+            {stopsForTripDay(-1).map((stop: Stop) => (
               <TimelineItem key={stop._id} stop={stop} editMode={false} />
             ))}
           </div>
@@ -169,8 +162,10 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
                 key={day.format('YYYYMMDD')}
                 dayId={index.toString()}
               />
-              {stopsOfAllDays[index].length ? (
-                stopsOfAllDays[index]
+              {stopsForTripDay(index).length ? (
+                stopsForTripDay(index).map((stop: Stop) => (
+                  <TimelineItem key={stop._id} stop={stop} editMode={false} />
+                ))
               ) : (
                 <div
                   key={'none' + index}
