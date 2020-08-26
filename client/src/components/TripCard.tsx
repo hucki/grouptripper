@@ -21,7 +21,7 @@ export default function TripCard({
     : trip.name;
   const photo = useSinglePhoto({
     queryText: qureyString.replace(`’`, ''),
-    dimensions: { width: 300, height: 300 },
+    dimensions: { width: 500, height: 500 },
   });
 
   const invitePending = trip?.invitedEmails?.length ? (
@@ -63,7 +63,7 @@ export default function TripCard({
         ) : null}
         <img
           src={countryFlag}
-          className="absolute m-2 opacity-50"
+          className="absolute top-0 right-0 mt-4 mr-4 opacity-50"
           alt="Countryflag"
         />
       </div>
