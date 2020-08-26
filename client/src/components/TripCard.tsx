@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { faUserFriends, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import { usePhoto } from '../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 
@@ -21,6 +21,28 @@ export default function TripCard({
     queryText: qureyString.replace(`’`, ''),
     dimensions: { width: 300, height: 300 },
   });
+
+  const invitePending = trip?.invitedEmails?.length ? (
+    <>
+      <FontAwesomeIcon icon={faUserClock} className="mt-1 ml-2 text-primary" />
+      <span className="ml-1 text-primary">{trip?.invitedEmails?.length}</span>
+    </>
+  ) : (
+    <></>
+  );
+
+  const participants = trip?.participants?.length ? (
+    <>
+      <FontAwesomeIcon
+        icon={faUserFriends}
+        className="mt-1 ml-2 text-green-600"
+      />
+      <span className="ml-1 text-green-600">{trip?.participants?.length}</span>
+    </>
+  ) : (
+    <></>
+  );
+
   return (
     <div className="flex items-center flex-1 p-1 transition duration-500 ease-in-out transform rounded-lg shadow cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="flex flex-col">
@@ -46,39 +68,29 @@ export default function TripCard({
                 ) : null}
               </div>
               <div className="flex flex-col p-2">
-                <h3 className="mb-2 text-2xl font-bold text-teal-900">
+                <h3 className="mb-2 text-2xl font-bold text-yellow-900">
                   {trip.name}
                 </h3>
-                <div className="flex items-center">
+                <div className="flex flex-col">
                   <div className="text-sm">
-                    <p className="font-bold leading-none text-teal-900">
+                    <span className="font-bold leading-none text-yellow-900">
                       {dayjs(trip?.startDate).format('DD.MM.YYYY')} -{' '}
                       {dayjs(trip?.endDate).format('DD.MM.YYYY')}
-                    </p>
+                    </span>
+                    {participants}
+                    {invitePending}
                   </div>
                 </div>
-                <FontAwesomeIcon icon={faComment} />
-                <p className="text-base text-teal-700">
-                  Yeah! We are having a trip. Prepare to be happy!{' '}
-                  <span role="img" aria-label="Party Popper">
-                    🎉
-                  </span>
-                </p>
                 <p className="mt-4">
                   {trip?.stopsCollection.features.map((stop, index: number) => (
                     <span
                       key={stop.properties.name}
-                      className="p-2 m-2 text-xs leading-none text-white rounded-full bg-secondary"
+                      className="p-2 m-2 text-xs leading-none rounded-full text-secondary bg-primary"
                     >
                       {stop.properties.name}
                     </span>
                   ))}
                 </p>
-                {listView && trip?.invitedEmails?.length ? (
-                  <span className="absolute top-0 px-2 py-1 mt-2 text-xs font-bold text-teal-900 uppercase bg-teal-300 rounded-full">
-                    {trip?.invitedEmails?.length}
-                  </span>
-                ) : null}
               </div>
             </div>
           </div>
