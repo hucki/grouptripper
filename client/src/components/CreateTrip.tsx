@@ -17,6 +17,7 @@ import { useSinglePhoto } from '../hooks/usePhoto';
 import { useCreateTrip } from '../hooks/trips';
 import { Redirect } from 'react-router-dom';
 import HeroImage from './HeroImage';
+import HeroImageWithText from './HeroImageWithText';
 
 type TripInput = {
   name: string;
@@ -81,7 +82,9 @@ export default function CreateTrip(): JSX.Element {
 
   return (
     <>
-      <HeroImage queryText="travel"></HeroImage>
+      <HeroImageWithText queryText="scotland" className="flex items-center">
+        <h1 className="text-6xl font-semibold">Start planning your trip</h1>
+      </HeroImageWithText>
       <div className="">
         <Formik
           initialValues={{
@@ -193,7 +196,6 @@ function FormFirstPage(): JSX.Element {
     .sort((a, b) => (a.name < b.name ? -1 : 1));
   return (
     <>
-      <h2 className="text-2xl">Start planning your trip</h2>
       <TextInput name="name" id="name" label="Trip Name" />
       {/* <TextInput name="country" id="country" label="Country" /> */}
       <SelectInput name="country" id="country" label="Country">
