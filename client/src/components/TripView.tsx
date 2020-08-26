@@ -23,17 +23,7 @@ const TripView: React.FC = () => {
   if (error) return <div>Error getting trips: {error.message}</div>;
   if (!trip) return null;
 
-  return (
-    <>
-      {<MainTripView trip={trip} />}
-      {/* <div className="container mx-auto">
-        <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-          <div>{<MapContainer trip={trip} />}</div>
-        </div>
-        <TripComments tripId={id} />
-      </div> */}
-    </>
-  );
+  return <MainTripView trip={trip} />;
 };
 
 export default TripView;
@@ -55,12 +45,7 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           </div>
         </div>
       </HeroImage>
-      <div className="container p-4 mx-auto mt-4">
-        <section className="mb-6">
-          <h2 className="mb-4 text-2xl">Who's coming</h2>
-          {trip._id && <TripParticipants tripId={trip._id} />}
-          <Invite trip={trip} />
-        </section>
+      <div className="container grid grid-cols-1 p-4 mx-auto mt-4">
         <section className="mb-6">
           <div className="flex items-center space-x-4">
             <h2 className="mb-4 text-2xl">Your schedule</h2>
@@ -71,6 +56,11 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
         <section className="mb-6">
           <h2 className="mb-4 text-2xl">Trip route</h2>
           <div>{<MapContainer trip={trip} />}</div>
+        </section>
+        <section className="mb-6">
+          <h2 className="mb-4 text-2xl">Who's coming</h2>
+          {trip._id && <TripParticipants tripId={trip._id} />}
+          <Invite trip={trip} />
         </section>
       </div>
     </main>
