@@ -24,7 +24,7 @@ const Navigation: React.FC = () => {
           </span>
         </div>
       </Link>
-      <div className="block lg:hidden">
+      <div className="block md:hidden">
         <button className="flex items-center px-3 py-2 text-gray-100 rounded">
           <FontAwesomeIcon
             icon={faBars}
@@ -36,15 +36,13 @@ const Navigation: React.FC = () => {
       <div
         className={`flex-grow ${
           !menuOpen ? 'hidden' : null
-        } w-full text-gray-100 lg:flex lg:items-center lg:w-auto`}
+        } w-full text-gray-100 md:flex md:items-center md:w-auto`}
       >
-        <div className="text-sm text-right lg:flex-grow">
-          {/* <ul className="flex items-center space-x-8"> */}
+        <div className="text-sm text-right md:flex-grow">
           <RestrictedLinks />
-          <div className="block mt-4 mr-4 lg:inline-block lg:mt-0">
+          <div className="block mt-4 mr-4 md:inline-block md:mt-0">
             <SignInOut />
           </div>
-          {/* </ul> */}
         </div>
       </div>
     </nav>
@@ -58,10 +56,10 @@ const RestrictedLinks: React.FC = () => {
 
   return (
     <>
-      <div className="block mt-4 mr-4 lg:inline-block lg:mt-0">
+      <div className="block mt-4 mr-4 md:inline-block md:mt-0">
         <Link to="/user-profile">My trips</Link>
       </div>
-      <div className="block mt-4 mr-4 lg:inline-block lg:mt-0">
+      <div className="block mt-4 mr-4 md:inline-block md:mt-0">
         <Link to="/create-trip">Start a trip</Link>
       </div>
     </>

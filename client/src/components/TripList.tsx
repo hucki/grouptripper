@@ -29,7 +29,7 @@ export default function TripList({
   renderTrip = DefaultRenderTrip,
 }: TripListProps): JSX.Element {
   return (
-    <div className="grid content-center grid-flow-row grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+    <div className="grid content-center grid-flow-row grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
       {trips.map((trip) => renderTrip({ trip }))}
     </div>
   );

@@ -22,7 +22,7 @@ const SignInOut: React.FC = () => {
           Log out
         </button>
         <img
-          className="hidden object-contain w-12 h-12 mx-2 border-2 border-gray-600 rounded-full lg:block"
+          className="hidden object-contain w-12 h-12 mx-2 border-2 border-gray-600 rounded-full md:block"
           src={
             user
               ? user.picture
