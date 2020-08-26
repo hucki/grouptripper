@@ -27,7 +27,9 @@ export default function TripComments({ tripId }) {
       const { data: comments } = await axios.get(
         `${API_URL}/comments/${tripId}`
       );
-      setComments(comments);
+      setComments(
+        comments.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
+      );
     };
     getDataAxios(); //calling the above created function
   }, [tripId]);
@@ -40,7 +42,7 @@ export default function TripComments({ tripId }) {
       comment,
       tripId,
     });
-    setComments((prevComments) => [...prevComments, newComment]);
+    setComments((prevComments) => [newComment, ...prevComments]);
   };
 
   //eslint-disable-next-line
@@ -54,6 +56,7 @@ export default function TripComments({ tripId }) {
 
   return (
     <div>
+      <InputComment onSubmit={handleCreateComment} user={user} />
       {comments &&
         comments.map((comment, index) => {
           return (
@@ -89,7 +92,6 @@ export default function TripComments({ tripId }) {
             </div>
           );
         })}
-      <InputComment onSubmit={handleCreateComment} user={user} />
     </div>
   );
 }
