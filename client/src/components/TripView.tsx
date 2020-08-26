@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,117 +12,22 @@ import Invite from './Invite';
 import TripComments from './TripComments';
 import TripImages from './TripImages/TripImages';
 import { getName } from 'country-list';
-import { usePhoto } from './../hooks/usePhoto';
+import { useSinglePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 import BackgroundShim from './BackgroundShim';
 
-export default function TripView(): JSX.Element {
+const TripView: React.FC = () => {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
 
-  const numberOfDays =
-    dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
-
-  const daysOfTrip: Dayjs[] = [];
-  const stopsOfAllDays: JSX.Element[][] = [];
-  const notScheduled: JSX.Element[] = [];
-
-  const Timeline = (): JSX.Element => {
-    return (
-      <div className="container flex justify-center w-full mx-auto">
-        <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-          <div key="rowHeader" className="flex flex-col">
-            <Link
-              to={`/trips/edit/${id}`}
-              className="-mt-2 -mr-2 w-1/8"
-              style={{ alignSelf: 'flex-end' }}
-            >
-              <div
-                className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                style={{ transition: 'all .15s ease' }}
-              >
-                <FontAwesomeIcon icon={faEdit} />
-              </div>
-            </Link>
-          </div>
-
-          {notScheduled.length ? (
-            <div key="row-1">
-              <TimelineHeader dayId={'-1'} key={'-1'} />
-              {notScheduled}
-            </div>
-          ) : null}
-          {daysOfTrip &&
-            daysOfTrip.map((day: Dayjs, index) => (
-              <div key={'row' + index}>
-                <TimelineHeader
-                  key={day.format('YYYYMMDD')}
-                  dayId={index.toString()}
-                />
-                {stopsOfAllDays[index].length ? (
-                  stopsOfAllDays[index]
-                ) : (
-                  <div
-                    key={'none' + index}
-                    className="ml-8 text-sm italic text-gray-400 lowercase"
-                  >
-                    {' '}
-                    no stops on this day
-                  </div>
-                )}
-              </div>
-            ))}
-        </div>
-      </div>
-    );
-  };
-
-  trip?.stopsCollection.features.map((stop: Stop, index) => {
-    if (stop.properties.tripDay === -1) {
-      notScheduled.push(
-        <TimelineItem key={'-1' + index} stop={stop} editMode={false} />
-      );
-    } else {
-      return null;
-    }
-  });
-  for (let i = 0; i < numberOfDays; i++) {
-    stopsOfAllDays.push([]);
-    trip?.stopsCollection.features.map((stop: Stop, index) => {
-      if (i === stop.properties.tripDay) {
-        stopsOfAllDays[i].push(
-          <TimelineItem key={stop._id} stop={stop} editMode={false} />
-        );
-      } else {
-        return null;
-      }
-    });
-
-    daysOfTrip.push(
-      dayjs(trip?.startDate)
-        .add(i, 'd')
-        .set('second', 0)
-        .set('minute', 1)
-        .set('hour', 0)
-    );
-  }
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error getting trips: {error}</div>;
-  return (
-    <>
-      {trip && <MainTripView trip={trip} />}
-      <div className="container mx-auto">
-        <div className="grid content-center grid-cols-1 grid-rows-2 gap-4 my-4 md:grid-rows-1 md:grid-cols-2">
-          <Timeline />
-          <div>{trip && <MapContainer trip={trip} />}</div>
-        </div>
-        <TripComments tripId={id} />
-        <h3>RELATED IMAGES</h3>
-        {trip && <TripImages trip={trip} />}
-      </div>
-    </>
-  );
-}
+  if (error) return <div>Error getting trips: {error.message}</div>;
+  if (!trip) return null;
+
+  return <MainTripView trip={trip} />;
+};
+
+export default TripView;
 
 const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
   const countryName = getName(trip.country) || 'World';
@@ -141,10 +46,29 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           </div>
         </div>
       </HeroImage>
-      <div className="container mx-auto mt-4">
-        <h2 className="mb-3 text-2xl">Who's coming</h2>
-        {trip._id && <TripParticipants tripId={trip._id} />}
-        <Invite trip={trip} />
+      <div className="container grid grid-cols-1 row-gap-6 col-gap-6 p-4 mx-auto mt-4 lg:grid-cols-2">
+        <section className="row-start-1 row-end-4 p-4 bg-white rounded">
+          <div className="flex items-center space-x-4">
+            <h2 className="mb-4 text-2xl">Your schedule</h2>
+            <TripEditLink to={`/trips/edit/${trip._id}`} />
+          </div>
+          <Timeline trip={trip} />
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Trip route</h2>
+          <div>{<MapContainer trip={trip} />}</div>
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Who's coming</h2>
+          {trip._id && <TripParticipants tripId={trip._id} />}
+          <Invite trip={trip} />
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Comments</h2>
+          {trip._id && <TripComments tripId={trip._id} />}
+          <h3>RELATED IMAGES</h3>
+          {trip && <TripImages trip={trip} />}
+        </section>
       </div>
     </main>
   );
@@ -155,7 +79,7 @@ const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
   className,
   children,
 }) => {
-  const photo = usePhoto({ queryText });
+  const photo = useSinglePhoto({ queryText });
 
   return (
     <div
@@ -167,13 +91,6 @@ const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
   );
 };
 
-type Participant = {
-  id: string;
-  name: string;
-  email: string;
-  picture: string;
-};
-
 const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
   const { isLoading, error, participants } = useParticipants(tripId);
   if (isLoading) return null;
@@ -181,12 +98,90 @@ const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
   if (!participants) return null;
 
   return (
-    <ul className="mb-4">
+    <ul className="mb-6 space-y-2">
       {participants.map((participant) => (
-        <li key={participant.id}>
+        <li key={participant.id} className="flex items-center">
+          <img
+            src={participant.picture}
+            alt=""
+            className="w-6 h-6 mr-3 rounded-full"
+          />
           <div>{participant.name}</div>
         </li>
       ))}
     </ul>
   );
 };
+
+const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
+  const unscheduledStops = trip.stopsCollection.features.filter(
+    (stop) => stop.properties.tripDay === -1
+  );
+
+  const stopsForTripDay = useCallback(
+    (tripDay) => {
+      return trip.stopsCollection.features.filter(
+        (stop) => stop.properties.tripDay === tripDay
+      );
+    },
+    [trip.stopsCollection.features]
+  );
+
+  const daysOfTrip = useMemo(() => {
+    const numberOfDays =
+      dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
+    const result = [];
+    for (let i = 0; i < numberOfDays; i++) {
+      result.push(dayjs(trip.startDate).add(i, 'd'));
+    }
+    return result;
+  }, [trip.startDate, trip.endDate]);
+
+  return (
+    <div className="container flex justify-center w-full mx-auto">
+      <div className="flex flex-col w-full">
+        {unscheduledStops.length ? (
+          <div key="row-1">
+            <TimelineHeader dayId={'-1'} key={'-1'} day={null} />
+            {stopsForTripDay(-1).map((stop: Stop) => (
+              <TimelineItem key={stop._id} stop={stop} editMode={false} />
+            ))}
+          </div>
+        ) : null}
+        {daysOfTrip.map((day: Dayjs, index) => (
+          <div key={'row' + index}>
+            <TimelineHeader
+              key={day.format('YYYYMMDD')}
+              dayId={index.toString()}
+              day={day}
+            />
+            {stopsForTripDay(index).length ? (
+              stopsForTripDay(index).map((stop: Stop) => (
+                <TimelineItem key={stop._id} stop={stop} editMode={false} />
+              ))
+            ) : (
+              <div
+                key={'none' + index}
+                className="ml-8 text-sm italic text-gray-400 lowercase"
+              >
+                {' '}
+                Nothing planned
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const TripEditLink: React.FC<{ to: string }> = ({ to }) => (
+  <Link to={to} className="-mt-2 -mr-2 w-1/8">
+    <div
+      className="flex justify-center p-2 mr-1 text-xs font-bold uppercase bg-gray-300 rounded outline-none active:bg-gray-400 hover:shadow focus:outline-none"
+      style={{ transition: 'all .15s ease' }}
+    >
+      <FontAwesomeIcon icon={faEdit} />
+    </div>
+  </Link>
+);

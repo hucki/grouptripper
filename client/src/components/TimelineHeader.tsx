@@ -1,34 +1,22 @@
 import React from 'react';
-// import dayjs, { Dayjs } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
-type DayHeaderInputProps = {
+type Props = {
   dayId: string;
-  // day?: Dayjs;
+  day?: Dayjs | null;
 };
-export default function TimelineHeader({
-  dayId,
-}: // day,
-DayHeaderInputProps): JSX.Element {
+
+const TimelineHeader: React.FC<Props> = ({ dayId, day }) => {
   const result =
     dayId === '-1' ? (
-      <div className="ml-1">
-        <span className="text-sm italic text-red-400 lowercase">
-          not yet scheduled:
-        </span>
-      </div>
+      <h4 className="my-2 text-sm">Not yet scheduled</h4>
     ) : (
-      <div className="mt-2 ml-1">
-        {' '}
-        <span className="font-extrabold text-teal-700 uppercase">
-          {parseInt(dayId) + 1}.&nbsp;
-          {/* &nbsp;{day && day.format('D')} */}
-        </span>
-        <span className="font-semibold text-teal-700 uppercase opacity-50">
-          Day
-          {/* {day && day.format('ddd')} */}
-        </span>
-      </div>
+      <h4 className="my-2 font-bold text-gray-800 uppercase">
+        {day ? day.format('dddd DD MMM') : `Day ${dayId}`}
+      </h4>
     );
 
   return result;
-}
+};
+
+export default TimelineHeader;

@@ -20,7 +20,7 @@ const Navigation: React.FC = () => {
           </div>
         </Link>
         <nav>
-          <ul className="flex space-x-8">
+          <ul className="flex items-center space-x-8">
             <RestrictedLinks />
             <li>
               <SignInOut />
