@@ -17,7 +17,7 @@ export default function UserProfile(): JSX.Element {
         <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
           <div className="self-center col-start-1 col-end-3 p-6 text-gray-100">
             <BackgroundShim>
-              <h1 className="text-6xl font-semibold">
+              <h1 className="text-3xl font-semibold md:text-4xl lg:text-6xl">
                 {' '}
                 Welcome back{user ? `, ${user.name}` : null}!
               </h1>

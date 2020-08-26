@@ -22,7 +22,7 @@ const LandingPage: React.FC<Props> = ({ Navigation = DefaultNavigation }) => (
       <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
         <header className="self-center col-start-1 col-end-3 p-6 text-gray-100">
           <BackgroundShim className="mb-6">
-            <h1 className="text-6xl font-semibold ">
+            <h1 className="text-4xl font-semibold md:text-5xl lg:text-6xl ">
               Discover the world with friends
             </h1>
           </BackgroundShim>

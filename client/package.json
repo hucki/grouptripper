@@ -5,6 +5,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@testing-library/jest-dom": "^4.2.4",
@@ -33,6 +34,7 @@
     "react-query": "^2.5.14",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "reactjs-popup": "^1.5.0",
     "styled-components": "^5.1.1",
     "tailwindcss": "^1.6.2",
     "typescript": "^3.7.5",
