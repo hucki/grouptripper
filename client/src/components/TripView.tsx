@@ -10,6 +10,7 @@ import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
 import Invite from './Invite';
 import TripComments from './TripComments';
+import TripImages from './TripImages/TripImages';
 import { getName } from 'country-list';
 import { useSinglePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
@@ -65,6 +66,8 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
         <section className="p-4 bg-white rounded">
           <h2 className="mb-4 text-2xl">Comments</h2>
           {trip._id && <TripComments tripId={trip._id} />}
+          <h3>RELATED IMAGES</h3>
+          {trip && <TripImages trip={trip} />}
         </section>
       </div>
     </main>
