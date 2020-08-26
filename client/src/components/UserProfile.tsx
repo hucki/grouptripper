@@ -2,29 +2,25 @@ import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import TripList from './TripList';
 import { useTrips, useInvitedTrips } from '../hooks/trips';
-import { useSinglePhoto } from '../hooks/usePhoto';
 import { Trip } from '../types/Trip';
 import InviteResponse from './InviteResponse';
 import TripCard from './TripCard';
-import BackgroundShim from './BackgroundShim';
+import HeroImageWithText from './HeroImageWithText';
 
 export default function UserProfile(): JSX.Element {
   const imageSearchString = 'Travel';
   const { user } = useAuth0();
   return (
     <main>
-      <HeroImage queryText={imageSearchString} className="flex items-center">
-        <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
-          <div className="self-center col-start-1 col-end-3 p-6 text-gray-100">
-            <BackgroundShim>
-              <h1 className="text-3xl font-semibold md:text-4xl lg:text-6xl">
-                {' '}
-                Welcome back{user ? `, ${user.name}` : null}!
-              </h1>
-            </BackgroundShim>
-          </div>
-        </div>
-      </HeroImage>
+      <HeroImageWithText
+        queryText={imageSearchString}
+        className="flex items-center"
+      >
+        <h1 className="text-3xl font-semibold md:text-4xl lg:text-6xl">
+          {' '}
+          Welcome back{user ? `, ${user.name}` : null}!
+        </h1>
+      </HeroImageWithText>
       <div className="px-4 py-2 mb-4 mr-1 ">
         <InvitedTrips />
         <UpcomingTrips />
@@ -84,20 +80,3 @@ function InvitedTrips(): JSX.Element | null {
     </div>
   );
 }
-
-const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
-  queryText,
-  className,
-  children,
-}) => {
-  const photo = useSinglePhoto({ queryText });
-
-  return (
-    <div
-      className={`${className} w-full bg-center bg-cover`}
-      style={{ backgroundImage: `url(${photo.imgUrl})`, minHeight: '25vh' }}
-    >
-      {children}
-    </div>
-  );
-};
