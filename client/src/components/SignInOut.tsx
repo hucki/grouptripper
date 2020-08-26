@@ -21,7 +21,7 @@ const SignInOut: React.FC = () => {
           Log out
         </button>
         <img
-          className="object-contain w-12 h-12 mx-2 border-2 border-gray-100 rounded-full"
+          className="object-contain w-12 h-12 mx-2 border-2 border-gray-600 rounded-full"
           src={`https://source.unsplash.com/featured/100x100/?portrait`}
           alt="user"
         />

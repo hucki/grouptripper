@@ -45,22 +45,26 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           </div>
         </div>
       </HeroImage>
-      <div className="container grid grid-cols-1 p-4 mx-auto mt-4">
-        <section className="mb-6">
+      <div className="container grid grid-cols-1 row-gap-6 col-gap-6 p-4 mx-auto mt-4 lg:grid-cols-2">
+        <section className="row-start-1 row-end-4 p-4 bg-white rounded">
           <div className="flex items-center space-x-4">
             <h2 className="mb-4 text-2xl">Your schedule</h2>
             <TripEditLink to={`/trips/edit/${trip._id}`} />
           </div>
           <Timeline trip={trip} />
         </section>
-        <section className="mb-6">
+        <section className="p-4 bg-white rounded">
           <h2 className="mb-4 text-2xl">Trip route</h2>
           <div>{<MapContainer trip={trip} />}</div>
         </section>
-        <section className="mb-6">
+        <section className="p-4 bg-white rounded">
           <h2 className="mb-4 text-2xl">Who's coming</h2>
           {trip._id && <TripParticipants tripId={trip._id} />}
           <Invite trip={trip} />
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Comments</h2>
+          {trip._id && <TripComments tripId={trip._id} />}
         </section>
       </div>
     </main>
