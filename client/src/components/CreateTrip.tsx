@@ -16,6 +16,7 @@ import AutoComplete from './AutoComplete';
 import { useSinglePhoto } from '../hooks/usePhoto';
 import { useCreateTrip } from '../hooks/trips';
 import { Redirect } from 'react-router-dom';
+import HeroImage from './HeroImage';
 
 type TripInput = {
   name: string;
@@ -80,6 +81,7 @@ export default function CreateTrip(): JSX.Element {
 
   return (
     <>
+      <HeroImage queryText="travel"></HeroImage>
       <div className="">
         <Formik
           initialValues={{

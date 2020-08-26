@@ -15,6 +15,7 @@ import { getName } from 'country-list';
 import { useSinglePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
 import BackgroundShim from './BackgroundShim';
+import HeroImageWithText from './HeroImageWithText';
 
 const TripView: React.FC = () => {
   const { id } = useParams();
@@ -33,19 +34,13 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
   const countryName = getName(trip.country) || 'World';
   return (
     <main>
-      <HeroImage queryText={countryName} className="flex items-center">
-        <div className="container grid h-full p-4 mx-auto lg:grid-cols-3">
-          <div className="self-center col-start-1 col-end-3 p-6 text-gray-100">
-            <BackgroundShim>
-              <h1 className="text-6xl font-semibold">{trip.name}</h1>
-              <p>
-                {dayjs(trip.startDate).format('dddd DD MMM YYYY')} to{' '}
-                {dayjs(trip.endDate).format('dddd DD MMM YYYY')}
-              </p>
-            </BackgroundShim>
-          </div>
-        </div>
-      </HeroImage>
+      <HeroImageWithText queryText={countryName} className="flex items-center">
+        <h1 className="text-6xl font-semibold">{trip.name}</h1>
+        <p>
+          {dayjs(trip.startDate).format('dddd DD MMM YYYY')} to{' '}
+          {dayjs(trip.endDate).format('dddd DD MMM YYYY')}
+        </p>
+      </HeroImageWithText>
       <div className="container grid grid-cols-1 row-gap-6 col-gap-6 p-4 mx-auto mt-4 lg:grid-cols-2">
         <section className="row-start-1 row-end-4 p-4 bg-white rounded">
           <div className="flex items-center space-x-4">
@@ -73,23 +68,6 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
         </section>
       </div>
     </main>
-  );
-};
-
-const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
-  queryText,
-  className,
-  children,
-}) => {
-  const photo = useSinglePhoto({ queryText });
-
-  return (
-    <div
-      className={`${className} w-full bg-center bg-cover`}
-      style={{ backgroundImage: `url(${photo.imgUrl})`, minHeight: '25vh' }}
-    >
-      {children}
-    </div>
   );
 };
 
