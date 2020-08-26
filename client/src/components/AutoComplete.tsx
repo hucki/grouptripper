@@ -3,6 +3,8 @@ import { useCombobox, UseComboboxStateChange } from 'downshift';
 import { useField } from 'formik';
 import { useQuery } from 'react-query';
 import { Stop } from './../types/Stop';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function fetchAutocomplete(
   key: string,
@@ -127,18 +129,20 @@ function DropdownCombobox({
 
   return (
     <div className="flex flex-col w-full h-64 my-3 space-y-2">
-      <label {...getLabelProps()}>Add a stop:</label>
+      <label {...getLabelProps()} className="text-xl">
+        Add a stop:
+      </label>
       <div {...getComboboxProps()} className="flex flex-row space-x-4">
         <input
           {...getInputProps()}
           className="flex-grow p-3 border border-gray-500 rounded"
         />
         <button
-          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl bg-teal-500 rounded-full"
+          className="flex items-center self-center justify-center w-8 h-8 p-1 text-2xl text-gray-800 bg-yellow-500 rounded-full"
           onClick={onAddClick}
           type="button"
         >
-          +
+          <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
       <ul

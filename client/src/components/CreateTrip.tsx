@@ -16,6 +16,7 @@ import AutoComplete from './AutoComplete';
 import { useSinglePhoto } from '../hooks/usePhoto';
 import { useCreateTrip } from '../hooks/trips';
 import { Redirect } from 'react-router-dom';
+import HeroImageWithText from './HeroImageWithText';
 
 type TripInput = {
   name: string;
@@ -80,65 +81,74 @@ export default function CreateTrip(): JSX.Element {
 
   return (
     <>
-      <div className="">
-        <Formik
-          initialValues={{
-            name: '',
-            country: '',
-            countryObj: null,
-            startDate: '',
-            endDate: '',
-            currentStop: null,
-            stops: new Array(0),
-          }}
-          validationSchema={validationSchema}
-          onSubmit={async (
-            values: TripInput,
-            { setSubmitting }: FormikHelpers<TripInput>
-          ): Promise<void> => {
-            setRedirect(false);
-            const newTrip = transformTrip(values);
-            await createTrip({ trip: newTrip });
-            setSubmitting(false);
-            setRedirect(true);
-          }}
-        >
-          {(formikProps): JSX.Element => (
-            <Form>
-              {renderFormPage(formikProps)}
-              <div>
-                {currentPage > 0 ? (
-                  <button
-                    type="button"
-                    onClick={(): void => setCurrentPage((page) => page - 1)}
-                    className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                  >
-                    Previous page
-                  </button>
+      <HeroImageWithText queryText="scotland" className="flex items-center">
+        <h1 className="text-6xl font-semibold">Start planning your trip</h1>
+      </HeroImageWithText>
+      <div className="container p-4 mx-auto">
+        <section className="row-start-1 row-end-4 p-4 bg-white rounded">
+          <Formik
+            initialValues={{
+              name: '',
+              country: '',
+              countryObj: null,
+              startDate: '',
+              endDate: '',
+              currentStop: null,
+              stops: new Array(0),
+            }}
+            validationSchema={validationSchema}
+            onSubmit={async (
+              values: TripInput,
+              { setSubmitting }: FormikHelpers<TripInput>
+            ): Promise<void> => {
+              setRedirect(false);
+              const newTrip = transformTrip(values);
+              await createTrip({ trip: newTrip });
+              setSubmitting(false);
+              setRedirect(true);
+            }}
+          >
+            {(formikProps): JSX.Element => (
+              <Form>
+                {renderFormPage(formikProps)}
+                <div>
+                  {currentPage > 0 ? (
+                    <div className="flex flex-col items-start">
+                      <button
+                        type="button"
+                        onClick={(): void => setCurrentPage((page) => page - 1)}
+                        className="px-4 py-2 mt-6 text-xs font-bold text-gray-900 uppercase bg-gray-400 rounded outline-none active:bg-gray-600 hover:shadow-md focus:outline-none"
+                      >
+                        Previous page
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 mt-6 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+                        disabled={
+                          formikProps.isSubmitting || !formikProps.isValid
+                        }
+                      >
+                        Create Trip
+                      </button>
+                    </div>
+                  ) : null}
+                  {currentPage < formPages.length - 1 ? (
+                    <button
+                      type="button"
+                      onClick={(): void => setCurrentPage((page) => page + 1)}
+                      className="px-4 py-2 mt-6 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded outline-none active:bg-yellow-600 hover:shadow-md focus:outline-none"
+                    >
+                      Next page
+                    </button>
+                  ) : null}
+                </div>
+                {savingError ? (
+                  <div>{savingError.message} - Please retry</div>
                 ) : null}
-                {currentPage < formPages.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={(): void => setCurrentPage((page) => page + 1)}
-                    className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-                  >
-                    Next page
-                  </button>
-                ) : null}
-              </div>
-              <button
-                type="submit"
-                className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none disabled:bg-gray-600 active:bg-teal-600 hover:shadow-md focus:outline-none"
-                disabled={formikProps.isSubmitting || !formikProps.isValid}
-              >
-                Create Trip
-              </button>
-              {savingError ? (
-                <div>{savingError.message} - Please retry</div>
-              ) : null}
-            </Form>
-          )}
-        </Formik>
+              </Form>
+            )}
+          </Formik>
+        </section>
       </div>
     </>
   );
@@ -156,7 +166,9 @@ function TextInput({ label, ...props }: InputProps): JSX.Element {
 
   return (
     <div className="flex flex-col my-3 space-y-2">
-      <label htmlFor={props.name}>{label}</label>
+      <label htmlFor={props.name} className="text-xl">
+        {label}
+      </label>
       <Field
         {...field}
         {...props}
@@ -172,7 +184,9 @@ const SelectInput: FunctionComponent<InputProps> = ({ label, ...props }) => {
 
   return (
     <div className="flex flex-col my-3 space-y-2">
-      <label htmlFor={props.name}>{label}</label>
+      <label htmlFor={props.name} className="text-xl">
+        {label}
+      </label>
       <select
         {...field}
         {...props}
@@ -191,7 +205,6 @@ function FormFirstPage(): JSX.Element {
     .sort((a, b) => (a.name < b.name ? -1 : 1));
   return (
     <>
-      <h2 className="text-2xl">Start planning your trip</h2>
       <TextInput name="name" id="name" label="Trip Name" />
       {/* <TextInput name="country" id="country" label="Country" /> */}
       <SelectInput name="country" id="country" label="Country">
@@ -234,7 +247,7 @@ function FormSecondPage({ values }: FormikProps<TripInput>): JSX.Element {
               }}
             />
 
-            <div>
+            <div className="my-3 space-y-2">
               <h3 className="mb-4 text-xl">Your stops</h3>
               <ul className="space-y-3">
                 {values.stops.map(
@@ -261,7 +274,7 @@ function StopCard({ stop }: StopCardPropTypes): JSX.Element {
   });
 
   return (
-    <li className="flex flex-row w-full space-x-4 overflow-hidden border rounded shadow broder-gray-100">
+    <li className="flex flex-row w-full space-x-4 overflow-hidden border-2 border-gray-100 rounded">
       <div style={{ height: '100px', width: '100px' }} className="bg-gray-500">
         {photo ? <img src={photo.imgUrl} alt={photo.altDescription} /> : null}
       </div>
