@@ -50,9 +50,6 @@ export default function ControlledAutocomplete({
   onAddClick,
   countryCode,
 }: ControlledAutocompleteProps): JSX.Element {
-  // const [, meta, helpers] = useField(name);
-  // const { value } = meta;
-  // const { setValue } = helpers;
   const [value, setValue] = useState<Stop | null | undefined>(null);
   const [queryText, setQueryText] = useState('');
   const { data } = useQuery(
