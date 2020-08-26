@@ -8,11 +8,13 @@ import { Trip } from './../types/Trip';
 type TripCardProps = {
   trip: Trip;
   listView: boolean;
+  inviteButton?: JSX.Element;
 };
 
 export default function TripCard({
   trip,
   listView,
+  inviteButton,
 }: TripCardProps): JSX.Element {
   const qureyString = trip.stopsCollection.features[0]
     ? trip.stopsCollection.features[0].properties.name
@@ -51,6 +53,7 @@ export default function TripCard({
   return (
     <div className="overflow-hidden transition duration-500 ease-in-out transform bg-white rounded-lg shadow cursor-pointer select-none hover:-translate-y-1 hover:shadow-lg">
       <div className="relative h-48 pb-2/3">
+        {inviteButton ? inviteButton : null}
         {photo ? (
           <img
             src={photo.imgUrl}
