@@ -9,17 +9,11 @@ type Props = {
 const TimelineHeader: React.FC<Props> = ({ dayId, day }) => {
   const result =
     dayId === '-1' ? (
-      <div className="ml-1">
-        <span className="text-sm italic text-red-400 lowercase">
-          Not yet scheduled
-        </span>
-      </div>
+      <h4 className="my-2 text-sm">Not yet scheduled</h4>
     ) : (
-      <div className="mt-2 ml-1">
-        <span className="font-bold text-gray-800 uppercase">
-          {day ? day.format('dddd DD MMM') : `Day ${dayId}`}
-        </span>
-      </div>
+      <h4 className="my-2 font-bold text-gray-800 uppercase">
+        {day ? day.format('dddd DD MMM') : `Day ${dayId}`}
+      </h4>
     );
 
   return result;

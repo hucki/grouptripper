@@ -55,15 +55,18 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
           </div>
         </div>
       </HeroImage>
-      <div className="container mx-auto mt-4">
+      <div className="container p-4 mx-auto mt-4">
         <section className="mb-6">
           <h2 className="mb-4 text-2xl">Who's coming</h2>
           {trip._id && <TripParticipants tripId={trip._id} />}
           <Invite trip={trip} />
         </section>
         <section className="mb-6">
-          <h2 className="mb-4 text-2xl">Your schedule</h2>
-          {<Timeline trip={trip} />}
+          <div className="flex items-center space-x-4">
+            <h2 className="mb-4 text-2xl">Your schedule</h2>
+            <TripEditLink to={`/trips/edit/${trip._id}`} />
+          </div>
+          <Timeline trip={trip} />
         </section>
       </div>
     </main>
@@ -135,22 +138,7 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
 
   return (
     <div className="container flex justify-center w-full mx-auto">
-      <div className="flex flex-col w-full p-4 bg-white rounded-lg shadow">
-        <div key="rowHeader" className="flex flex-col">
-          <Link
-            to={`/trips/edit/${trip._id}`}
-            className="-mt-2 -mr-2 w-1/8"
-            style={{ alignSelf: 'flex-end' }}
-          >
-            <div
-              className="flex justify-center p-2 mr-1 text-xs font-bold text-white uppercase bg-teal-500 rounded shadow outline-none active:bg-teal-600 hover:shadow-md focus:outline-none"
-              style={{ transition: 'all .15s ease' }}
-            >
-              <FontAwesomeIcon icon={faEdit} />
-            </div>
-          </Link>
-        </div>
-
+      <div className="flex flex-col w-full">
         {unscheduledStops.length ? (
           <div key="row-1">
             <TimelineHeader dayId={'-1'} key={'-1'} day={null} />
@@ -185,3 +173,14 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
     </div>
   );
 };
+
+const TripEditLink: React.FC<{ to: string }> = ({ to }) => (
+  <Link to={to} className="-mt-2 -mr-2 w-1/8">
+    <div
+      className="flex justify-center p-2 mr-1 text-xs font-bold uppercase bg-gray-300 rounded outline-none active:bg-gray-400 hover:shadow focus:outline-none"
+      style={{ transition: 'all .15s ease' }}
+    >
+      <FontAwesomeIcon icon={faEdit} />
+    </div>
+  </Link>
+);
