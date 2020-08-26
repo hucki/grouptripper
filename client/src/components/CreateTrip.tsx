@@ -16,7 +16,6 @@ import AutoComplete from './AutoComplete';
 import { useSinglePhoto } from '../hooks/usePhoto';
 import { useCreateTrip } from '../hooks/trips';
 import { Redirect } from 'react-router-dom';
-import HeroImage from './HeroImage';
 import HeroImageWithText from './HeroImageWithText';
 
 type TripInput = {

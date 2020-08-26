@@ -12,9 +12,7 @@ import Invite from './Invite';
 import TripComments from './TripComments';
 import TripImages from './TripImages/TripImages';
 import { getName } from 'country-list';
-import { useSinglePhoto } from './../hooks/usePhoto';
 import { Trip } from './../types/Trip';
-import BackgroundShim from './BackgroundShim';
 import HeroImageWithText from './HeroImageWithText';
 
 const TripView: React.FC = () => {

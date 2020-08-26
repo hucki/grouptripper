@@ -10,7 +10,7 @@ const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
 
   return (
     <div
-      className={`${className} w-full bg-center bg-cover`}
+      className={`${className} w-full bg-center bg-cover bg-gray-700`}
       style={{ backgroundImage: `url(${photo.imgUrl})`, minHeight: '25vh' }}
     >
       {children}
