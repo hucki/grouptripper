@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -106,17 +106,22 @@ const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
 };
 
 const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
-  const daysOfTrip: Dayjs[] = [];
   const stopsOfAllDays: JSX.Element[][] = [];
-  const notScheduled: JSX.Element[] = [];
-
   const numberOfDays = dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
 
   const unscheduledStops = trip.stopsCollection.features.filter(
     (stop) => stop.properties.tripDay === -1
   );
 
-  console.log(unscheduledStops);
+  const daysOfTrip = useMemo(() => {
+    const numberOfDays =
+      dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
+    const result = [];
+    for (let i = 0; i < numberOfDays; i++) {
+      result.push(dayjs(trip.startDate).add(i, 'd'));
+    }
+    return result;
+  }, [trip.startDate, trip.endDate]);
 
   for (let i = 0; i < numberOfDays; i++) {
     stopsOfAllDays.push([]);
@@ -129,14 +134,6 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
         return null;
       }
     });
-
-    daysOfTrip.push(
-      dayjs(trip?.startDate)
-        .add(i, 'd')
-        .set('second', 0)
-        .set('minute', 1)
-        .set('hour', 0)
-    );
   }
 
   return (
