@@ -13,7 +13,7 @@ const LandingPage: React.FC<Props> = ({ Navigation = DefaultNavigation }) => (
   <div className="flex flex-col h-screen">
     <Navigation />
     <section
-      className="h-full bg-center bg-cover"
+      className="h-full bg-gray-700 bg-center bg-cover"
       style={{
         backgroundImage:
           'url("https://images.unsplash.com/photo-1476990789491-712b869b91a5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2688&q=80")',
