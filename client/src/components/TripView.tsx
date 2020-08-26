@@ -139,7 +139,7 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
         </div>
       </HeroImage>
       <div className="container mx-auto mt-4">
-        <h2 className="mb-3 text-2xl">Who's coming</h2>
+        <h2 className="mb-4 text-2xl">Who's coming</h2>
         {trip._id && <TripParticipants tripId={trip._id} />}
         <Invite trip={trip} />
       </div>
@@ -164,13 +164,6 @@ const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
   );
 };
 
-type Participant = {
-  id: string;
-  name: string;
-  email: string;
-  picture: string;
-};
-
 const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
   const { isLoading, error, participants } = useParticipants(tripId);
   if (isLoading) return null;
@@ -178,9 +171,14 @@ const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
   if (!participants) return null;
 
   return (
-    <ul className="mb-4">
+    <ul className="mb-6 space-y-2">
       {participants.map((participant) => (
-        <li key={participant.id}>
+        <li key={participant.id} className="flex items-center">
+          <img
+            src={participant.picture}
+            alt=""
+            className="w-6 h-6 mr-3 rounded-full"
+          />
           <div>{participant.name}</div>
         </li>
       ))}
