@@ -9,24 +9,23 @@ import AutoComplete from './AutoCompleteStandalone';
 import { useTrip } from '../hooks/trips';
 import Invite from './Invite';
 import { useCreateStop } from '../hooks/stops';
-// import { Formik, Form, FormikProps } from 'formik';
 import { Stop } from '../types/Stop';
 
 export default function TripEdit(): JSX.Element {
   const { id } = useParams();
   const { isLoading, error, trip } = useTrip(id);
   const [newStop, setNewStop] = useState<Stop>();
-  const [createStop /*, { error: savingError }*/] = useCreateStop(id);
+  const [createStop] = useCreateStop(id);
 
   useEffect(() => {
     if (newStop && trip?._id) {
-      createStop({ tripId: trip?._id, stop: transformStop(newStop) });
+      createStop({ stop: transformStop(newStop) });
       setNewStop(undefined);
     }
   }, [newStop, trip, createStop]);
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error getting trips: {error}</div>;
+  if (error) return <div>Error getting trips: {error.message}</div>;
   if (!trip) return <div>No trip found</div>;
 
   const Timeline = (): JSX.Element => {

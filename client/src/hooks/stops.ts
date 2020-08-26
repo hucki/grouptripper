@@ -9,7 +9,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Stop } from '../types/Stop';
 import { Trip } from '../types/Trip';
 type AddStopInputProps = {
-  tripId: string;
   stop: Stop;
 };
 export function useCreateStop(
@@ -17,10 +16,7 @@ export function useCreateStop(
 ): MutationResultPair<Stop, AddStopInputProps, Error> {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
-  const addStop = async ({
-    tripId,
-    stop,
-  }: AddStopInputProps): Promise<Stop> => {
+  const addStop = async ({ stop }: AddStopInputProps): Promise<Stop> => {
     let accessToken;
     if (isAuthenticated) {
       accessToken = await getAccessTokenSilently();

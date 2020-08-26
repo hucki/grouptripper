@@ -1,21 +1,24 @@
-import React, { useMemo, useCallback } from 'react';
+import React from 'react';
 import MapContainer from './MapContainer';
 import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { useTrip, useParticipants } from '../hooks/trips';
-import dayjs, { Dayjs } from 'dayjs';
-import { Stop } from '../types/Stop';
-import TimelineHeader from './TimelineHeader';
-import TimelineItem from './TimelineItem';
+import dayjs from 'dayjs';
+// import { Stop } from '../types/Stop';
+// import TimelineHeader from './TimelineHeader';
+// import TimelineItem from './TimelineItem';
 import Invite from './Invite';
 import TripComments from './TripComments';
 import TripImages from './TripImages/TripImages';
 import { getName } from 'country-list';
 import { useSinglePhoto } from '../hooks/usePhoto';
 import { Trip } from '../types/Trip';
+import { Stop } from '../types/Stop';
 import BackgroundShim from './BackgroundShim';
 import TripDragger from './TripDragger';
+import AutoComplete from './AutoCompleteStandalone';
+import { useCreateStop } from '../hooks/stops';
 
 const TripEdit: React.FC = () => {
   const { id } = useParams();
@@ -54,11 +57,16 @@ const MainTripView: React.FC<{ trip: Trip }> = ({ trip }) => {
             <TripSaveLink to={`/trips/${trip._id}`} />
           </div>
           {trip._id && <TripDragger id={trip._id} trip={trip} />}
-          {/* <Timeline trip={trip} /> */}
         </section>
         <section className="p-4 bg-white rounded">
           <h2 className="mb-4 text-2xl">Trip route</h2>
           <div>{<MapContainer trip={trip} />}</div>
+        </section>
+        <section className="p-4 bg-white rounded">
+          <h2 className="mb-4 text-2xl">Add new stop</h2>
+          {trip._id && (
+            <StopInput tripId={trip._id} countryCode={trip.country} />
+          )}
         </section>
         <section className="p-4 bg-white rounded">
           <h2 className="mb-4 text-2xl">Who's coming</h2>
@@ -117,67 +125,67 @@ const TripParticipants: React.FC<{ tripId: string }> = ({ tripId }) => {
   );
 };
 
-const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
-  const unscheduledStops = trip.stopsCollection.features.filter(
-    (stop) => stop.properties.tripDay === -1
-  );
+// const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
+//   const unscheduledStops = trip.stopsCollection.features.filter(
+//     (stop) => stop.properties.tripDay === -1
+//   );
 
-  const stopsForTripDay = useCallback(
-    (tripDay) => {
-      return trip.stopsCollection.features.filter(
-        (stop) => stop.properties.tripDay === tripDay
-      );
-    },
-    [trip.stopsCollection.features]
-  );
+//   const stopsForTripDay = useCallback(
+//     (tripDay) => {
+//       return trip.stopsCollection.features.filter(
+//         (stop) => stop.properties.tripDay === tripDay
+//       );
+//     },
+//     [trip.stopsCollection.features]
+//   );
 
-  const daysOfTrip = useMemo(() => {
-    const numberOfDays =
-      dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
-    const result = [];
-    for (let i = 0; i < numberOfDays; i++) {
-      result.push(dayjs(trip.startDate).add(i, 'd'));
-    }
-    return result;
-  }, [trip.startDate, trip.endDate]);
+//   const daysOfTrip = useMemo(() => {
+//     const numberOfDays =
+//       dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
+//     const result = [];
+//     for (let i = 0; i < numberOfDays; i++) {
+//       result.push(dayjs(trip.startDate).add(i, 'd'));
+//     }
+//     return result;
+//   }, [trip.startDate, trip.endDate]);
 
-  return (
-    <div className="container flex justify-center w-full mx-auto">
-      <div className="flex flex-col w-full">
-        {unscheduledStops.length ? (
-          <div key="row-1">
-            <TimelineHeader dayId={'-1'} key={'-1'} day={null} />
-            {stopsForTripDay(-1).map((stop: Stop) => (
-              <TimelineItem key={stop._id} stop={stop} editMode={false} />
-            ))}
-          </div>
-        ) : null}
-        {daysOfTrip.map((day: Dayjs, index) => (
-          <div key={'row' + index}>
-            <TimelineHeader
-              key={day.format('YYYYMMDD')}
-              dayId={index.toString()}
-              day={day}
-            />
-            {stopsForTripDay(index).length ? (
-              stopsForTripDay(index).map((stop: Stop) => (
-                <TimelineItem key={stop._id} stop={stop} editMode={false} />
-              ))
-            ) : (
-              <div
-                key={'none' + index}
-                className="ml-8 text-sm italic text-gray-400 lowercase"
-              >
-                {' '}
-                Nothing planned
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="container flex justify-center w-full mx-auto">
+//       <div className="flex flex-col w-full">
+//         {unscheduledStops.length ? (
+//           <div key="row-1">
+//             <TimelineHeader dayId={'-1'} key={'-1'} day={null} />
+//             {stopsForTripDay(-1).map((stop: Stop) => (
+//               <TimelineItem key={stop._id} stop={stop} editMode={false} />
+//             ))}
+//           </div>
+//         ) : null}
+//         {daysOfTrip.map((day: Dayjs, index) => (
+//           <div key={'row' + index}>
+//             <TimelineHeader
+//               key={day.format('YYYYMMDD')}
+//               dayId={index.toString()}
+//               day={day}
+//             />
+//             {stopsForTripDay(index).length ? (
+//               stopsForTripDay(index).map((stop: Stop) => (
+//                 <TimelineItem key={stop._id} stop={stop} editMode={false} />
+//               ))
+//             ) : (
+//               <div
+//                 key={'none' + index}
+//                 className="ml-8 text-sm italic text-gray-400 lowercase"
+//               >
+//                 {' '}
+//                 Nothing planned
+//               </div>
+//             )}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
 const TripSaveLink: React.FC<{ to: string }> = ({ to }) => (
   <Link to={to} className="-mt-2 -mr-2 w-1/8">
@@ -189,3 +197,28 @@ const TripSaveLink: React.FC<{ to: string }> = ({ to }) => (
     </div>
   </Link>
 );
+
+const StopInput: React.FC<{
+  tripId: string;
+  countryCode: string;
+}> = ({ tripId, countryCode }) => {
+  const [createStop] = useCreateStop(tripId);
+
+  const enrichStop: (stop: Stop) => Stop = (stop) => {
+    return { ...stop, tripDay: -1 };
+  };
+
+  const handleAddClick: (stop: Stop | null | undefined) => void = (stop) => {
+    if (!stop) return;
+    const enrichedStop = enrichStop(stop);
+    createStop({ stop: enrichedStop });
+  };
+
+  return (
+    <AutoComplete
+      name="addNewStop"
+      countryCode={countryCode}
+      onAddClick={handleAddClick}
+    />
+  );
+};
