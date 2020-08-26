@@ -40,7 +40,7 @@ const Navigation: React.FC = () => {
             !menuOpen ? 'hidden' : null
           } w-full text-gray-100 md:flex md:items-center md:w-auto`}
         >
-          <div className="text-sm text-right md:flex-grow">
+          <div className="flex flex-col content-end justify-end text-sm text-right md:flex-row md:items-center md:flex-grow">
             <RestrictedLinks />
             <div className="block mt-4 mr-4 md:inline-block md:mt-0">
               <SignInOut />
