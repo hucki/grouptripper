@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import CreateTrip from './components/CreateTrip';
 import TripView from './components/TripView';
-import TripEdit from './components/TripEdit';
+import TripEdit from './components/TripEditNew';
 import UserProfile from './components/UserProfile';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 import LandingPageNew from './components/LandingPage';
