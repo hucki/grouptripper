@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { ReactComponent as RightChevron } from '../assets/right-chevron.svg';
 import DefaultNavigation from './Navigation';
 import BackgroundShim from './BackgroundShim';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   Navigation?: React.FC;
@@ -28,7 +30,7 @@ const LandingPage: React.FC<Props> = ({ Navigation = DefaultNavigation }) => (
           <Link to="/create-trip">
             <div className="flex items-center">
               <p className="text-xl">Get started </p>
-              <RightChevron />
+              <FontAwesomeIcon icon={faChevronRight} className="ml-3" />
             </div>
           </Link>
         </header>
