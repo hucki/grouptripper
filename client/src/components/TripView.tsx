@@ -110,18 +110,14 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
   const stopsOfAllDays: JSX.Element[][] = [];
   const notScheduled: JSX.Element[] = [];
 
-  const numberOfDays =
-    dayjs(trip?.endDate).diff(dayjs(trip?.startDate), 'd') + 1;
+  const numberOfDays = dayjs(trip.endDate).diff(dayjs(trip.startDate), 'd') + 1;
 
-  trip?.stopsCollection.features.map((stop: Stop, index) => {
-    if (stop.properties.tripDay === -1) {
-      notScheduled.push(
-        <TimelineItem key={'-1' + index} stop={stop} editMode={false} />
-      );
-    } else {
-      return null;
-    }
-  });
+  const unscheduledStops = trip.stopsCollection.features.filter(
+    (stop) => stop.properties.tripDay === -1
+  );
+
+  console.log(unscheduledStops);
+
   for (let i = 0; i < numberOfDays; i++) {
     stopsOfAllDays.push([]);
     trip?.stopsCollection.features.map((stop: Stop, index) => {
@@ -161,10 +157,12 @@ const Timeline: React.FC<{ trip: Trip }> = ({ trip }) => {
           </Link>
         </div>
 
-        {notScheduled.length ? (
+        {unscheduledStops.length ? (
           <div key="row-1">
             <TimelineHeader dayId={'-1'} key={'-1'} />
-            {notScheduled}
+            {unscheduledStops.map((stop: Stop) => (
+              <TimelineItem key={stop._id} stop={stop} editMode={false} />
+            ))}
           </div>
         ) : null}
         {daysOfTrip &&
