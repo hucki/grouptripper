@@ -11,12 +11,19 @@ const Navigation: React.FC = () => {
 
   return (
     <nav className="flex flex-wrap items-center justify-between p-6 bg-gray-900">
-      <div className="flex items-center justify-between flex-shrink-0 mr-6 text-gray-100">
-        <img src={logo} width="55px" className="mx-2" alt="grouptripper logo" />
-        <span className="text-xl font-semibold tracking-tight">
-          Grouptripper
-        </span>
-      </div>
+      <Link to="/">
+        <div className="flex items-center justify-between flex-shrink-0 mr-6 text-gray-100">
+          <img
+            src={logo}
+            width="55px"
+            className="mx-2"
+            alt="grouptripper logo"
+          />
+          <span className="text-xl font-semibold tracking-tight">
+            Grouptripper
+          </span>
+        </div>
+      </Link>
       <div className="block lg:hidden">
         <button className="flex items-center px-3 py-2 text-gray-100 rounded">
           <FontAwesomeIcon

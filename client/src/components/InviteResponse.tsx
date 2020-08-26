@@ -20,7 +20,7 @@ export default function InviteResponse({
       </button>
       <button
         type="button"
-        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-yellow-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-lg focus:outline-none"
+        className="px-4 py-2 mb-1 mr-1 text-xs font-bold text-gray-900 uppercase bg-gray-500 rounded shadow outline-none active:bg-yellow-600 hover:shadow-lg focus:outline-none"
         onClick={(): Promise<Trip> => reject()}
       >
         Reject
