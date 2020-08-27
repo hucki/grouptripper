@@ -42,7 +42,7 @@ const SignInOut: React.FC = () => {
         <button
           onClick={(): void => logout({ returnTo: window.location.origin })}
           className={` bg-gray-900 md:absolute ${
-            popupLogout ? '' : 'md:hidden'
+            popupLogout ? ' md:w-32 md:p-2 md:shadow-lg' : 'md:hidden'
           }  md:top-0 md:mt-12 md:pt-2 hover:text-yellow-500`}
         >
           <span className="mr-2">Log out</span>

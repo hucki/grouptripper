@@ -11,10 +11,7 @@ const Navigation: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header
-      className="fixed w-screen text-gray-100 bg-gray-900"
-      style={{ zIndex: 1100 }}
-    >
+    <header className="text-gray-100 bg-gray-900">
       <nav className="container flex flex-wrap items-center justify-between flex-shrink-0 p-4 mx-auto lg:p-6 ">
         <Link to="/">
           <div className="flex items-center justify-between flex-shrink-0 mr-6 text-gray-100">
