@@ -37,9 +37,7 @@ function UpcomingTrips(): JSX.Element | null {
   if (trips.length === 0) return null;
   return (
     <div className="mb-6">
-      <h4 className="mb-2 text-xl font-bold text-teal-900">
-        Here are your upcoming Trips:
-      </h4>
+      <h2 className="mb-4 text-2xl">Here are your upcoming trips</h2>
       <TripList key="ownTripList" trips={trips} />
     </div>
   );
@@ -68,10 +66,10 @@ function InvitedTrips(): JSX.Element | null {
   if (trips.length === 0) return null;
   return (
     <div>
-      <h4 className="mb-2 text-xl font-bold text-teal-900">
+      <h2 className="mb-4 text-2xl">
         Check this out! You have been invited to{' '}
-        {trips.length === 1 ? 'this trip' : 'these trips'}:
-      </h4>
+        {trips.length === 1 ? 'this trip' : 'these trips'}
+      </h2>
       <TripList
         key="invitedTripList"
         trips={trips}
