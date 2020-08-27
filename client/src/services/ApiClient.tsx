@@ -73,12 +73,17 @@ const apiUrl =
 type clientOptions<T> = {
   data?: T;
   accessToken?: string;
-  method?: string;
+  queryParams?: QueryParams;
 };
 
 export function client<T, P = T>(
   endpoint: string,
-  { data, accessToken, ...options }: clientOptions<T> & RequestInit = {}
+  {
+    data,
+    accessToken,
+    queryParams = {},
+    ...options
+  }: clientOptions<T> & RequestInit = {}
 ): Promise<P> {
   const headers = new Headers();
   if (data) headers.append('Content-Type', 'application/json');
@@ -91,7 +96,12 @@ export function client<T, P = T>(
     ...options,
   };
 
-  const request = new Request(`${apiUrl}/${endpoint}`, config);
+  const queryString = queryParamsToString(queryParams);
+
+  const request = new Request(
+    encodeURI(`${apiUrl}/${endpoint}${queryString}`),
+    config
+  );
 
   return window.fetch(request).then(async (response) => {
     try {
@@ -106,3 +116,20 @@ export function client<T, P = T>(
     }
   });
 }
+
+type QueryParams = {
+  [key: string]: string;
+};
+
+const queryParamsToString: (queryParams: QueryParams) => string = (
+  queryParams
+) => {
+  const queryString = Object.entries(queryParams).reduce(
+    (queryString, [key, value]) => {
+      return queryString + `${key}=${value}`;
+    },
+    ''
+  );
+
+  return queryString ? `?${queryString}` : '';
+};
