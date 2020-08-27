@@ -81,7 +81,11 @@ export default function TripDragger({
   }
 
   return (
-    <DraggableTimeline draggableStops={dndData} saveToServer={saveToServer} />
+    <DraggableTimeline
+      draggableStops={dndData}
+      saveToServer={saveToServer}
+      trip={trip}
+    />
   );
 }
 
