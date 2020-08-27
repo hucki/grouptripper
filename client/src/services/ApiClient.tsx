@@ -12,13 +12,6 @@ const reqRoute = {
   format: 'geojson',
 };
 
-// Geocode options
-const reqGeocode = {
-  focusPointLon: 51.504703,
-  focusPointLat: -0.106718,
-  boundaryCountry: 'GBR',
-  size: 1,
-};
 // request POIs
 const reqBodyPoi =
   '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.1068,51.504687]},"buffer":200}}';
@@ -50,14 +43,6 @@ const ApiClient = {
           Authorization: routingApiKey,
         },
         body: reqBodyString,
-      }
-    ).then((res) => res.json());
-  },
-  getGeocode: (searchString: string): Promise<GeoJSON.FeatureCollection> => {
-    return fetch(
-      `${routingApiUrl}/geocode/search?api_key=${routingApiKey}&text=${searchString}&focus.point.lon=${reqGeocode.focusPointLon}&focus.point.lat=${reqGeocode.focusPointLat}&boundary.country=${reqGeocode.boundaryCountry}&size=${reqGeocode.size}`,
-      {
-        method: 'GET',
       }
     ).then((res) => res.json());
   },
