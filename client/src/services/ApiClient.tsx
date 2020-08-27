@@ -87,12 +87,9 @@ type QueryParams = {
 const queryParamsToString: (queryParams: QueryParams) => string = (
   queryParams
 ) => {
-  const queryString = Object.entries(queryParams).reduce(
-    (queryString, [key, value]) => {
-      return queryString + `${key}=${value}`;
-    },
-    ''
-  );
+  const queryString = Object.entries(queryParams)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&');
 
   return queryString ? `?${queryString}` : '';
 };
