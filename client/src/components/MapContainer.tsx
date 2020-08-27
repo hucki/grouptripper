@@ -68,16 +68,13 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
     centerOfBounds.longitude,
   ];
 
-  const reqBodyRoute = `{"coordinates":${JSON.stringify(
-    allCoordinates
-  )}, "radiuses":${JSON.stringify(allCoordinates.map(() => 1000))}}`;
-  const gotRoute = useRoute({ routeCoordinates: allCoordinates });
+  const routeQuery = useRoute({ routeCoordinates: allCoordinates });
 
-  if (gotRoute.status === 'loading') return <div>Loading ...</div>;
-  if (gotRoute.error) return <div>error: {gotRoute.error.message}</div>;
+  if (routeQuery.status === 'loading') return <div>Loading ...</div>;
+  if (routeQuery.error) return <div>error: {routeQuery.error.message}</div>;
   const routeDirections =
-    gotRoute.data?.features &&
-    gotRoute.data?.features.map((feature: GeoJSON.Feature, index: number) => {
+    routeQuery.data?.features &&
+    routeQuery.data?.features.map((feature: GeoJSON.Feature, index: number) => {
       return <GeoJSON data={feature} key={index} />;
     });
   const validBounds =
