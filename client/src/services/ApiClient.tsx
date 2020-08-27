@@ -52,7 +52,7 @@ export function client<T, P = T>(
   });
 }
 
-type QueryParams = {
+export type QueryParams = {
   [key: string]: string;
 };
 
