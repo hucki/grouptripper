@@ -4,34 +4,23 @@ const routingApiKey =
   process.env.REACT_APP_ROUTING_API_KEY || 'yourSecretKeyShouldNotBeHere';
 
 const reqRoute = {
-  LatLng: [
-    [-0.09, 51.505],
-    [-0.1068, 51.51258],
-  ],
   profile: 'driving-car',
   format: 'geojson',
 };
 
 const ApiClient = {
-  getRoute: (
-    endpoint: string,
-    reqBodyString: string
-  ): Promise<GeoJSON.FeatureCollection> => {
-    return client(
-      // 'localhost',
-      `/v2/directions/${reqRoute.profile}/${reqRoute.format}`,
-      {
-        apiBaseUrl: routingApiUrl,
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json; charset=utf-8',
-          Accept:
-            'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
-          Authorization: routingApiKey,
-        },
-        body: reqBodyString,
-      }
-    );
+  getRoute: (reqBodyString: string): Promise<GeoJSON.FeatureCollection> => {
+    return client(`/v2/directions/${reqRoute.profile}/${reqRoute.format}`, {
+      apiBaseUrl: routingApiUrl,
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json; charset=utf-8',
+        Accept:
+          'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
+        Authorization: routingApiKey,
+      },
+      body: reqBodyString,
+    });
   },
 };
 

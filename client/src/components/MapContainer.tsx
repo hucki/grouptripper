@@ -2,12 +2,11 @@ import React from 'react';
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import L, { LatLngTuple, LatLngBoundsLiteral } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useQuery } from 'react-query';
-import ApiClient from '../services/ApiClient';
 import gtmarker from '../assets/gtmarker.png';
 import * as geolib from 'geolib';
 import { StopCollection } from '../types/Stop';
 import { Trip } from '../types/Trip';
+import { useRoute } from '../hooks/route';
 
 const poiMarker = new L.Icon({
   iconUrl: gtmarker,
@@ -72,7 +71,7 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
   const reqBodyRoute = `{"coordinates":${JSON.stringify(
     allCoordinates
   )}, "radiuses":${JSON.stringify(allCoordinates.map(() => 1000))}}`;
-  const gotRoute = useQuery(['route', reqBodyRoute], ApiClient.getRoute);
+  const gotRoute = useRoute({ routeCoordinates: allCoordinates });
 
   if (gotRoute.status === 'loading') return <div>Loading ...</div>;
   if (gotRoute.error) return <div>error: {gotRoute.error.message}</div>;
