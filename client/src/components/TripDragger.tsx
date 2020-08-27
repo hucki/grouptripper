@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components';
 import { Trip } from '../types/Trip';
 import { Stop } from '../types/Stop';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { useUpdateAllStops } from '../hooks/stops';
 import TimelineHeader from './TimelineHeader';
 import TimelineItem from './TimelineItem';
@@ -88,9 +88,11 @@ export default function TripDragger({
 function DraggableTimeline({
   draggableStops,
   saveToServer,
+  trip,
 }: {
   draggableStops: DnDStructure;
   saveToServer: (latestDndData: DnDStructure) => void;
+  trip?: Trip;
 }): JSX.Element {
   function onDragEnd({ destination, source, draggableId }: DropResult): void {
     if (!destination) return;
@@ -144,7 +146,11 @@ function DraggableTimeline({
           const stops = stopIds.map((stopId) =>
             draggableStops.stops.find((stop) => stop.properties.name === stopId)
           );
-          return <Day dayId={dayId} stops={stops} key={dayId} />;
+          const day =
+            dayId !== '-1'
+              ? dayjs(trip?.startDate).add(parseInt(dayId), 'd')
+              : null;
+          return <Day dayId={dayId} stops={stops} key={dayId} day={day} />;
         })}
       </div>
     </DragDropContext>
@@ -156,13 +162,15 @@ const StopList = styled.div``;
 function Day({
   dayId,
   stops,
+  day,
 }: {
   dayId: string;
   stops: Array<Stop | undefined>;
+  day: Dayjs | null;
 }): JSX.Element {
   return (
     <div>
-      <TimelineHeader key={dayId} dayId={dayId} />
+      <TimelineHeader key={dayId} dayId={dayId} day={day} />
       <Droppable droppableId={dayId}>
         {(provided): JSX.Element => (
           <StopList

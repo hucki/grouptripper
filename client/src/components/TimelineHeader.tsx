@@ -12,7 +12,7 @@ const TimelineHeader: React.FC<Props> = ({ dayId, day }) => {
       <h4 className="my-2 text-sm">Not yet scheduled</h4>
     ) : (
       <h4 className="my-2 font-bold text-gray-800 uppercase">
-        {day ? day.format('dddd DD MMM') : `Day ${dayId}`}
+        {day ? day.format('ddd DD MMM') : `Day ${dayId}`}
       </h4>
     );
 
