@@ -69,19 +69,13 @@ export default function MapContainer({ trip }: { trip: Trip }): JSX.Element {
     centerOfBounds.longitude,
   ];
 
-  // const [currentRoute, setCurrentRoute] = useState();
-
-  // const gotPois = useQuery('pois', ApiClient.getPois);
-
   const reqBodyRoute = `{"coordinates":${JSON.stringify(
     allCoordinates
   )}, "radiuses":${JSON.stringify(allCoordinates.map(() => 1000))}}`;
   const gotRoute = useQuery(['route', reqBodyRoute], ApiClient.getRoute);
 
-  if (gotRoute.status === 'loading' /* || gotPois.status === 'loading'*/)
-    return <div>Loading ...</div>;
-  if (gotRoute.error) return <div>error: {gotRoute.error}</div>;
-  // if (gotPois.error) return <div>error: {gotPois.error}</div>;
+  if (gotRoute.status === 'loading') return <div>Loading ...</div>;
+  if (gotRoute.error) return <div>error: {gotRoute.error.message}</div>;
   const routeDirections =
     gotRoute.data?.features &&
     gotRoute.data?.features.map((feature: GeoJSON.Feature, index: number) => {

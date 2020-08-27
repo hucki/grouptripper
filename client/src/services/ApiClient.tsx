@@ -12,21 +12,7 @@ const reqRoute = {
   format: 'geojson',
 };
 
-// request POIs
-const reqBodyPoi =
-  '{"request":"pois","geometry":{"bbox": [[-0.1068,51.504687],[-0.089934,51.5132]],"geojson":{"type":"Point","coordinates":[-0.1068,51.504687]},"buffer":200}}';
-
 const ApiClient = {
-  getPois: (): Promise<GeoJSON.FeatureCollection> => {
-    return fetch(`${routingApiUrl}/pois`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        Authorization: routingApiKey,
-      },
-      body: reqBodyPoi,
-    }).then((res) => res.json());
-  },
   getRoute: (
     endpoint: string,
     reqBodyString: string
