@@ -65,12 +65,13 @@ const ApiClient = {
 
 export default ApiClient;
 
-const apiUrl =
+const defaultApiUrl =
   process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_API_URL_PROD
     : process.env.REACT_APP_API_URL;
 
 type clientOptions<T> = {
+  apiBaseUrl?: string;
   data?: T;
   accessToken?: string;
   queryParams?: QueryParams;
@@ -79,6 +80,7 @@ type clientOptions<T> = {
 export function client<T, P = T>(
   endpoint: string,
   {
+    apiBaseUrl = defaultApiUrl,
     data,
     accessToken,
     queryParams = {},
@@ -99,7 +101,7 @@ export function client<T, P = T>(
   const queryString = queryParamsToString(queryParams);
 
   const request = new Request(
-    encodeURI(`${apiUrl}/${endpoint}${queryString}`),
+    encodeURI(`${apiBaseUrl}/${endpoint}${queryString}`),
     config
   );
 
