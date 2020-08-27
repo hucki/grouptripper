@@ -78,13 +78,13 @@ type clientOptions<T> = {
 
 export function client<T, P = T>(
   endpoint: string,
-  { data, accessToken, ...options }: clientOptions<T> = {}
+  { data, accessToken, ...options }: clientOptions<T> & RequestInit = {}
 ): Promise<P> {
   const headers = new Headers();
   if (data) headers.append('Content-Type', 'application/json');
   if (accessToken) headers.append('Authorization', `Bearer ${accessToken}`);
 
-  const config = {
+  const config: RequestInit = {
     method: data ? 'POST' : 'GET',
     body: data ? JSON.stringify(data) : undefined,
     headers,
