@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faUserClock } from '@fortawesome/free-solid-svg-icons';
+import { faComment, faComments } from '@fortawesome/free-regular-svg-icons';
 import { useSinglePhoto } from '../hooks/usePhoto';
 import { Trip } from './../types/Trip';
+import axios from 'axios';
 
 type TripCardProps = {
   trip: Trip;
   listView: boolean;
   inviteButton?: JSX.Element;
 };
+
+const API_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_URL_PROD
+    : process.env.REACT_APP_API_URL;
 
 export default function TripCard({
   trip,
@@ -23,7 +30,30 @@ export default function TripCard({
     queryText: qureyString.replace(`’`, ''),
     dimensions: { width: 500, height: 500 },
   });
+  const [commentsCount, setCommentsCount] = useState(0);
 
+  useEffect(() => {
+    const getDataAxios = async (): Promise<void> => {
+      const { data: comments } = await axios.get(
+        `${API_URL}/comments/${trip._id}`
+      );
+      setCommentsCount(comments.length);
+    };
+    getDataAxios();
+  }, [trip._id]);
+
+  const comments =
+    commentsCount !== 0 ? (
+      <>
+        <FontAwesomeIcon
+          icon={commentsCount === 1 ? faComment : faComments}
+          className="mt-1 ml-2 text-gray-600"
+        />
+        <span className="ml-1 text-gray-600">{commentsCount}</span>
+      </>
+    ) : (
+      <></>
+    );
   const invitePending = trip?.invitedEmails?.length ? (
     <>
       <FontAwesomeIcon
@@ -80,6 +110,7 @@ export default function TripCard({
             </span>
             {participants}
             {invitePending}
+            {comments}
           </div>
         </div>
 
