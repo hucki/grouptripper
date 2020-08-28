@@ -4,9 +4,20 @@
 ![https://github.com/hucki/grouptripper](https://img.shields.io/codecov/c/github/hucki/grouptripper?style=flat-square&logo=codecov)
 ![https://github.com/hucki/grouptripper](https://img.shields.io/github/last-commit/hucki/grouptripper?style=flat-square)
 
-App to plan group activities (Family or friends Holiday, Club Tours, Hen/Stag Nights) & provide the finished plan to all travellers.
+![](./public/grouptripper.png)
 
-Focus: **private** group travel, integration of all travellers, simple and informative itenary to present to all travellers.
+## Features
+
+<p>
+<img src="./public/grouptripper_stops.gif"  width=300px align="right"/>
+Setup a basic trip Itinerary with a short description, your country of destination along with your trip dates and add some stops.
+
+Easily invite your Friends and Family to collaborate on your planning.
+
+After accepting your invite, your co-travellers
+can add stops or reorder them and add comments to the your trip.
+
+</p>
 
 ## Tech-Stack
 
