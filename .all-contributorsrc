@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "AlexKMarshall",
+      "name": "Alex Marshall",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/48052439?v=4",
+      "profile": "https://github.com/AlexKMarshall",
+      "contributions": [
+        "code",
+        "test",
+        "design"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "grouptripper",
+  "projectOwner": "hucki",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
