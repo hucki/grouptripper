@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { client } from './../services/ApiClient';
+import { client, QueryParams } from './../services/ApiClient';
 
 type usePhotoProps = {
   queryText: string;
@@ -26,14 +26,19 @@ export function useSinglePhoto({
   queryText,
   dimensions,
 }: usePhotoProps): Photo {
+  const queryParams: QueryParams = {
+    query: queryText,
+  };
+
+  const { data: returnedPhoto } = useQuery(
+    ['photos', queryText],
+    () => client<Photo>('photos/single', { queryParams }),
+    { staleTime: 1000 * 60 * 60 }
+  );
+
   const sizeModifier = dimensions
     ? `&fit=crop&h=${dimensions.height}&w=${dimensions.width}`
     : '';
-  const { data: returnedPhoto } = useQuery(
-    ['photos', queryText],
-    () => client<Photo>(`photos/single?query=${queryText}`),
-    { staleTime: 1000 * 60 * 60 }
-  );
 
   return returnedPhoto
     ? {

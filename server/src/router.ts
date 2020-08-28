@@ -12,12 +12,11 @@ router.delete('/trips/:id', tripController.deleteTrip);
 router.get('/photos/single', photoController.getSinglePhoto);
 router.get('/photos', photoController.getPhotos);
 
+router.use(jwtCheck);
+
 router.get('/comments/:tripId', commentContoller.getComments);
 router.post('/comments', commentContoller.addComment);
 router.delete('/comments/:commentId', commentContoller.deleteComment);
-
-router.use(jwtCheck);
-
 router.get('/trips', tripController.getAllTrips);
 router.get('/trips/invited', getEmailAddress, tripController.getInvitedTrips);
 router.get('/trips/:id', tripController.getOneTrip);
