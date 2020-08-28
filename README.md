@@ -1,4 +1,7 @@
 # 🌍 Group Tripper
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![https://github.com/hucki/grouptripper](https://img.shields.io/travis/com/hucki/grouptripper?logo=travis&style=flat-square)
 ![https://github.com/hucki/grouptripper](https://img.shields.io/codecov/c/github/hucki/grouptripper?style=flat-square&logo=codecov)
@@ -24,3 +27,22 @@ can add stops or reorder them and add comments to the your trip.
 ![https://reactjs.org](https://img.shields.io/badge/react-%5E16.3.1-%2361DAFB?style=flat-square&logo=react)
 ![https://www.typescriptlang.org](https://img.shields.io/badge/TypeScript-%5E3.7.5-%23007ACC?style=flat-square&logo=typescript)
 ![https://www.mongodb.com](https://img.shields.io/badge/MongoDB-%5E3.6.0-%2347A248?style=flat-square&logo=mongodb)
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/AlexKMarshall"><img src="https://avatars0.githubusercontent.com/u/48052439?v=4" width="100px;" alt=""/><br /><sub><b>Alex Marshall</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=AlexKMarshall" title="Code">💻</a> <a href="https://github.com/hucki/grouptripper/commits?author=AlexKMarshall" title="Tests">⚠️</a> <a href="#design-AlexKMarshall" title="Design">🎨</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
