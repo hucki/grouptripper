@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import InputComment from './InputComment';
@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useTripComments } from '../hooks/comments';
+import { useTripComments, useCreateComment } from '../hooks/comments';
 
 dayjs.extend(relativeTime);
 
@@ -22,17 +22,18 @@ export default function TripComments({ tripId }) {
 
   const [oldComments, setComments] = useState([]);
 
-  const { isLoading, error, comments } = useTripComments(tripId);
+  const { comments } = useTripComments(tripId);
+  const [createComment] = useCreateComment();
 
   //eslint-disable-next-line
   const handleCreateComment = async ({ comment }) => {
-    const { data: newComment } = await axios.post(`${API_URL}/comments/`, {
+    const newComment = {
       username: name,
       picture,
       comment,
       tripId,
-    });
-    setComments((prevComments) => [newComment, ...prevComments]);
+    };
+    createComment({ comment: newComment });
   };
 
   //eslint-disable-next-line

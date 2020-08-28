@@ -3,6 +3,7 @@ import {
   QueryResult,
   MutationResultPair,
   useMutation,
+  queryCache,
 } from 'react-query';
 import { client } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -41,7 +42,7 @@ export function useCreateComment(): MutationResultPair<
   Error
 > {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const createTrip = async ({
+  const createComment = async ({
     comment,
   }: {
     comment: CommentInput;
@@ -56,7 +57,11 @@ export function useCreateComment(): MutationResultPair<
     });
   };
 
-  return useMutation(createTrip);
+  return useMutation(createComment, {
+    onSuccess: (comment) => {
+      queryCache.invalidateQueries(['comments', comment.tripId]);
+    },
+  });
 }
 
 // export function useInviteToTrip(
