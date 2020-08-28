@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSinglePhoto } from '../hooks/usePhoto';
+import { useSinglePhoto } from '../hooks/photos';
 
 const HeroImage: React.FC<{ queryText: string; className?: string }> = ({
   queryText,

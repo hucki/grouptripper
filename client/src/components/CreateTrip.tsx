@@ -13,7 +13,7 @@ import * as countries from 'country-list';
 import { Trip } from './../types/Trip';
 import { Stop } from './../types/Stop';
 import AutoComplete from './AutoComplete';
-import { useSinglePhoto } from '../hooks/usePhoto';
+import { useSinglePhoto } from '../hooks/photos';
 import { useCreateTrip } from '../hooks/trips';
 import { Redirect } from 'react-router-dom';
 import HeroImageWithText from './HeroImageWithText';
