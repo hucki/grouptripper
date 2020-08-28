@@ -6,6 +6,17 @@
   "commit": false,
   "contributors": [
     {
+      "login": "AlexKMarshall",
+      "name": "Alex Marshall",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/48052439?v=4",
+      "profile": "https://github.com/AlexKMarshall",
+      "contributions": [
+        "code",
+        "test",
+        "design"
+        ]
+    },
+    {
       "login": "hucki",
       "name": "Stefan Huckschlag",
       "avatar_url": "https://avatars1.githubusercontent.com/u/42623858?v=4",
