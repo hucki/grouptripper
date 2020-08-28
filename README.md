@@ -12,9 +12,9 @@
 ![https://github.com/hucki/grouptripper](https://img.shields.io/codecov/c/github/hucki/grouptripper?style=flat-square&logo=codecov)
 ![https://github.com/hucki/grouptripper](https://img.shields.io/github/last-commit/hucki/grouptripper?style=flat-square)
 
-**Grouptripper is an App to plan Trips with your friends and family**
-
 ![](./public/grouptripper.png)
+
+Grouptripper is an App to plan Trips with your friends and family.
 
 ## Live Demo
 
@@ -101,7 +101,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/MohammedAK1991"><img src="https://avatars2.githubusercontent.com/u/57530004?v=4" width="100px;" alt=""/><br /><sub><b>Mohammed Abdul Khader</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=MohammedAK1991" title="Code">💻</a> <a href="#ideas-MohammedAK1991" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/AlexKMarshall"><img src="https://avatars0.githubusercontent.com/u/48052439?v=4" width="100px;" alt=""/><br /><sub><b>Alex Marshall</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=AlexKMarshall" title="Code">💻</a> <a href="https://github.com/hucki/grouptripper/commits?author=AlexKMarshall" title="Tests">⚠️</a> <a href="#design-AlexKMarshall" title="Design">🎨</a></td>
-    <td align="center"><a href="https://github.com/hucki"><img src="https://avatars1.githubusercontent.com/u/42623858?v=4" width="100px;" alt=""/><br /><sub><b>Stefan Huckschlag</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=hucki" title="Code">💻</a> <a href="#infra-hucki" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
+    <td align="center"><a href="https://github.com/hucki"><img src="https://avatars1.githubusercontent.com/u/42623858?v=4" width="100px;" alt=""/><br /><sub><b>Stefan Huckschlag</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=hucki" title="Code">💻</a> <a href="#infra-hucki" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a><a href="#design-hucki" title="Design">🎨</a></td>
   </tr>
 </table>
 
