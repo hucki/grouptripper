@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useTripComments } from '../hooks/comments';
 
 dayjs.extend(relativeTime);
 
@@ -19,20 +20,9 @@ export default function TripComments({ tripId }) {
   const { user } = useAuth0();
   const { name, picture } = user;
 
-  const [comments, setComments] = useState([]);
+  const [oldComments, setComments] = useState([]);
 
-  useEffect(() => {
-    //eslint-disable-next-line
-    const getDataAxios = async () => {
-      const { data: comments } = await axios.get(
-        `${API_URL}/comments/${tripId}`
-      );
-      setComments(
-        comments.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
-      );
-    };
-    getDataAxios(); //calling the above created function
-  }, [tripId]);
+  const { isLoading, error, comments } = useTripComments(tripId);
 
   //eslint-disable-next-line
   const handleCreateComment = async ({ comment }) => {
@@ -57,41 +47,38 @@ export default function TripComments({ tripId }) {
   return (
     <div>
       <InputComment onSubmit={handleCreateComment} user={user} />
-      {comments &&
-        comments.map((comment, index) => {
-          return (
-            <div
-              className="flex items-center justify-between p-4 my-4 bg-gray-100 rounded"
-              key={index}
-            >
-              <img
-                className="w-10 h-10 mr-4 rounded-full"
-                src={comment.picture}
-                alt="user"
-              />
-              <div className="flex-col items-start flex-grow space-y-3">
-                <p className="space-x-3">
-                  <span className="font-semibold">{comment.username}</span>
-                  <span className="text-xs italic">
-                    {comment.createdAt
-                      ? dayjs(comment.createdAt).fromNow()
-                      : ''}
-                  </span>
-                </p>
-                <p>{comment.comment}</p>
-              </div>
-              {comment.username === name && (
-                <button
-                  className="mx-4 text-gray-400 hover:text-gray-800 focus:outline-none"
-                  style={{ transition: 'all .15s ease' }}
-                  onClick={() => handleDeleteComment(comment)} //eslint-disable-line
-                >
-                  <FontAwesomeIcon icon={faTrashAlt} />
-                </button>
-              )}
+      {comments.map((comment, index) => {
+        return (
+          <div
+            className="flex items-center justify-between p-4 my-4 bg-gray-100 rounded"
+            key={index}
+          >
+            <img
+              className="w-10 h-10 mr-4 rounded-full"
+              src={comment.picture}
+              alt="user"
+            />
+            <div className="flex-col items-start flex-grow space-y-3">
+              <p className="space-x-3">
+                <span className="font-semibold">{comment.username}</span>
+                <span className="text-xs italic">
+                  {comment.createdAt ? dayjs(comment.createdAt).fromNow() : ''}
+                </span>
+              </p>
+              <p>{comment.comment}</p>
             </div>
-          );
-        })}
+            {comment.username === name && (
+              <button
+                className="mx-4 text-gray-400 hover:text-gray-800 focus:outline-none"
+                style={{ transition: 'all .15s ease' }}
+                onClick={() => handleDeleteComment(comment)} //eslint-disable-line
+              >
+                <FontAwesomeIcon icon={faTrashAlt} />
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
