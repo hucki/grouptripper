@@ -42,7 +42,9 @@ Grouptripper was developed as a Thesis Project for the Codeworks Bootcamp by <a 
 
 Here you can find a video of the project presentation:
 
-[![Grouptripper](http://img.youtube.com/vi/22KtdN9gaAA/0.jpg)](http://www.youtube.com/watch?v=22KtdN9gaAA 'Grouptripper - Discover the world with friends')
+<p align="center">
+<a href="http://www.youtube.com/watch?v=22KtdN9gaAA"><img src="http://img.youtube.com/vi/22KtdN9gaAA/0.jpg" alt="Grouptripper Video Thumbnail"/></a>
+</p>
 
 ## Tech-Stack
 
@@ -81,12 +83,12 @@ Here you can find a video of the project presentation:
 
 ### Authentication
 
-- Auth0.com
+- [Auth0](https://auth0.com)
 
 ### APIs
 
-- openrouteservice.de
-- unsplash.com
+- [openrouteservice](https://openrouteservice.org)
+- [unsplash](https://unsplash.com)
 
 ## Contributors ✨
 
