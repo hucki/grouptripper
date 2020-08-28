@@ -38,6 +38,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/AlexKMarshall"><img src="https://avatars0.githubusercontent.com/u/48052439?v=4" width="100px;" alt=""/><br /><sub><b>Alex Marshall</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=AlexKMarshall" title="Code">💻</a> <a href="https://github.com/hucki/grouptripper/commits?author=AlexKMarshall" title="Tests">⚠️</a> <a href="#design-AlexKMarshall" title="Design">🎨</a></td>
+    <td align="center"><a href="https://github.com/hucki"><img src="https://avatars1.githubusercontent.com/u/42623858?v=4" width="100px;" alt=""/><br /><sub><b>Stefan Huckschlag</b></sub></a><br /><a href="https://github.com/hucki/grouptripper/commits?author=hucki" title="Code">💻</a> <a href="#infra-hucki" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
