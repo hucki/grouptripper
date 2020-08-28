@@ -1,9 +1,7 @@
 import Comment from '../models/comment.model';
 import { Request, Response } from 'express';
 // eslint-disable-next-line
-export const getComments = async (
-  req: Request,
-  res: Response) => {
+export const getComments = async (req: Request, res: Response) => {
   try {
     const response = await Comment.find({ tripId: req.params.tripId });
     res.json(response);
@@ -14,9 +12,7 @@ export const getComments = async (
   }
 };
 // eslint-disable-next-line
-export const addComment = async (
-  req: Request,
-  res: Response) => {
+export const addComment = async (req: Request, res: Response) => {
   const { picture, username, comment, tripId } = req.body;
 
   Comment.create(
@@ -35,12 +31,10 @@ export const addComment = async (
 };
 
 // eslint-disable-next-line
-export const deleteComment = async (
-  req: Request,
-  res: Response) => {
+export const deleteComment = async (req: Request, res: Response) => {
   try {
     await Comment.findByIdAndDelete(req.params.commentId);
-    res.json('Cooment Deleted');
+    res.json({ message: 'Comment deleted' });
     res.status(200);
   } catch (e) {
     console.log(e);

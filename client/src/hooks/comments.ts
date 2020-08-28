@@ -64,6 +64,36 @@ export function useCreateComment(): MutationResultPair<
   });
 }
 
+export function useDeleteComment(): MutationResultPair<
+  { message: string },
+  {
+    comment: CommentDTO;
+  },
+  Error
+> {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const createComment = async ({
+    comment,
+  }: {
+    comment: CommentDTO;
+  }): Promise<{ message: string }> => {
+    let accessToken;
+    if (isAuthenticated) {
+      accessToken = await getAccessTokenSilently();
+    }
+    return client(`comments/${comment._id}`, {
+      method: 'DELETE',
+      accessToken,
+    });
+  };
+
+  return useMutation(createComment, {
+    onSuccess: (result, { comment }) => {
+      queryCache.invalidateQueries(['comments', comment.tripId]);
+    },
+  });
+}
+
 // export function useInviteToTrip(
 //   tripId: string
 // ): MutationResultPair<

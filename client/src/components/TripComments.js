@@ -1,29 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
 import InputComment from './InputComment';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { useTripComments, useCreateComment } from '../hooks/comments';
+import {
+  useTripComments,
+  useCreateComment,
+  useDeleteComment,
+} from '../hooks/comments';
 
 dayjs.extend(relativeTime);
-
-const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? process.env.REACT_APP_API_URL_PROD
-    : process.env.REACT_APP_API_URL;
 
 //eslint-disable-next-line
 export default function TripComments({ tripId }) {
   const { user } = useAuth0();
   const { name, picture } = user;
 
-  const [oldComments, setComments] = useState([]);
-
   const { comments } = useTripComments(tripId);
   const [createComment] = useCreateComment();
+  const [deleteComment] = useDeleteComment();
 
   //eslint-disable-next-line
   const handleCreateComment = async ({ comment }) => {
@@ -38,11 +35,7 @@ export default function TripComments({ tripId }) {
 
   //eslint-disable-next-line
   const handleDeleteComment = async (comment) => {
-    axios.delete(`${API_URL}/comments/${comment._id}`).then(() => {
-      setComments((prevComments) =>
-        prevComments.filter((prevComment) => prevComment._id !== comment._id)
-      );
-    });
+    deleteComment({ comment });
   };
 
   return (
