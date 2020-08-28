@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "hucki",
+      "name": "Stefan Huckschlag",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/42623858?v=4",
+      "profile": "https://github.com/hucki",
+      "contributions": [
+        "code",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "grouptripper",
+  "projectOwner": "hucki",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
