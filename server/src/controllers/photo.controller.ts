@@ -45,7 +45,7 @@ export async function getPhotos(
   const apikey = process.env.UNSPLASH_API_ACCESS_KEY;
   const { query, count } = req.query;
   try {
-    const unsplahsPhotos = await fetch(
+    const unsplashPhotos = await fetch(
       `https://api.unsplash.com/photos/random?featured=true&orientation=landscape&query=${query}&count=${count}`,
       { headers: { Authorization: `Client-ID ${apikey}` } }
     ).then((result) => {
@@ -64,7 +64,7 @@ export async function getPhotos(
       return result.json();
     });
 
-    res.status(200).json(unsplahsPhotos.map(mapPhoto));
+    res.status(200).json(unsplashPhotos.map(mapPhoto));
   } catch (e) {
     console.log(e);
     next(e);
@@ -75,12 +75,13 @@ type UnsplashPhoto = {
   id: string;
   urls: {
     raw: string;
+    small: string;
   };
   alt_description: string;
 };
 
 const mapPhoto = ({
   id,
-  urls: { raw: imgUrl },
+  urls: { raw: imgUrl, small: imgUrlSmall },
   alt_description: altDescription,
-}: UnsplashPhoto) => ({ id, imgUrl, altDescription });
+}: UnsplashPhoto) => ({ id, imgUrl, imgUrlSmall, altDescription });

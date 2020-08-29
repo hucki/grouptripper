@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faUserClock } from '@fortawesome/free-solid-svg-icons';
 import { faComment, faComments } from '@fortawesome/free-regular-svg-icons';
-import { useSinglePhoto } from '../hooks/usePhoto';
+import { useSinglePhoto } from '../hooks/photos';
 import { Trip } from './../types/Trip';
 import { useTripComments } from '../hooks/comments';
 
