@@ -4,7 +4,7 @@ import {
   queryCache,
   MutationResultPair,
 } from 'react-query';
-import { client } from '../services/ApiClient';
+import { client, useAuthenticatedClient } from '../services/ApiClient';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Stop } from '../types/Stop';
 import { Trip } from '../types/Trip';
@@ -14,16 +14,11 @@ type AddStopInputProps = {
 export function useCreateStop(
   tripId: string
 ): MutationResultPair<Stop, AddStopInputProps, Error> {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Stop>();
 
   const addStop = async ({ stop }: AddStopInputProps): Promise<Stop> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Stop>(`tripstops/${tripId}/stops`, {
+    return client(`tripstops/${tripId}/stops`, {
       data: stop,
-      accessToken,
     });
   };
 
@@ -38,16 +33,12 @@ export function useCreateStop(
 export function useUpdateAllStops(
   tripId: string
 ): MutateFunction<Stop[], { stops: Stop[] }> {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Stop[]>();
+
   const createTrip = async ({ stops }: { stops: Stop[] }): Promise<Stop[]> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Stop[]>(`tripstops/${tripId}/stops`, {
+    return client(`tripstops/${tripId}/stops`, {
       data: stops,
       method: 'PUT',
-      accessToken,
     });
   };
 
