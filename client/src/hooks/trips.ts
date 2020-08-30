@@ -5,19 +5,14 @@ import {
   MutationResultPair,
   queryCache,
 } from 'react-query';
-import { client } from '../services/ApiClient';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthenticatedClient } from '../services/ApiClient';
 import { Trip } from '../types/Trip';
 
 export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Trip[]>();
 
   const tripsQuery = useQuery('trips', async () => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Trip[]>('trips', { accessToken });
+    return client('trips');
   });
 
   const trips = tripsQuery.data ?? [];
@@ -29,14 +24,10 @@ export function useTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
 }
 
 export function useInvitedTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Trip[]>();
 
   const tripsQuery = useQuery(['trips', 'invited'], async () => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Trip[]>('trips/invited', { accessToken });
+    return client('trips/invited');
   });
 
   const trips = tripsQuery.data ?? [];
@@ -50,14 +41,10 @@ export function useInvitedTrips(): QueryResult<Trip[]> & { trips: Trip[] } {
 export function useTrip(
   id: string
 ): QueryResult<Trip> & { trip: Trip | undefined } {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Trip>();
 
   const tripsQuery = useQuery(['trip', id], async () => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Trip>(`trips/${id}`, { accessToken });
+    return client(`trips/${id}`);
   });
 
   const trip = tripsQuery.data;
@@ -78,16 +65,10 @@ type Participant = {
 export function useParticipants(
   tripId: string
 ): QueryResult<Participant[]> & { participants: Participant[] } {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Participant[]>();
 
   const participantsQuery = useQuery(['participants', tripId], async () => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Participant[]>(`trips/${tripId}/participantProfiles`, {
-      accessToken,
-    });
+    return client(`trips/${tripId}/participantProfiles`);
   });
 
   const participants = participantsQuery.data ?? [];
@@ -105,13 +86,10 @@ export function useCreateTrip(): MutationResultPair<
   },
   Error
 > {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Trip>();
+
   const createTrip = async ({ trip }: { trip: Trip }): Promise<Trip> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Trip>('trips', { data: trip, accessToken });
+    return client('trips', { data: trip });
   };
 
   return useMutation(createTrip);
@@ -126,15 +104,11 @@ export function useInviteToTrip(
   },
   Error
 > {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<{ email: string }, Trip>();
+
   const inviteToTrip = async ({ email }: { email: string }): Promise<Trip> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<{ email: string }, Trip>(`trips/${tripId}/invite`, {
+    return client(`trips/${tripId}/invite`, {
       data: { email },
-      accessToken,
       method: 'PUT',
     });
   };
@@ -169,14 +143,10 @@ export function useInviteResponse(
   tripId: string,
   response: 'accept' | 'reject'
 ): MutationResultPair<Trip, undefined, Error> {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<Trip>();
+
   const inviteToTrip = async (): Promise<Trip> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<Trip>(`trips/${tripId}/${response}_invite`, {
-      accessToken,
+    return client(`trips/${tripId}/${response}_invite`, {
       method: 'PUT',
     });
   };

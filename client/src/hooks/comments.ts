@@ -5,23 +5,16 @@ import {
   useMutation,
   queryCache,
 } from 'react-query';
-import { client } from '../services/ApiClient';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthenticatedClient } from '../services/ApiClient';
 import { CommentDTO, CommentInput } from '../types/Comment';
 
 export function useTripComments(
   tripId: string
 ): QueryResult<CommentDTO[]> & { comments: CommentDTO[] } {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<CommentDTO[]>();
 
   const commentsQuery = useQuery(['comments', tripId], async () => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<CommentDTO[]>(`comments/${tripId}`, {
-      accessToken,
-    }).then((comments) =>
+    return client(`comments/${tripId}`).then((comments) =>
       comments.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
     );
   });
@@ -41,19 +34,15 @@ export function useCreateComment(): MutationResultPair<
   },
   Error
 > {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<CommentInput, CommentDTO>();
+
   const createComment = async ({
     comment,
   }: {
     comment: CommentInput;
   }): Promise<CommentDTO> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
-    return client<CommentInput, CommentDTO>('comments', {
+    return client('comments', {
       data: comment,
-      accessToken,
     });
   };
 
@@ -71,19 +60,15 @@ export function useDeleteComment(): MutationResultPair<
   },
   Error
 > {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const client = useAuthenticatedClient<{ message: string }>();
+
   const createComment = async ({
     comment,
   }: {
     comment: CommentDTO;
   }): Promise<{ message: string }> => {
-    let accessToken;
-    if (isAuthenticated) {
-      accessToken = await getAccessTokenSilently();
-    }
     return client(`comments/${comment._id}`, {
       method: 'DELETE',
-      accessToken,
     });
   };
 
@@ -93,75 +78,3 @@ export function useDeleteComment(): MutationResultPair<
     },
   });
 }
-
-// export function useInviteToTrip(
-//   tripId: string
-// ): MutationResultPair<
-//   Trip,
-//   {
-//     email: string;
-//   },
-//   Error
-// > {
-//   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-//   const inviteToTrip = async ({ email }: { email: string }): Promise<Trip> => {
-//     let accessToken;
-//     if (isAuthenticated) {
-//       accessToken = await getAccessTokenSilently();
-//     }
-//     return client<{ email: string }, Trip>(`trips/${tripId}/invite`, {
-//       data: { email },
-//       accessToken,
-//       method: 'PUT',
-//     });
-//   };
-
-//   return useMutation(inviteToTrip, {
-//     onMutate: ({ email }) => {
-//       queryCache.cancelQueries(['trip', tripId]);
-
-//       const oldTrip = queryCache.getQueryData<Trip>(['trip', tripId]);
-//       if (!oldTrip) return;
-
-//       const updatedTrip = {
-//         ...oldTrip,
-//         invitedEmails: [...(oldTrip.invitedEmails || []), email],
-//       };
-
-//       queryCache.setQueryData<Trip>(['trip', tripId], updatedTrip);
-
-//       return (): void =>
-//         queryCache.setQueryData<Trip>(['trip', tripId], oldTrip);
-//     },
-//     onError: (err, newStops, rollback) => {
-//       (rollback as () => void)();
-//     },
-//     onSuccess: (updatedStops) => {
-//       queryCache.invalidateQueries(['trip', tripId]);
-//     },
-//   });
-// }
-
-// export function useInviteResponse(
-//   tripId: string,
-//   response: 'accept' | 'reject'
-// ): MutationResultPair<Trip, undefined, Error> {
-//   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-//   const inviteToTrip = async (): Promise<Trip> => {
-//     let accessToken;
-//     if (isAuthenticated) {
-//       accessToken = await getAccessTokenSilently();
-//     }
-//     return client<Trip>(`trips/${tripId}/${response}_invite`, {
-//       accessToken,
-//       method: 'PUT',
-//     });
-//   };
-
-//   return useMutation(inviteToTrip, {
-//     onSuccess: (updatedStops) => {
-//       queryCache.invalidateQueries(['trip', tripId]);
-//       queryCache.invalidateQueries(['trips']);
-//     },
-//   });
-// }

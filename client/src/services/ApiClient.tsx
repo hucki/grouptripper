@@ -1,9 +1,12 @@
+import { useAuth0 } from '@auth0/auth0-react';
+import { useCallback } from 'react';
+
 const serverApiUrl =
   process.env.NODE_ENV === 'production'
     ? process.env.REACT_APP_API_URL_PROD
     : process.env.REACT_APP_API_URL;
 
-type clientOptions<T> = {
+type ClientConfigOptions<T> = {
   apiBaseUrl?: string;
   data?: T;
   accessToken?: string;
@@ -18,7 +21,7 @@ export function client<T, P = T>(
     accessToken,
     queryParams = {},
     ...options
-  }: clientOptions<T> & RequestInit = {}
+  }: ClientConfigOptions<T> & RequestInit = {}
 ): Promise<P> {
   const headers = new Headers();
   if (data) headers.append('Content-Type', 'application/json');
@@ -65,3 +68,23 @@ const queryParamsToString: (queryParams: QueryParams) => string = (
 
   return queryString ? `?${queryString}` : '';
 };
+
+type ClientFunction<T, P = T> = (
+  endpoint: string,
+  config?: ClientConfigOptions<T> & RequestInit
+) => Promise<P>;
+
+export function useAuthenticatedClient<T, P = T>(): ClientFunction<T, P> {
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+
+  return useCallback(
+    async (endpoint, config) => {
+      const accessToken = isAuthenticated
+        ? await getAccessTokenSilently()
+        : undefined;
+
+      return client<T, P>(endpoint, { ...config, accessToken });
+    },
+    [isAuthenticated, getAccessTokenSilently]
+  );
+}
