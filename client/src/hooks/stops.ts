@@ -4,8 +4,7 @@ import {
   queryCache,
   MutationResultPair,
 } from 'react-query';
-import { client, useAuthenticatedClient } from '../services/ApiClient';
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuthenticatedClient } from '../services/ApiClient';
 import { Stop } from '../types/Stop';
 import { Trip } from '../types/Trip';
 type AddStopInputProps = {
