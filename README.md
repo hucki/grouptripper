@@ -76,7 +76,7 @@ Only if you want to run the DB remotely follow theses steps:
 1. set `DB_LOCAL=false` in `/server/.env`
 2. set `DB_URI_PROTOCOL`, `DB_URI_HOST`  and `DB_URI_PARAMS` in `/server/.env` as shown in the example file
 
-**Hint:** For debugging and/or development purposes, you can set up ddatabases both locally and remotely and switch between them by setting `DB_LOCAL` to true or false
+**Hint:** For debugging and/or development purposes, you can set up databases both locally and remotely and switch between them by setting `DB_LOCAL` to true or false
 
 #### Mail provider
 - add `EMAIL_USER` and `EMAIL_PASSWORD` to `/server/.env`
@@ -90,10 +90,10 @@ Set up an Application on [auth0](https://auth0.com) and add `AUTH0_DOMAIN`, `AUT
 
 ### Start the App
 
-start client and server in dev mode locally
+Start client and server in dev mode locally
 
-from the root folder of the project change into `/server` and `npm start`
-from the root folder of the project change into `/client` and `npm start`
+From the root folder of the project change into `/server` and `npm start`
+From the root folder of the project change into `/client` and `npm start`
 
 ## Deploy the App
 
