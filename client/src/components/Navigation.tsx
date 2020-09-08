@@ -27,7 +27,10 @@ const Navigation: React.FC = () => {
           </div>
         </Link>
         <div className="block md:hidden">
-          <button className="flex items-center px-3 py-2 text-gray-100 rounded">
+          <button
+            className="flex items-center px-3 py-2 text-gray-100 rounded"
+            aria-label="toggle menu"
+          >
             <FontAwesomeIcon
               icon={faBars}
               className="text-2xl"
