@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import CreateTrip from './components/CreateTrip';
 import TripView from './components/TripView';
 import TripEdit from './components/TripEdit';
 import UserProfile from './components/UserProfile';
@@ -9,6 +8,8 @@ import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 import LandingPageNew from './components/LandingPage';
 import PageLayout from './components/PageLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+
+const CreateTrip = lazy(() => import('./components/CreateTrip'));
 
 function App(): JSX.Element {
   return (
@@ -22,7 +23,9 @@ function App(): JSX.Element {
             path="/create-trip"
             component={(): JSX.Element => (
               <PageLayout>
-                <CreateTrip />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <CreateTrip />
+                </Suspense>
               </PageLayout>
             )}
           />
