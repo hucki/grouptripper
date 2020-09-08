@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import UserProfile from './components/UserProfile';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 import LandingPageNew from './components/LandingPage';
 import PageLayout from './components/PageLayout';
@@ -10,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 const TripEdit = lazy(() => import('./components/TripEdit'));
 const TripView = lazy(() => import('./components/TripView'));
 const CreateTrip = lazy(() => import('./components/CreateTrip'));
+const UserProfile = lazy(() => import('./components/UserProfile'));
 
 function App(): JSX.Element {
   return (
@@ -45,7 +45,9 @@ function App(): JSX.Element {
           </Route>
           <Route path="/user-profile">
             <PageLayout>
-              <UserProfile />
+              <Suspense fallback={<div>Loading user profile ...</div>}>
+                <UserProfile />
+              </Suspense>
             </PageLayout>
           </Route>
         </Switch>
