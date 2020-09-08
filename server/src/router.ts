@@ -2,7 +2,7 @@ import express from 'express';
 import * as tripController from './controllers/trip.controller';
 import * as photoController from './controllers/photo.controller';
 import * as stopController from './controllers/stop.controller';
-import * as commentContoller from './controllers/comment.controller';
+import * as commentController from './controllers/comment.controller';
 import { jwtCheck, getEmailAddress } from './middleware/authentication';
 
 const router = express.Router();
@@ -14,9 +14,9 @@ router.get('/photos', photoController.getPhotos);
 
 router.use(jwtCheck);
 
-router.get('/comments/:tripId', commentContoller.getComments);
-router.post('/comments', commentContoller.addComment);
-router.delete('/comments/:commentId', commentContoller.deleteComment);
+router.get('/comments/:tripId', commentController.getComments);
+router.post('/comments', commentController.addComment);
+router.delete('/comments/:commentId', commentController.deleteComment);
 router.get('/trips', tripController.getAllTrips);
 router.get('/trips/invited', getEmailAddress, tripController.getInvitedTrips);
 router.get('/trips/:id', tripController.getOneTrip);
