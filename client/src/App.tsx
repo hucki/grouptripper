@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
-import CreateTrip from './components/CreateTrip';
-import TripView from './components/TripView';
-import TripEdit from './components/TripEdit';
-import UserProfile from './components/UserProfile';
 import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 import LandingPageNew from './components/LandingPage';
 import PageLayout from './components/PageLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+
+const TripEdit = lazy(() => import('./components/TripEdit'));
+const TripView = lazy(() => import('./components/TripView'));
+const CreateTrip = lazy(() => import('./components/CreateTrip'));
+const UserProfile = lazy(() => import('./components/UserProfile'));
 
 function App(): JSX.Element {
   return (
@@ -22,23 +23,31 @@ function App(): JSX.Element {
             path="/create-trip"
             component={(): JSX.Element => (
               <PageLayout>
-                <CreateTrip />
+                <Suspense fallback={<div>Loading trip creation ...</div>}>
+                  <CreateTrip />
+                </Suspense>
               </PageLayout>
             )}
           />
           <Route exact={true} path="/trips/:id">
             <PageLayout>
-              <TripView />
+              <Suspense fallback={<div>Loading trip view...</div>}>
+                <TripView />
+              </Suspense>
             </PageLayout>
           </Route>
           <Route path="/trips/edit/:id">
             <PageLayout>
-              <TripEdit />
+              <Suspense fallback={<div>Loading edit page...</div>}>
+                <TripEdit />
+              </Suspense>
             </PageLayout>
           </Route>
           <Route path="/user-profile">
             <PageLayout>
-              <UserProfile />
+              <Suspense fallback={<div>Loading user profile ...</div>}>
+                <UserProfile />
+              </Suspense>
             </PageLayout>
           </Route>
         </Switch>
