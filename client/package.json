@@ -71,6 +71,7 @@
   "devDependencies": {
     "@types/country-list": "^2.1.0",
     "@types/faker": "^4.1.12",
+    "@types/lozad": "^1.9.0",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/styled-components": "^5.1.2",
     "@types/yup": "^0.29.5",
@@ -82,6 +83,7 @@
     "eslint-plugin-react": "^7.20.6",
     "faker": "^4.1.0",
     "lint-staged": "^10.2.11",
+    "lozad": "^1.16.0",
     "msw": "^0.20.5",
     "prettier": "^2.0.5"
   },
