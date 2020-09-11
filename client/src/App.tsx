@@ -5,6 +5,7 @@ import Auth0ProviderWithHistory from './components/Auth0ProviderWithHistory';
 import LandingPageNew from './components/LandingPage';
 import PageLayout from './components/PageLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+import './components/LoadingSpinner.css';
 
 const TripEdit = lazy(() => import('./components/TripEdit'));
 const TripView = lazy(() => import('./components/TripView'));
@@ -23,7 +24,9 @@ function App(): JSX.Element {
             path="/create-trip"
             component={(): JSX.Element => (
               <PageLayout>
-                <Suspense fallback={<div>Loading trip creation ...</div>}>
+                <Suspense
+                  fallback={<Loading displayText="Loading trip creation" />}
+                >
                   <CreateTrip />
                 </Suspense>
               </PageLayout>
@@ -31,21 +34,23 @@ function App(): JSX.Element {
           />
           <Route exact={true} path="/trips/:id">
             <PageLayout>
-              <Suspense fallback={<div>Loading trip view...</div>}>
+              <Suspense fallback={<Loading displayText="Loading trip view" />}>
                 <TripView />
               </Suspense>
             </PageLayout>
           </Route>
           <Route path="/trips/edit/:id">
             <PageLayout>
-              <Suspense fallback={<div>Loading edit page...</div>}>
+              <Suspense fallback={<Loading displayText="Loading edit page" />}>
                 <TripEdit />
               </Suspense>
             </PageLayout>
           </Route>
           <Route path="/user-profile">
             <PageLayout>
-              <Suspense fallback={<div>Loading user profile ...</div>}>
+              <Suspense
+                fallback={<Loading displayText="Loading user profile" />}
+              >
                 <UserProfile />
               </Suspense>
             </PageLayout>
@@ -55,5 +60,25 @@ function App(): JSX.Element {
     </Router>
   );
 }
-
+interface LoadingAttributes {
+  displayText: string;
+}
+const Loading = ({ displayText }: LoadingAttributes): JSX.Element => {
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full bg-gray-700">
+      <h1 className="m-4 text-2xl text-white">{displayText}</h1>
+      <div className=" lds-grid">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  );
+};
 export default App;

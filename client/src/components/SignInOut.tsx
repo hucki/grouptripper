@@ -18,7 +18,7 @@ const SignInOut: React.FC = () => {
 
   if (isLoading)
     return (
-      <button>
+      <button aria-label="loadingspinner">
         <div className="lds-ripple">
           <div></div>
           <div></div>
