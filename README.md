@@ -18,10 +18,9 @@ Grouptripper is an App to plan Trips with your friends and family.
 
 ## Live Demo
 
-You can find a deployed version of this App [here](https://grouptripper.herokuapp.com)
-(user: `joannie24@ethereal.email` , password: `Demo1234`)
+🛠 currently not available
 
-The Frontend and Backend ar hosted on one [Heroku](heroku.com) Dyno, the database is served from the MongoDB Atlas Cloud.
+The Frontend and Backend were hosted on one [Heroku](heroku.com) Dyno, the database was served from the MongoDB Atlas Cloud.
 
 ## Features
 
@@ -47,6 +46,7 @@ Here you can find a video of the project presentation:
 </p>
 
 ## Getting started
+
 These instruction will help you setup a local development instance of the app.
 
 ### get the repo
@@ -58,33 +58,42 @@ These instruction will help you setup a local development instance of the app.
 `npm install`
 
 ### Setup prerequisites
+
 For an example how to fill `/server/.env` see `/server/.env.example`
 For an example how to fill `/client/.env.local` see `/client/.env.local.example`
 
 #### Database
+
 1. set up a mongoDB database locally or as a hosted service
 2. choose a database name and set `DB_NAME` in `/server/.env`
 3. set `DB_USER` and `DB_PASS` in `/server/.env`
 
 ##### local DB
+
 Only if you want to run the DB locally follow theses steps:
+
 1. set `DB_LOCAL=true` in `/server/.env`
 2. set `DB_LOCAL_URI` and `DB_LOCAL_PORT` in `/server/.env` as shown in the example file
 
 ##### remote DB
+
 Only if you want to run the DB remotely follow theses steps:
+
 1. set `DB_LOCAL=false` in `/server/.env`
-2. set `DB_URI_PROTOCOL`, `DB_URI_HOST`  and `DB_URI_PARAMS` in `/server/.env` as shown in the example file
+2. set `DB_URI_PROTOCOL`, `DB_URI_HOST` and `DB_URI_PARAMS` in `/server/.env` as shown in the example file
 
 **Hint:** For debugging and/or development purposes, you can set up databases both locally and remotely and switch between them by setting `DB_LOCAL` to true or false
 
 #### Mail provider
+
 - add `EMAIL_USER` and `EMAIL_PASSWORD` to `/server/.env`
 
 #### Authentication
+
 Set up an Application on [auth0](https://auth0.com) and add `AUTH0_DOMAIN`, `AUTH0_CLIENTID`, `AUTH0_CLIENT_SECRET` and `AUTH0_AUDIENCE` to `/server/.env`
 
 #### APIs
+
 - [unsplash](https://unsplash.com): apply for an API key and add to `/server/.env`
 - [openrouteservice](https://openrouteservice.org): apply for an API key and add to `/client/.env.local`
 
@@ -98,6 +107,7 @@ From the root folder of the project change into `/client` and `npm start`
 ## Deploy the App
 
 ### Build process
+
 To create a build ready for Deployment, just run
 
 `npm run build`
@@ -105,6 +115,7 @@ To create a build ready for Deployment, just run
 from the root folder of the project. The result will be created in `server/dist` and includes the compiled backend and frontend
 
 ### start the App
+
 To start the created build just run
 
 `npm start`
